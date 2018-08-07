@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import * as Highlighter from 'react-highlight-words';
 import './react-dadata.css';
 
@@ -11,7 +12,6 @@ const types = {
 class ReactDadata extends React.Component {
   state = {
     query: this.props.query || '',
-    inputQuery: this.props.query || '',
     inputFocused: false,
     showSuggestions: true,
     suggestions: [],
@@ -23,7 +23,9 @@ class ReactDadata extends React.Component {
   xhr = new XMLHttpRequest();
 
   componentDidMount = () => {
-    this.fetchSuggestions();
+    if (this.props.query) {
+      this.fetchSuggestions();
+    }
   };
 
   onInputFocus = () => {
@@ -37,10 +39,7 @@ class ReactDadata extends React.Component {
   onInputChange = event => {
     const { value } = event.target;
 
-    this.setState({ query: value, inputQuery: value, showSuggestions: true }, () => {
-      if (this.props.validate) {
-        this.props.validate(value);
-      }
+    this.setState({ query: value, showSuggestions: true }, () => {
       this.fetchSuggestions();
     });
   };
@@ -99,8 +98,7 @@ class ReactDadata extends React.Component {
     const { value } = suggestions[index];
     this.setState({
       query: value,
-      showSuggestions: false,
-      inputQuery: value
+      showSuggestions: false
     });
 
     if (this.props.onChange) {
@@ -110,7 +108,7 @@ class ReactDadata extends React.Component {
 
   getHighlightWords = () => {
     const wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
-    let words = this.state.inputQuery.replace(',', '').split(' ');
+    let words = this.state.query.replace(',', '').split(' ');
     words = words.filter(word => {
       return wordsToPass.indexOf(word) < 0;
     });
@@ -166,7 +164,6 @@ class ReactDadata extends React.Component {
           onKeyDown={this.onKeyPress}
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
-          validate={this.props.validate}
           autoComplete={this.props.autocomplete || 'off'}
         />
         {suggestionsList}
@@ -174,5 +171,16 @@ class ReactDadata extends React.Component {
     );
   }
 }
+
+ReactDadata.propTypes = {
+  token: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  query: PropTypes.string,
+  count: PropTypes.number,
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  autocomplete: PropTypes.bool,
+  onChange: PropTypes.func
+};
 
 export default ReactDadata;
