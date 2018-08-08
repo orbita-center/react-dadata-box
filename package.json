@@ -1,13 +1,17 @@
 {
-  "name": "react-dadata",
+  "name": "react-dadata-box",
   "version": "1.0.0",
-  "description": "Компонент для работы с DaDaTa",
-  "main": "index.js",
+  "description": "Компонент для работы с DaData",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack",
-    "start": "NODE_ENV=development webpack-dev-server"
+    "build": "webpack --env=prod",
+    "start": "webpack-dev-server --env=dev",
+    "prepublishOnly": "npm run build"
   },
-  "author": "",
+  "author": {
+    "name": "TolyaAg",
+    "email": "ageev.tolya1@yandex.ru"
+  },
   "license": "ISC",
   "dependencies": {
     "autoprefixer": "^9.1.0",
@@ -27,10 +31,12 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-highlight-words": "^0.12.0",
+    "style-loader": "^0.22.0",
     "webpack": "^4.16.4",
     "webpack-dev-server": "^3.1.5"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "webpack-cli": "^3.1.0"
   },
   "babel": {
