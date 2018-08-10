@@ -4,8 +4,7 @@
   "description": "Компонент для работы с DaData",
   "main": "dist/index.js",
   "scripts": {
-    "build": "webpack --env=prod",
-    "start": "webpack-dev-server --env=dev",
+    "start": "webpack-dev-server",
     "transpile": "NODE_ENV=production babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile"
   },
@@ -41,7 +40,12 @@
   },
   "babel": {
     "presets": [
-      "env",
+      [
+        "env",
+        {
+          "modules": "commonjs"
+        }
+      ],
       "react"
     ]
   },
