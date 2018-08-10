@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import * as Highlighter from 'react-highlight-words';
+import Highlighter from 'react-highlight-words';
 import './index.css';
 
 const types = {
@@ -10,41 +10,53 @@ const types = {
 };
 
 class ReactDadata extends React.Component {
-  state = {
-    query: this.props.query || '',
-    inputFocused: false,
-    showSuggestions: true,
-    suggestions: [],
-    suggestionIndex: 0,
-    isValid: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: this.props.query || '',
+      inputFocused: false,
+      showSuggestions: true,
+      suggestions: [],
+      suggestionIndex: 0,
+      isValid: false
+    };
 
-  textInput = React.createRef();
-  xhr = new XMLHttpRequest();
+    this.onInputFocus = this.onInputFocus.bind(this);
+    this.onInputBlur = this.onInputBlur.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
+    this.fetchSuggestions = this.fetchSuggestions.bind(this);
+    this.onSuggestionClick = this.onSuggestionClick.bind(this);
+    this.selectSuggestion = this.selectSuggestion.bind(this);
+    this.getHighlightWords = this.getHighlightWords.bind(this);
 
-  componentDidMount = () => {
+    this.textInput = React.createRef();
+    this.xhr = new XMLHttpRequest();
+  }
+
+  componentDidMount() {
     if (this.props.query) {
       this.fetchSuggestions();
     }
-  };
+  }
 
-  onInputFocus = () => {
+  onInputFocus() {
     this.setState({ inputFocused: true });
-  };
+  }
 
-  onInputBlur = () => {
+  onInputBlur() {
     this.setState({ inputFocused: false });
-  };
+  }
 
-  onInputChange = event => {
+  onInputChange(event) {
     const { value } = event.target;
 
     this.setState({ query: value, showSuggestions: true }, () => {
       this.fetchSuggestions();
     });
-  };
+  }
 
-  onKeyPress = event => {
+  onKeyPress(event) {
     const { suggestionIndex, suggestions } = this.state;
 
     if (event.which === 40 && suggestionIndex < suggestions.length - 1) {
@@ -57,9 +69,9 @@ class ReactDadata extends React.Component {
       // Enter
       this.selectSuggestion(this.state.suggestionIndex);
     }
-  };
+  }
 
-  fetchSuggestions = () => {
+  fetchSuggestions() {
     this.xhr.abort();
 
     this.xhr.open('POST', `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${types[this.props.type]}`);
@@ -86,13 +98,13 @@ class ReactDadata extends React.Component {
         }
       }
     };
-  };
+  }
 
-  onSuggestionClick = index => {
+  onSuggestionClick(index) {
     this.selectSuggestion(index);
-  };
+  }
 
-  selectSuggestion = index => {
+  selectSuggestion(index) {
     const { suggestions } = this.state;
 
     const { value } = suggestions[index];
@@ -104,16 +116,16 @@ class ReactDadata extends React.Component {
     if (this.props.onChange) {
       this.props.onChange(suggestions[index]);
     }
-  };
+  }
 
-  getHighlightWords = () => {
+  getHighlightWords() {
     const wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
     let words = this.state.query.replace(',', '').split(' ');
     words = words.filter(word => {
       return wordsToPass.indexOf(word) < 0;
     });
     return words;
-  };
+  }
 
   render() {
     const { suggestionIndex, query, inputFocused, suggestions, showSuggestions } = this.state;
