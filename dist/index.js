@@ -1,7 +1,219 @@
-module.exports=function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=3)}([function(e,t){e.exports=require("react")},function(e,t,n){e.exports=n(4)()},function(e,t,n){e.exports=function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={exports:{},id:r,loaded:!1};return e[r].call(o.exports,o,o.exports,n),o.loaded=!0,o.exports}return n.m=e,n.c=t,n.p="",n(0)}([function(e,t,n){e.exports=n(1)},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=function(e){return e&&e.__esModule?e:{default:e}}(n(2));t.default=r.default,e.exports=t.default},function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0}),t.default=s;var o=n(3),i=r(n(4)),a=r(n(14)),u=r(n(15));function s(e){var t=e.activeClassName,n=void 0===t?"":t,r=e.activeIndex,i=void 0===r?-1:r,s=e.activeStyle,c=e.autoEscape,f=e.caseSensitive,l=void 0!==f&&f,p=e.className,d=e.findChunks,h=e.highlightClassName,g=void 0===h?"":h,y=e.highlightStyle,v=void 0===y?{}:y,m=e.highlightTag,b=void 0===m?"mark":m,x=e.sanitize,O=e.searchWords,_=e.textToHighlight,w=e.unhighlightClassName,T=void 0===w?"":w,E=e.unhighlightStyle,j=(0,o.findAll)({autoEscape:c,caseSensitive:l,findChunks:d,sanitize:x,searchWords:O,textToHighlight:_}),S=b,k=-1,N="",P=void 0,I=(0,u.default)(function(e){var t={};for(var n in e)t[n.toLowerCase()]=e[n];return t});return a.default.createElement("span",{className:p},j.map(function(e,t){var r=_.substr(e.start,e.end-e.start);if(e.highlight){k++;var o=void 0;o="object"==typeof g?l?g[r]:(g=I(g))[r.toLowerCase()]:g;var u=k===+i;return N=o+" "+(u?n:""),P=!0===u&&null!=s?Object.assign({},v,s):v,a.default.createElement(S,{className:N,key:t,style:P},r)}return a.default.createElement("span",{className:T,key:t,style:E},r)}))}s.propTypes={activeClassName:i.default.string,activeIndex:i.default.number,activeStyle:i.default.object,autoEscape:i.default.bool,className:i.default.string,findChunks:i.default.func,highlightClassName:i.default.oneOfType([i.default.object,i.default.string]),highlightStyle:i.default.object,highlightTag:i.default.oneOfType([i.default.node,i.default.func,i.default.string]),sanitize:i.default.func,searchWords:i.default.arrayOf(i.default.string).isRequired,textToHighlight:i.default.string.isRequired,unhighlightClassName:i.default.string,unhighlightStyle:i.default.object},e.exports=t.default},function(e,t){e.exports=function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={exports:{},id:r,loaded:!1};return e[r].call(o.exports,o,o.exports,n),o.loaded=!0,o.exports}return n.m=e,n.c=t,n.p="",n(0)}([function(e,t,n){e.exports=n(1)},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n(2);Object.defineProperty(t,"combineChunks",{enumerable:!0,get:function(){return r.combineChunks}}),Object.defineProperty(t,"fillInChunks",{enumerable:!0,get:function(){return r.fillInChunks}}),Object.defineProperty(t,"findAll",{enumerable:!0,get:function(){return r.findAll}}),Object.defineProperty(t,"findChunks",{enumerable:!0,get:function(){return r.findChunks}})},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});t.findAll=function(e){var t=e.autoEscape,i=e.caseSensitive,a=void 0!==i&&i,u=e.findChunks,s=void 0===u?r:u,c=e.sanitize,f=e.searchWords,l=e.textToHighlight;return o({chunksToHighlight:n({chunks:s({autoEscape:t,caseSensitive:a,sanitize:c,searchWords:f,textToHighlight:l})}),totalLength:l?l.length:0})};var n=t.combineChunks=function(e){var t=e.chunks;return t=t.sort(function(e,t){return e.start-t.start}).reduce(function(e,t){if(0===e.length)return[t];var n=e.pop();if(t.start<=n.end){var r=Math.max(n.end,t.end);e.push({start:n.start,end:r})}else e.push(n,t);return e},[])},r=function(e){var t=e.autoEscape,n=e.caseSensitive,r=e.sanitize,o=void 0===r?i:r,a=e.searchWords,u=e.textToHighlight;return u=o(u),a.filter(function(e){return e}).reduce(function(e,r){r=o(r),t&&(r=function(e){return e.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,"\\$&")}(r));for(var i=new RegExp(r,n?"g":"gi"),a=void 0;a=i.exec(u);){var s=a.index,c=i.lastIndex;c>s&&e.push({start:s,end:c}),a.index==i.lastIndex&&i.lastIndex++}return e},[])};t.findChunks=r;var o=t.fillInChunks=function(e){var t=e.chunksToHighlight,n=e.totalLength,r=[],o=function(e,t,n){t-e>0&&r.push({start:e,end:t,highlight:n})};if(0===t.length)o(0,n,!1);else{var i=0;t.forEach(function(e){o(i,e.start,!1),o(e.start,e.end,!0),i=e.end}),o(i,n,!1)}return r};function i(e){return e}}])},function(e,t,n){(function(t){if("production"!==t.env.NODE_ENV){var r="function"==typeof Symbol&&Symbol.for&&Symbol.for("react.element")||60103;e.exports=n(6)(function(e){return"object"==typeof e&&null!==e&&e.$$typeof===r},!0)}else e.exports=n(13)()}).call(t,n(5))},function(e,t){var n,r,o=e.exports={};function i(){throw new Error("setTimeout has not been defined")}function a(){throw new Error("clearTimeout has not been defined")}function u(e){if(n===setTimeout)return setTimeout(e,0);if((n===i||!n)&&setTimeout)return n=setTimeout,setTimeout(e,0);try{return n(e,0)}catch(t){try{return n.call(null,e,0)}catch(t){return n.call(this,e,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:i}catch(e){n=i}try{r="function"==typeof clearTimeout?clearTimeout:a}catch(e){r=a}}();var s,c=[],f=!1,l=-1;function p(){f&&s&&(f=!1,s.length?c=s.concat(c):l=-1,c.length&&d())}function d(){if(!f){var e=u(p);f=!0;for(var t=c.length;t;){for(s=c,c=[];++l<t;)s&&s[l].run();l=-1,t=c.length}s=null,f=!1,function(e){if(r===clearTimeout)return clearTimeout(e);if((r===a||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(e);try{r(e)}catch(t){try{return r.call(null,e)}catch(t){return r.call(this,e)}}}(e)}}function h(e,t){this.fun=e,this.array=t}function g(){}o.nextTick=function(e){var t=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)t[n-1]=arguments[n];c.push(new h(e,t)),1!==c.length||f||u(d)},h.prototype.run=function(){this.fun.apply(null,this.array)},o.title="browser",o.browser=!0,o.env={},o.argv=[],o.version="",o.versions={},o.on=g,o.addListener=g,o.once=g,o.off=g,o.removeListener=g,o.removeAllListeners=g,o.emit=g,o.prependListener=g,o.prependOnceListener=g,o.listeners=function(e){return[]},o.binding=function(e){throw new Error("process.binding is not supported")},o.cwd=function(){return"/"},o.chdir=function(e){throw new Error("process.chdir is not supported")},o.umask=function(){return 0}},function(e,t,n){(function(t){"use strict";var r=n(7),o=n(8),i=n(9),a=n(10),u=n(11),s=n(12);e.exports=function(e,n){var c="function"==typeof Symbol&&Symbol.iterator,f="@@iterator";var l="<<anonymous>>",p={array:y("array"),bool:y("boolean"),func:y("function"),number:y("number"),object:y("object"),string:y("string"),symbol:y("symbol"),any:g(r.thatReturnsNull),arrayOf:function(e){return g(function(t,n,r,o,i){if("function"!=typeof e)return new h("Property `"+i+"` of component `"+r+"` has invalid PropType notation inside arrayOf.");var a=t[n];if(!Array.isArray(a)){var s=m(a);return new h("Invalid "+o+" `"+i+"` of type `"+s+"` supplied to `"+r+"`, expected an array.")}for(var c=0;c<a.length;c++){var f=e(a,c,r,o,i+"["+c+"]",u);if(f instanceof Error)return f}return null})},element:function(){return g(function(t,n,r,o,i){var a=t[n];if(!e(a)){var u=m(a);return new h("Invalid "+o+" `"+i+"` of type `"+u+"` supplied to `"+r+"`, expected a single ReactElement.")}return null})}(),instanceOf:function(e){return g(function(t,n,r,o,i){if(!(t[n]instanceof e)){var a=e.name||l,u=function(e){if(!e.constructor||!e.constructor.name)return l;return e.constructor.name}(t[n]);return new h("Invalid "+o+" `"+i+"` of type `"+u+"` supplied to `"+r+"`, expected instance of `"+a+"`.")}return null})},node:function(){return g(function(e,t,n,r,o){if(!v(e[t]))return new h("Invalid "+r+" `"+o+"` supplied to `"+n+"`, expected a ReactNode.");return null})}(),objectOf:function(e){return g(function(t,n,r,o,i){if("function"!=typeof e)return new h("Property `"+i+"` of component `"+r+"` has invalid PropType notation inside objectOf.");var a=t[n],s=m(a);if("object"!==s)return new h("Invalid "+o+" `"+i+"` of type `"+s+"` supplied to `"+r+"`, expected an object.");for(var c in a)if(a.hasOwnProperty(c)){var f=e(a,c,r,o,i+"."+c,u);if(f instanceof Error)return f}return null})},oneOf:function(e){if(!Array.isArray(e))return"production"!==t.env.NODE_ENV&&i(!1,"Invalid argument supplied to oneOf, expected an instance of array."),r.thatReturnsNull;return g(function(t,n,r,o,i){for(var a=t[n],u=0;u<e.length;u++)if(d(a,e[u]))return null;var s=JSON.stringify(e);return new h("Invalid "+o+" `"+i+"` of value `"+a+"` supplied to `"+r+"`, expected one of "+s+".")})},oneOfType:function(e){if(!Array.isArray(e))return"production"!==t.env.NODE_ENV&&i(!1,"Invalid argument supplied to oneOfType, expected an instance of array."),r.thatReturnsNull;for(var n=0;n<e.length;n++){var o=e[n];if("function"!=typeof o)return i(!1,"Invalid argument supplied to oneOfType. Expected an array of check functions, but received %s at index %s.",x(o),n),r.thatReturnsNull}return g(function(t,n,r,o,i){for(var a=0;a<e.length;a++){var s=e[a];if(null==s(t,n,r,o,i,u))return null}return new h("Invalid "+o+" `"+i+"` supplied to `"+r+"`.")})},shape:function(e){return g(function(t,n,r,o,i){var a=t[n],s=m(a);if("object"!==s)return new h("Invalid "+o+" `"+i+"` of type `"+s+"` supplied to `"+r+"`, expected `object`.");for(var c in e){var f=e[c];if(f){var l=f(a,c,r,o,i+"."+c,u);if(l)return l}}return null})},exact:function(e){return g(function(t,n,r,o,i){var s=t[n],c=m(s);if("object"!==c)return new h("Invalid "+o+" `"+i+"` of type `"+c+"` supplied to `"+r+"`, expected `object`.");var f=a({},t[n],e);for(var l in f){var p=e[l];if(!p)return new h("Invalid "+o+" `"+i+"` key `"+l+"` supplied to `"+r+"`.\nBad object: "+JSON.stringify(t[n],null,"  ")+"\nValid keys: "+JSON.stringify(Object.keys(e),null,"  "));var d=p(s,l,r,o,i+"."+l,u);if(d)return d}return null})}};function d(e,t){return e===t?0!==e||1/e==1/t:e!=e&&t!=t}function h(e){this.message=e,this.stack=""}function g(e){if("production"!==t.env.NODE_ENV)var r={},a=0;function s(s,c,f,p,d,g,y){if(p=p||l,g=g||f,y!==u)if(n)o(!1,"Calling PropTypes validators directly is not supported by the `prop-types` package. Use `PropTypes.checkPropTypes()` to call them. Read more at http://fb.me/use-check-prop-types");else if("production"!==t.env.NODE_ENV&&"undefined"!=typeof console){var v=p+":"+f;!r[v]&&a<3&&(i(!1,"You are manually calling a React.PropTypes validation function for the `%s` prop on `%s`. This is deprecated and will throw in the standalone `prop-types` package. You may be seeing this warning due to a third-party PropTypes library. See https://fb.me/react-warning-dont-call-proptypes for details.",g,p),r[v]=!0,a++)}return null==c[f]?s?null===c[f]?new h("The "+d+" `"+g+"` is marked as required in `"+p+"`, but its value is `null`."):new h("The "+d+" `"+g+"` is marked as required in `"+p+"`, but its value is `undefined`."):null:e(c,f,p,d,g)}var c=s.bind(null,!1);return c.isRequired=s.bind(null,!0),c}function y(e){return g(function(t,n,r,o,i,a){var u=t[n];return m(u)!==e?new h("Invalid "+o+" `"+i+"` of type `"+b(u)+"` supplied to `"+r+"`, expected `"+e+"`."):null})}function v(t){switch(typeof t){case"number":case"string":case"undefined":return!0;case"boolean":return!t;case"object":if(Array.isArray(t))return t.every(v);if(null===t||e(t))return!0;var n=function(e){var t=e&&(c&&e[c]||e[f]);if("function"==typeof t)return t}(t);if(!n)return!1;var r,o=n.call(t);if(n!==t.entries){for(;!(r=o.next()).done;)if(!v(r.value))return!1}else for(;!(r=o.next()).done;){var i=r.value;if(i&&!v(i[1]))return!1}return!0;default:return!1}}function m(e){var t=typeof e;return Array.isArray(e)?"array":e instanceof RegExp?"object":function(e,t){return"symbol"===e||"Symbol"===t["@@toStringTag"]||"function"==typeof Symbol&&t instanceof Symbol}(t,e)?"symbol":t}function b(e){if(void 0===e||null===e)return""+e;var t=m(e);if("object"===t){if(e instanceof Date)return"date";if(e instanceof RegExp)return"regexp"}return t}function x(e){var t=b(e);switch(t){case"array":case"object":return"an "+t;case"boolean":case"date":case"regexp":return"a "+t;default:return t}}return h.prototype=Error.prototype,p.checkPropTypes=s,p.PropTypes=p,p}}).call(t,n(5))},function(e,t){"use strict";function n(e){return function(){return e}}var r=function(){};r.thatReturns=n,r.thatReturnsFalse=n(!1),r.thatReturnsTrue=n(!0),r.thatReturnsNull=n(null),r.thatReturnsThis=function(){return this},r.thatReturnsArgument=function(e){return e},e.exports=r},function(e,t,n){(function(t){"use strict";var n=function(e){};"production"!==t.env.NODE_ENV&&(n=function(e){if(void 0===e)throw new Error("invariant requires an error message argument")}),e.exports=function(e,t,r,o,i,a,u,s){if(n(t),!e){var c;if(void 0===t)c=new Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var f=[r,o,i,a,u,s],l=0;(c=new Error(t.replace(/%s/g,function(){return f[l++]}))).name="Invariant Violation"}throw c.framesToPop=1,c}}}).call(t,n(5))},function(e,t,n){(function(t){"use strict";var r=n(7);if("production"!==t.env.NODE_ENV){r=function(e,t){if(void 0===t)throw new Error("`warning(condition, format, ...args)` requires a warning message argument");if(0!==t.indexOf("Failed Composite propType: ")&&!e){for(var n=arguments.length,r=Array(n>2?n-2:0),o=2;o<n;o++)r[o-2]=arguments[o];(function(e){for(var t=arguments.length,n=Array(t>1?t-1:0),r=1;r<t;r++)n[r-1]=arguments[r];var o=0,i="Warning: "+e.replace(/%s/g,function(){return n[o++]});"undefined"!=typeof console&&console.error(i);try{throw new Error(i)}catch(e){}}).apply(void 0,[t].concat(r))}}}e.exports=r}).call(t,n(5))},function(e,t){
-/*
-	object-assign
-	(c) Sindre Sorhus
-	@license MIT
-	*/
-"use strict";var n=Object.getOwnPropertySymbols,r=Object.prototype.hasOwnProperty,o=Object.prototype.propertyIsEnumerable;e.exports=function(){try{if(!Object.assign)return!1;var e=new String("abc");if(e[5]="de","5"===Object.getOwnPropertyNames(e)[0])return!1;for(var t={},n=0;n<10;n++)t["_"+String.fromCharCode(n)]=n;if("0123456789"!==Object.getOwnPropertyNames(t).map(function(e){return t[e]}).join(""))return!1;var r={};return"abcdefghijklmnopqrst".split("").forEach(function(e){r[e]=e}),"abcdefghijklmnopqrst"===Object.keys(Object.assign({},r)).join("")}catch(e){return!1}}()?Object.assign:function(e,t){for(var i,a,u=function(e){if(null===e||void 0===e)throw new TypeError("Object.assign cannot be called with null or undefined");return Object(e)}(e),s=1;s<arguments.length;s++){for(var c in i=Object(arguments[s]))r.call(i,c)&&(u[c]=i[c]);if(n){a=n(i);for(var f=0;f<a.length;f++)o.call(i,a[f])&&(u[a[f]]=i[a[f]])}}return u}},function(e,t){"use strict";e.exports="SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED"},function(e,t,n){(function(t){"use strict";if("production"!==t.env.NODE_ENV)var r=n(8),o=n(9),i=n(11),a={};e.exports=function(e,n,u,s,c){if("production"!==t.env.NODE_ENV)for(var f in e)if(e.hasOwnProperty(f)){var l;try{r("function"==typeof e[f],"%s: %s type `%s` is invalid; it must be a function, usually from the `prop-types` package, but received `%s`.",s||"React class",u,f,typeof e[f]),l=e[f](n,f,s,u,null,i)}catch(e){l=e}if(o(!l||l instanceof Error,"%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).",s||"React class",u,f,typeof l),l instanceof Error&&!(l.message in a)){a[l.message]=!0;var p=c?c():"";o(!1,"Failed %s type: %s%s",u,l.message,null!=p?p:"")}}}}).call(t,n(5))},function(e,t,n){"use strict";var r=n(7),o=n(8),i=n(11);e.exports=function(){function e(e,t,n,r,a,u){u!==i&&o(!1,"Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types")}function t(){return e}e.isRequired=e;var n={array:e,bool:e,func:e,number:e,object:e,string:e,symbol:e,any:e,arrayOf:t,element:e,instanceOf:t,node:e,objectOf:t,oneOf:t,oneOfType:t,shape:t,exact:t};return n.checkPropTypes=r,n.PropTypes=n,n}},function(e,t){e.exports=n(0)},function(e,t){"use strict";var n=function(e,t){return e===t};e.exports=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:n,r=void 0,o=[],i=void 0,a=!1,u=function(e,n){return t(e,o[n])};return function(){for(var t=arguments.length,n=Array(t),s=0;s<t;s++)n[s]=arguments[s];return a&&r===this&&n.length===o.length&&n.every(u)?i:(a=!0,r=this,o=n,i=e.apply(this,n))}}}])},function(e,t,n){"use strict";n.r(t);var r=n(0),o=n(1),i=n.n(o),a=n(2),u=(n(6),function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}());function s(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}var c={address:"address",company:"party",bank:"bank"},f=function(e){function t(){var e,n,o;!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t);for(var i=arguments.length,a=Array(i),u=0;u<i;u++)a[u]=arguments[u];return n=o=s(this,(e=t.__proto__||Object.getPrototypeOf(t)).call.apply(e,[this].concat(a))),o.state={query:o.props.query||"",inputFocused:!1,showSuggestions:!0,suggestions:[],suggestionIndex:0,isValid:!1},o.textInput=r.createRef(),o.xhr=new XMLHttpRequest,o.componentDidMount=function(){o.props.query&&o.fetchSuggestions()},o.onInputFocus=function(){o.setState({inputFocused:!0})},o.onInputBlur=function(){o.setState({inputFocused:!1})},o.onInputChange=function(e){var t=e.target.value;o.setState({query:t,showSuggestions:!0},function(){o.fetchSuggestions()})},o.onKeyPress=function(e){var t=o.state,n=t.suggestionIndex,r=t.suggestions;40===e.which&&n<r.length-1?o.setState(function(e){return{suggestionIndex:e.suggestionIndex+1}}):38===e.which&&n>0?o.setState(function(e){return{suggestionIndex:e.suggestionIndex-1}}):13===e.which&&n>=0&&o.selectSuggestion(o.state.suggestionIndex)},o.fetchSuggestions=function(){o.xhr.abort(),o.xhr.open("POST","https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/"+c[o.props.type]),o.xhr.setRequestHeader("Accept","application/json"),o.xhr.setRequestHeader("Authorization","Token "+o.props.token),o.xhr.setRequestHeader("Content-Type","application/json"),o.xhr.send(JSON.stringify({query:o.state.query,count:o.props.count||10})),o.xhr.onreadystatechange=function(){if(4===o.xhr.readyState&&200===o.xhr.status){var e=JSON.parse(o.xhr.response).suggestions;e&&o.setState({suggestions:e,suggestionIndex:0})}}},o.onSuggestionClick=function(e){o.selectSuggestion(e)},o.selectSuggestion=function(e){var t=o.state.suggestions,n=t[e].value;o.setState({query:n,showSuggestions:!1}),o.props.onChange&&o.props.onChange(t[e])},o.getHighlightWords=function(){var e=["г","респ","ул","р-н","село","деревня","поселок","пр-д","пл","к","кв","обл","д"],t=o.state.query.replace(",","").split(" ");return t=t.filter(function(t){return e.indexOf(t)<0})},s(o,n)}return function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}(t,r["Component"]),u(t,[{key:"render",value:function(){var e=this,t=this.state,n=t.suggestionIndex,o=t.query,i=t.inputFocused,u=t.suggestions,s=t.showSuggestions,c=function(t){var n=t.data;return r.createElement("div",{className:"react-dadata__suggestion-info"},r.createElement("span",null,"company"===e.props.type?n.inn:n.bic,", ",n.address.value))},f=i&&s&&!!u.length&&r.createElement("div",{className:"react-dadata__suggestions"},r.createElement("div",{className:"react-dadata__suggestion-note"},"Выберите вариант или продолжите ввод"),u.map(function(t,o){var i=t.value,u=t.data;return r.createElement("div",{key:i+o,onMouseDown:function(){e.onSuggestionClick(o)},className:"react-dadata__suggestion "+(o===n&&"react-dadata__suggestion--current")},r.createElement(a,{highlightClassName:"react-dadata--highlighted",searchWords:e.getHighlightWords(),textToHighlight:i}),"address"!==e.props.type&&r.createElement(c,{data:u}))}));return r.createElement("div",{className:"react-dadata react-dadata__container "+this.props.className},r.createElement("input",{className:"react-dadata__input",placeholder:this.props.placeholder||"",value:o,ref:function(t){e.textInput=t},onChange:this.onInputChange,onKeyDown:this.onKeyPress,onFocus:this.onInputFocus,onBlur:this.onInputBlur,autoComplete:this.props.autocomplete||"off"}),f)}}]),t}();f.propTypes={token:i.a.string.isRequired,type:i.a.string.isRequired,query:i.a.string,count:i.a.number,className:i.a.string,placeholder:i.a.string,autocomplete:i.a.bool,onChange:i.a.func},t.default=f},function(e,t,n){"use strict";var r=n(5);function o(){}e.exports=function(){function e(e,t,n,o,i,a){if(a!==r){var u=new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");throw u.name="Invariant Violation",u}}function t(){return e}e.isRequired=e;var n={array:e,bool:e,func:e,number:e,object:e,string:e,symbol:e,any:e,arrayOf:t,element:e,instanceOf:t,node:e,objectOf:t,oneOf:t,oneOfType:t,shape:t,exact:t};return n.checkPropTypes=o,n.PropTypes=n,n}},function(e,t,n){"use strict";e.exports="SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED"},function(e,t,n){(e.exports=n(7)(!1)).push([e.i,".react-dadata__container {\n    position: relative;\n\n  font-family: sans-serif;\n  }\n  \n  .react-dadata__input {\n    display: block;\n    box-sizing: border-box;\n    height: 38px;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    width: 100%;\n    font-size: 16px;\n    padding: 0 10px;\n\n    outline: none;\n  }\n  \n  .react-dadata__input:focus {\n    border-color: #85b7d9;\n  }\n  \n  .react-dadata__suggestions {\n    position: absolute;\n    z-index: 10;\n    background-color: #fff;\n    box-shadow: 0 1px 6px 3px rgba(0,0,0,.1);\n    top: 100%;\n    left: 0;\n    right: 0;\n  }\n  \n  .react-dadata__suggestion-note {\n    font-size: 14px;\n    color: #828282;\n    padding: 10px 10px 5px 10px;\n  }\n  \n  .react-dadata__suggestion {\n    font-size: 15px;\n    padding: 7px 10px;\n    cursor: pointer;\n  }\n\n  .react-dadata__suggestion-info {\n    font-size: 14px;\n    color: #777777;\n  }\n  \n  .react-dadata__suggestion--current {\n    background-color: rgba(65, 131, 196, 0.2);\n  }\n  \n  .react-dadata__suggestion:hover {\n    background-color: rgba(65, 131, 196, 0.2);\n  }\n  \n  .react-dadata mark {\n    background: none;\n  }\n  \n  .react-dadata--highlighted {\n    color: #4183c4;\n  }",""])},function(e,t){e.exports=function(e){var t=[];return t.toString=function(){return this.map(function(t){var n=function(e,t){var n=e[1]||"",r=e[3];if(!r)return n;if(t&&"function"==typeof btoa){var o=function(e){return"/*# sourceMappingURL=data:application/json;charset=utf-8;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(e))))+" */"}(r),i=r.sources.map(function(e){return"/*# sourceURL="+r.sourceRoot+e+" */"});return[n].concat(i).concat([o]).join("\n")}return[n].join("\n")}(t,e);return t[2]?"@media "+t[2]+"{"+n+"}":n}).join("")},t.i=function(e,n){"string"==typeof e&&(e=[[null,e,""]]);for(var r={},o=0;o<this.length;o++){var i=this[o][0];"number"==typeof i&&(r[i]=!0)}for(o=0;o<e.length;o++){var a=e[o];"number"==typeof a[0]&&r[a[0]]||(n&&!a[2]?a[2]=n:n&&(a[2]="("+a[2]+") and ("+n+")"),t.push(a))}},t}}]);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import * as Highlighter from 'react-highlight-words';
+import './index.css';
+
+var types = {
+  address: 'address',
+  company: 'party',
+  bank: 'bank'
+};
+
+var ReactDadata = function (_React$Component) {
+  _inherits(ReactDadata, _React$Component);
+
+  function ReactDadata() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, ReactDadata);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ReactDadata.__proto__ || Object.getPrototypeOf(ReactDadata)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      query: _this.props.query || '',
+      inputFocused: false,
+      showSuggestions: true,
+      suggestions: [],
+      suggestionIndex: 0,
+      isValid: false
+    }, _this.textInput = React.createRef(), _this.xhr = new XMLHttpRequest(), _this.componentDidMount = function () {
+      if (_this.props.query) {
+        _this.fetchSuggestions();
+      }
+    }, _this.onInputFocus = function () {
+      _this.setState({ inputFocused: true });
+    }, _this.onInputBlur = function () {
+      _this.setState({ inputFocused: false });
+    }, _this.onInputChange = function (event) {
+      var value = event.target.value;
+
+
+      _this.setState({ query: value, showSuggestions: true }, function () {
+        _this.fetchSuggestions();
+      });
+    }, _this.onKeyPress = function (event) {
+      var _this$state = _this.state,
+          suggestionIndex = _this$state.suggestionIndex,
+          suggestions = _this$state.suggestions;
+
+
+      if (event.which === 40 && suggestionIndex < suggestions.length - 1) {
+        // Arrow down
+        _this.setState(function (prevState) {
+          return { suggestionIndex: prevState.suggestionIndex + 1 };
+        });
+      } else if (event.which === 38 && suggestionIndex > 0) {
+        // Arrow up
+        _this.setState(function (prevState) {
+          return { suggestionIndex: prevState.suggestionIndex - 1 };
+        });
+      } else if (event.which === 13 && suggestionIndex >= 0) {
+        // Enter
+        _this.selectSuggestion(_this.state.suggestionIndex);
+      }
+    }, _this.fetchSuggestions = function () {
+      _this.xhr.abort();
+
+      _this.xhr.open('POST', 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/' + types[_this.props.type]);
+      _this.xhr.setRequestHeader('Accept', 'application/json');
+      _this.xhr.setRequestHeader('Authorization', 'Token ' + _this.props.token);
+      _this.xhr.setRequestHeader('Content-Type', 'application/json');
+      _this.xhr.send(JSON.stringify({
+        query: _this.state.query,
+        count: _this.props.count || 10
+      }));
+
+      _this.xhr.onreadystatechange = function () {
+        if (_this.xhr.readyState !== 4) {
+          return;
+        }
+
+        if (_this.xhr.status === 200) {
+          var _JSON$parse = JSON.parse(_this.xhr.response),
+              suggestions = _JSON$parse.suggestions;
+
+          if (suggestions) {
+            _this.setState({ suggestions: suggestions, suggestionIndex: 0 });
+          }
+        }
+      };
+    }, _this.onSuggestionClick = function (index) {
+      _this.selectSuggestion(index);
+    }, _this.selectSuggestion = function (index) {
+      var suggestions = _this.state.suggestions;
+      var value = suggestions[index].value;
+
+      _this.setState({
+        query: value,
+        showSuggestions: false
+      });
+
+      if (_this.props.onChange) {
+        _this.props.onChange(suggestions[index]);
+      }
+    }, _this.getHighlightWords = function () {
+      var wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
+      var words = _this.state.query.replace(',', '').split(' ');
+      words = words.filter(function (word) {
+        return wordsToPass.indexOf(word) < 0;
+      });
+      return words;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(ReactDadata, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _state = this.state,
+          suggestionIndex = _state.suggestionIndex,
+          query = _state.query,
+          inputFocused = _state.inputFocused,
+          suggestions = _state.suggestions,
+          showSuggestions = _state.showSuggestions;
+
+
+      var SuggestionInfo = function SuggestionInfo(_ref2) {
+        var data = _ref2.data;
+        return React.createElement(
+          'div',
+          { className: 'react-dadata__suggestion-info' },
+          React.createElement(
+            'span',
+            null,
+            _this2.props.type === 'company' ? data.inn : data.bic,
+            ', ',
+            data.address.value
+          )
+        );
+      };
+
+      var suggestionsList = inputFocused && showSuggestions && !!suggestions.length && React.createElement(
+        'div',
+        { className: 'react-dadata__suggestions' },
+        React.createElement(
+          'div',
+          { className: 'react-dadata__suggestion-note' },
+          '\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0438\u043B\u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u0435 \u0432\u0432\u043E\u0434'
+        ),
+        suggestions.map(function (_ref3, index) {
+          var value = _ref3.value,
+              data = _ref3.data;
+          return React.createElement(
+            'div',
+            {
+              key: value + index,
+              onMouseDown: function onMouseDown() {
+                _this2.onSuggestionClick(index);
+              },
+              className: 'react-dadata__suggestion ' + (index === suggestionIndex && 'react-dadata__suggestion--current')
+            },
+            React.createElement(Highlighter, {
+              highlightClassName: 'react-dadata--highlighted',
+              searchWords: _this2.getHighlightWords(),
+              textToHighlight: value
+            }),
+            _this2.props.type !== 'address' && React.createElement(SuggestionInfo, { data: data })
+          );
+        })
+      );
+
+      return React.createElement(
+        'div',
+        { className: 'react-dadata react-dadata__container ' + this.props.className },
+        React.createElement('input', {
+          className: 'react-dadata__input',
+          placeholder: this.props.placeholder || '',
+          value: query,
+          ref: function ref(input) {
+            _this2.textInput = input;
+          },
+          onChange: this.onInputChange,
+          onKeyDown: this.onKeyPress,
+          onFocus: this.onInputFocus,
+          onBlur: this.onInputBlur,
+          autoComplete: this.props.autocomplete || 'off'
+        }),
+        suggestionsList
+      );
+    }
+  }]);
+
+  return ReactDadata;
+}(React.Component);
+
+ReactDadata.propTypes = {
+  token: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  query: PropTypes.string,
+  count: PropTypes.number,
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  autocomplete: PropTypes.bool,
+  onChange: PropTypes.func
+};
+
+export default ReactDadata;

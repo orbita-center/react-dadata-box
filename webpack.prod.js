@@ -1,15 +1,20 @@
 const webpack = require('webpack');
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 process.env.NODE_ENV = 'production';
 
 module.exports = {
   mode: 'production',
-  entry:'./src/index.js',
+  entry: './src/index.js',
   output: {
     filename: 'index.js',
     library: 'index',
     libraryTarget: 'commonjs2'
+  },
+  optimization: {
+    minimizer: [new UglifyJsPlugin()]
   },
   module: {
     rules: [
@@ -21,7 +26,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
@@ -31,16 +36,22 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    })
+    }),
+    new MiniCssExtractPlugin()
   ],
 
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 9000,
-    open: true
-  },
   externals: {
-    react: 'commonjs react'
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'React',
+      root: 'React'
+    },
+    'react-dom': {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'ReactDOM',
+      root: 'ReactDOM'
+    }
   }
 };

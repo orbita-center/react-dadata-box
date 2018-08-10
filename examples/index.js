@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ReactDadata from '../src/index';
+import ReactDadata from '../dist/index';
 
 import './index.css';
 
