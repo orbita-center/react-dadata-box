@@ -13,6 +13,10 @@
     "email": "ageev.tolya1@yandex.ru"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbita-center/react-dadata-box.git"
+  },
   "peerDependencies": {
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
