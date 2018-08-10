@@ -9,8 +9,8 @@
     "prepublishOnly": "npm run transpile"
   },
   "author": {
-    "name": "TolyaAg",
-    "email": "ageev.tolya1@yandex.ru"
+    "name": "orbita",
+    "email": "reg@orbita.center"
   },
   "license": "MIT",
   "repository": {
