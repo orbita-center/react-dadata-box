@@ -46,6 +46,7 @@ var ReactDadata = function (_React$Component) {
 
     _this.state = {
       query: _this.props.query || '',
+      type: _this.props.type || 'address',
       inputFocused: false,
       showSuggestions: true,
       suggestions: [],
@@ -126,7 +127,7 @@ var ReactDadata = function (_React$Component) {
 
       this.xhr.abort();
 
-      this.xhr.open('POST', 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/' + types[this.props.type]);
+      this.xhr.open('POST', 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/' + types[this.state.type]);
       this.xhr.setRequestHeader('Accept', 'application/json');
       this.xhr.setRequestHeader('Authorization', 'Token ' + this.props.token);
       this.xhr.setRequestHeader('Content-Type', 'application/json');
@@ -190,7 +191,8 @@ var ReactDadata = function (_React$Component) {
           query = _state2.query,
           inputFocused = _state2.inputFocused,
           suggestions = _state2.suggestions,
-          showSuggestions = _state2.showSuggestions;
+          showSuggestions = _state2.showSuggestions,
+          type = _state2.type;
 
 
       var SuggestionInfo = function SuggestionInfo(_ref) {
@@ -201,7 +203,7 @@ var ReactDadata = function (_React$Component) {
           React.createElement(
             'span',
             null,
-            _this4.props.type === 'company' ? data.inn : data.bic,
+            type === 'company' ? data.inn : data.bic,
             ', ',
             data.address.value
           )
@@ -233,7 +235,7 @@ var ReactDadata = function (_React$Component) {
               searchWords: _this4.getHighlightWords(),
               textToHighlight: value
             }),
-            _this4.props.type !== 'address' && React.createElement(SuggestionInfo, { data: data })
+            type !== 'address' && React.createElement(SuggestionInfo, { data: data })
           );
         })
       );
@@ -257,6 +259,17 @@ var ReactDadata = function (_React$Component) {
         suggestionsList
       );
     }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(props, state) {
+      if (props.query !== state.query) {
+        return {
+          query: props.query
+        };
+      }
+
+      return null;
+    }
   }]);
 
   return ReactDadata;
@@ -264,7 +277,7 @@ var ReactDadata = function (_React$Component) {
 
 ReactDadata.propTypes = {
   token: _propTypes2.default.string.isRequired,
-  type: _propTypes2.default.string.isRequired,
+  type: _propTypes2.default.string,
   query: _propTypes2.default.string,
   count: _propTypes2.default.number,
   className: _propTypes2.default.string,
