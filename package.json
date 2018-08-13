@@ -18,10 +18,8 @@
     "url": "git+https://github.com/orbita-center/react-dadata-box.git"
   },
   "peerDependencies": {
-    "prop-types": "^15.6.2",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-highlight-words": "^0.12.0"
+    "react-dom": "^16.4.2"
   },
   "dependencies": {
     "babel-core": "^6.26.3",
@@ -41,9 +39,6 @@
     "react-highlight-words": "^0.12.0"
   },
   "devDependencies": {
-    "prop-types": "^15.6.2",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
     "babel-cli": "^6.26.0",
     "webpack-cli": "^3.1.0",
     "react-highlight-words": "^0.12.0"
