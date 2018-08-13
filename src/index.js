@@ -14,6 +14,7 @@ class ReactDadata extends React.Component {
     super(props);
     this.state = {
       query: this.props.query || '',
+      type: this.props.type || 'address',
       inputFocused: false,
       showSuggestions: true,
       suggestions: [],
@@ -32,6 +33,16 @@ class ReactDadata extends React.Component {
 
     this.textInput = React.createRef();
     this.xhr = new XMLHttpRequest();
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.query !== state.query) {
+      return {
+        query: props.query
+      };
+    }
+
+    return null;
   }
 
   componentDidMount() {
@@ -74,7 +85,7 @@ class ReactDadata extends React.Component {
   fetchSuggestions() {
     this.xhr.abort();
 
-    this.xhr.open('POST', `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${types[this.props.type]}`);
+    this.xhr.open('POST', `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${types[this.state.type]}`);
     this.xhr.setRequestHeader('Accept', 'application/json');
     this.xhr.setRequestHeader('Authorization', `Token ${this.props.token}`);
     this.xhr.setRequestHeader('Content-Type', 'application/json');
@@ -128,12 +139,12 @@ class ReactDadata extends React.Component {
   }
 
   render() {
-    const { suggestionIndex, query, inputFocused, suggestions, showSuggestions } = this.state;
+    const { suggestionIndex, query, inputFocused, suggestions, showSuggestions, type } = this.state;
 
     const SuggestionInfo = ({ data }) => (
       <div className="react-dadata__suggestion-info">
         <span>
-          {this.props.type === 'company' ? data.inn : data.bic}, {data.address.value}
+          {type === 'company' ? data.inn : data.bic}, {data.address.value}
         </span>
       </div>
     );
@@ -156,7 +167,7 @@ class ReactDadata extends React.Component {
                 searchWords={this.getHighlightWords()}
                 textToHighlight={value}
               />
-              {this.props.type !== 'address' && <SuggestionInfo data={data} />}
+              {type !== 'address' && <SuggestionInfo data={data} />}
             </div>
           ))}
         </div>
@@ -185,7 +196,7 @@ class ReactDadata extends React.Component {
 
 ReactDadata.propTypes = {
   token: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   query: PropTypes.string,
   count: PropTypes.number,
   className: PropTypes.string,
