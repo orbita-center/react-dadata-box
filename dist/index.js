@@ -259,17 +259,6 @@ var ReactDadata = function (_React$Component) {
         suggestionsList
       );
     }
-  }], [{
-    key: 'getDerivedStateFromProps',
-    value: function getDerivedStateFromProps(props, state) {
-      if (props.query !== state.query) {
-        return {
-          query: props.query
-        };
-      }
-
-      return null;
-    }
   }]);
 
   return ReactDadata;

@@ -35,16 +35,6 @@ class ReactDadata extends React.Component {
     this.xhr = new XMLHttpRequest();
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.query !== state.query) {
-      return {
-        query: props.query
-      };
-    }
-
-    return null;
-  }
-
   componentDidMount() {
     if (this.props.query) {
       this.fetchSuggestions();
