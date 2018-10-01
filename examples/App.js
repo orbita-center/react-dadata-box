@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDadataBox from '../dist';
+import ReactDadataBox from '../src';
 
 import './index.css';
 
@@ -10,8 +10,10 @@ class App extends Component {
     return (
       <div>
         <ReactDadataBox className="data" token={token} placeholder="Начните ввод" type="address" />
-        <ReactDadataBox className="data" token={token} placeholder="Начните ввод" type="company" />
+        <ReactDadataBox className="data" token={token} placeholder="Начните ввод" type="party" />
         <ReactDadataBox className="data" token={token} placeholder="Начните ввод" type="bank" />
+        <ReactDadataBox className="data" token={token} placeholder="Начните ввод" type="email" />
+        <ReactDadataBox className="data" token={token} placeholder="Начните ввод" type="fio" />
       </div>
     );
   }

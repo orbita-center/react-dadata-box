@@ -26,7 +26,7 @@ import ReactDadataBox from 'react-dadata-box';
 | Свойство  | Обязательный | Тип | Описание |
 | ------------- | ------------- | ------------- | ------------- |
 | token  | Да  | string  | Авторизационный токен DaData.ru  |
-| type | Нет | string | Тип данных, которые необходимо запросить: адрес(address), организация(company) или банк(bank)
+| type | Нет | string | Тип данных, которые необходимо запросить: адрес(address), организация(party) или банк(bank), почта(email), фио(fio)
 | placeholder  | Нет  | string  | Текст placeholder  |
 | query  | Нет  | string  | Начальное значение поля ввода  |
 | onChange  | Нет  | function(suggestion: ReactDadata.DadataSuggestion)  | Функция, вызываемая при выборе подсказки  |
