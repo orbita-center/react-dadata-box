@@ -3,63 +3,35 @@ import PropTypes from 'prop-types';
 import Highlighter from 'react-highlight-words';
 import './index.css';
 
-const types = {
-  address: 'address',
-  company: 'party',
-  bank: 'bank'
-};
-
 class ReactDadata extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: this.props.query || '',
-      type: this.props.type || 'address',
-      inputFocused: false,
-      showSuggestions: true,
-      suggestions: [],
-      suggestionIndex: 0,
-      isValid: false
-    };
+  state = {
+    query: this.props.query || '',
+    type: this.props.type || 'address',
+    inputFocused: false,
+    showSuggestions: true,
+    suggestions: [],
+    suggestionIndex: 0,
+    isValid: false
+  };
 
-    this.onInputFocus = this.onInputFocus.bind(this);
-    this.onInputBlur = this.onInputBlur.bind(this);
-    this.onInputChange = this.onInputChange.bind(this);
-    this.onKeyPress = this.onKeyPress.bind(this);
-    this.fetchSuggestions = this.fetchSuggestions.bind(this);
-    this.onSuggestionClick = this.onSuggestionClick.bind(this);
-    this.selectSuggestion = this.selectSuggestion.bind(this);
-    this.getHighlightWords = this.getHighlightWords.bind(this);
+  textInput = React.createRef();
+  xhr = new XMLHttpRequest();
 
-    this.textInput = React.createRef();
-    this.xhr = new XMLHttpRequest();
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.query !== state.query) {
-      return {
-        query: props.query
-      };
-    }
-
-    return null;
-  }
-
-  componentDidMount() {
+  componentDidMount = () => {
     if (this.props.query) {
       this.fetchSuggestions();
     }
   }
 
-  onInputFocus() {
+  onInputFocus = () => {
     this.setState({ inputFocused: true });
   }
 
-  onInputBlur() {
+  onInputBlur = () => {
     this.setState({ inputFocused: false });
   }
 
-  onInputChange(event) {
+  onInputChange = (event) => {
     const { value } = event.target;
 
     this.setState({ query: value, showSuggestions: true }, () => {
@@ -67,7 +39,7 @@ class ReactDadata extends React.Component {
     });
   }
 
-  onKeyPress(event) {
+  onKeyPress = (event) => {
     const { suggestionIndex, suggestions } = this.state;
 
     if (event.which === 40 && suggestionIndex < suggestions.length - 1) {
@@ -82,10 +54,10 @@ class ReactDadata extends React.Component {
     }
   }
 
-  fetchSuggestions() {
+  fetchSuggestions = () => {
     this.xhr.abort();
 
-    this.xhr.open('POST', `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${types[this.state.type]}`);
+    this.xhr.open('POST', `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${this.state.type}`);
     this.xhr.setRequestHeader('Accept', 'application/json');
     this.xhr.setRequestHeader('Authorization', `Token ${this.props.token}`);
     this.xhr.setRequestHeader('Content-Type', 'application/json');
@@ -111,11 +83,11 @@ class ReactDadata extends React.Component {
     };
   }
 
-  onSuggestionClick(index) {
+  onSuggestionClick = (index) => {
     this.selectSuggestion(index);
   }
 
-  selectSuggestion(index) {
+  selectSuggestion = (index) => {
     const { suggestions } = this.state;
 
     const { value } = suggestions[index];
@@ -129,7 +101,7 @@ class ReactDadata extends React.Component {
     }
   }
 
-  getHighlightWords() {
+  getHighlightWords = () => {
     const wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
     let words = this.state.query.replace(',', '').split(' ');
     words = words.filter(word => {
@@ -144,7 +116,7 @@ class ReactDadata extends React.Component {
     const SuggestionInfo = ({ data }) => (
       <div className="react-dadata__suggestion-info">
         <span>
-          {type === 'company' ? data.inn : data.bic}, {data.address.value}
+          {type === 'party' ? data.inn : data.bic} {data.address.value}
         </span>
       </div>
     );
@@ -167,7 +139,7 @@ class ReactDadata extends React.Component {
                 searchWords={this.getHighlightWords()}
                 textToHighlight={value}
               />
-              {type !== 'address' && <SuggestionInfo data={data} />}
+              {(type === 'party' || type === 'bank') && <SuggestionInfo data={data} />}
             </div>
           ))}
         </div>
