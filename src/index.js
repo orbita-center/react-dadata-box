@@ -3,6 +3,44 @@ import PropTypes from 'prop-types';
 import Highlighter from 'react-highlight-words';
 import './index.css';
 
+const wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
+
+const getHighlightWords = query => {
+  const words = query.replace(',', '').split(' ');
+  const filteredWords = words.filter(word => wordsToPass.indexOf(word) < 0);
+  return filteredWords;
+};
+
+const SuggestionInfo = ({ data, type }) => (
+  <div className="react-dadata__suggestion-info">
+    <span>
+      {type === 'party' ? data.inn : data.bic} {data.address.value}
+    </span>
+  </div>
+);
+
+const SuggestionsList = ({ suggestions, suggestionIndex, query, type, onSuggestionClick }) => (
+  <div className="react-dadata__suggestions">
+    <div className="react-dadata__suggestion-note">Выберите вариант или продолжите ввод</div>
+    {suggestions.map(({ value, data }, index) => (
+      <div
+        key={value + index}
+        onMouseDown={() => {
+          onSuggestionClick(index);
+        }}
+        className={`react-dadata__suggestion ${index === suggestionIndex && 'react-dadata__suggestion--current'}`}
+      >
+        <Highlighter
+          highlightClassName="react-dadata--highlighted"
+          searchWords={getHighlightWords(query)}
+          textToHighlight={value}
+        />
+        {(type === 'party' || type === 'bank') && <SuggestionInfo data={data} type={type} />}
+      </div>
+    ))}
+  </div>
+);
+
 class ReactDadata extends React.Component {
   state = {
     query: this.props.query || '',
@@ -21,25 +59,31 @@ class ReactDadata extends React.Component {
     if (this.props.query) {
       this.fetchSuggestions();
     }
-  }
+  };
+
+  componentDidUpdate = prevProps => {
+    if (this.props.query !== prevProps.query) {
+      this.setState({ query: this.props.query }, this.fetchSuggestions);
+    }
+  };
 
   onInputFocus = () => {
     this.setState({ inputFocused: true });
-  }
+  };
 
   onInputBlur = () => {
     this.setState({ inputFocused: false });
-  }
+  };
 
-  onInputChange = (event) => {
+  onInputChange = event => {
     const { value } = event.target;
 
     this.setState({ query: value, showSuggestions: true }, () => {
       this.fetchSuggestions();
     });
-  }
+  };
 
-  onKeyPress = (event) => {
+  onKeyPress = event => {
     const { suggestionIndex, suggestions } = this.state;
 
     if (event.which === 40 && suggestionIndex < suggestions.length - 1) {
@@ -52,21 +96,30 @@ class ReactDadata extends React.Component {
       // Enter
       this.selectSuggestion(this.state.suggestionIndex);
     }
-  }
+  };
 
   fetchSuggestions = () => {
     this.xhr.abort();
 
-    this.xhr.open('POST', `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${this.state.type}`);
+    const { type } = this.state;
+    const { city } = this.props;
+
+    const payload = {
+      query: this.state.query,
+      count: this.props.count || 10
+    };
+
+    if (city && type === 'address') {
+      payload.from_bound = { value: 'city' };
+      payload.to_bound = { value: 'settlement' };
+      payload.value = 'settlement';
+    }
+
+    this.xhr.open('POST', `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${type}`);
     this.xhr.setRequestHeader('Accept', 'application/json');
     this.xhr.setRequestHeader('Authorization', `Token ${this.props.token}`);
     this.xhr.setRequestHeader('Content-Type', 'application/json');
-    this.xhr.send(
-      JSON.stringify({
-        query: this.state.query,
-        count: this.props.count || 10
-      })
-    );
+    this.xhr.send(JSON.stringify(payload));
 
     this.xhr.onreadystatechange = () => {
       if (this.xhr.readyState !== 4) {
@@ -81,13 +134,13 @@ class ReactDadata extends React.Component {
         }
       }
     };
-  }
+  };
 
-  onSuggestionClick = (index) => {
+  onSuggestionClick = index => {
     this.selectSuggestion(index);
-  }
+  };
 
-  selectSuggestion = (index) => {
+  selectSuggestion = index => {
     const { suggestions } = this.state;
 
     const { value } = suggestions[index];
@@ -99,51 +152,12 @@ class ReactDadata extends React.Component {
     if (this.props.onChange) {
       this.props.onChange(suggestions[index]);
     }
-  }
-
-  getHighlightWords = () => {
-    const wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
-    let words = this.state.query.replace(',', '').split(' ');
-    words = words.filter(word => {
-      return wordsToPass.indexOf(word) < 0;
-    });
-    return words;
-  }
+  };
 
   render() {
     const { suggestionIndex, query, inputFocused, suggestions, showSuggestions, type } = this.state;
 
-    const SuggestionInfo = ({ data }) => (
-      <div className="react-dadata__suggestion-info">
-        <span>
-          {type === 'party' ? data.inn : data.bic} {data.address.value}
-        </span>
-      </div>
-    );
-
-    const suggestionsList = inputFocused &&
-      showSuggestions &&
-      !!suggestions.length && (
-        <div className="react-dadata__suggestions">
-          <div className="react-dadata__suggestion-note">Выберите вариант или продолжите ввод</div>
-          {suggestions.map(({ value, data }, index) => (
-            <div
-              key={value + index}
-              onMouseDown={() => {
-                this.onSuggestionClick(index);
-              }}
-              className={`react-dadata__suggestion ${index === suggestionIndex && 'react-dadata__suggestion--current'}`}
-            >
-              <Highlighter
-                highlightClassName="react-dadata--highlighted"
-                searchWords={this.getHighlightWords()}
-                textToHighlight={value}
-              />
-              {(type === 'party' || type === 'bank') && <SuggestionInfo data={data} />}
-            </div>
-          ))}
-        </div>
-      );
+    const showSuggestionsList = inputFocused && showSuggestions && !!suggestions.length;
 
     return (
       <div className={`react-dadata react-dadata__container ${this.props.className}`}>
@@ -160,7 +174,15 @@ class ReactDadata extends React.Component {
           onBlur={this.onInputBlur}
           autoComplete={this.props.autocomplete || 'off'}
         />
-        {suggestionsList}
+        {showSuggestionsList && (
+          <SuggestionsList
+            suggestions={suggestions}
+            suggestionIndex={suggestionIndex}
+            query={query}
+            type={type}
+            onSuggestionClick={this.onSuggestionClick}
+          />
+        )}
       </div>
     );
   }
@@ -174,7 +196,8 @@ ReactDadata.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
   autocomplete: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  city: PropTypes.bool
 };
 
 export default ReactDadata;
