@@ -96,7 +96,8 @@ var ReactDadata = function (_React$Component) {
       _this.xhr.setRequestHeader('Content-Type', 'application/json');
       _this.xhr.send(JSON.stringify({
         query: _this.state.query,
-        count: _this.props.count || 10
+        count: _this.props.count || 10,
+        parts: _this.props.parts ? [_this.props.parts] || null
       }));
 
       _this.xhr.onreadystatechange = function () {
@@ -224,6 +225,7 @@ ReactDadata.propTypes = {
   token: _propTypes2.default.string.isRequired,
   type: _propTypes2.default.string,
   query: _propTypes2.default.string,
+  parts: _propTypes2.default.string,
   count: _propTypes2.default.number,
   className: _propTypes2.default.string,
   placeholder: _propTypes2.default.string,
