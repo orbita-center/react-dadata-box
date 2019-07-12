@@ -92,6 +92,9 @@ class ReactDadata extends React.Component {
     } else if (event.which === 38 && suggestionIndex > 0) {
       // Arrow up
       this.setState(prevState => ({ suggestionIndex: prevState.suggestionIndex - 1 }));
+    } else if (event.which === 39 && suggestionIndex >= 0) {
+      // Arrow right
+      this.selectSuggestion(this.state.suggestionIndex, true);
     } else if (event.which === 13 && suggestionIndex >= 0) {
       // Enter
       this.selectSuggestion(this.state.suggestionIndex);
@@ -140,13 +143,13 @@ class ReactDadata extends React.Component {
     this.selectSuggestion(index);
   };
 
-  selectSuggestion = index => {
+  selectSuggestion = (index, showSuggestions = false) => {
     const { suggestions } = this.state;
 
     const { value } = suggestions[index];
     this.setState({
       query: value,
-      showSuggestions: false
+      showSuggestions: showSuggestions
     });
 
     if (this.props.onChange) {
@@ -160,7 +163,7 @@ class ReactDadata extends React.Component {
     const showSuggestionsList = inputFocused && showSuggestions && !!suggestions.length;
 
     return (
-      <div className={`react-dadata react-dadata__container ${this.props.className}`}>
+      <div className={`react-dadata react-dadata__container ${this.props.className}`} style={this.props.styles}>
         <input
           className="react-dadata__input"
           placeholder={this.props.placeholder || ''}
@@ -189,15 +192,16 @@ class ReactDadata extends React.Component {
 }
 
 ReactDadata.propTypes = {
+  autocomplete: PropTypes.bool,
+  city: PropTypes.bool,
+  className: PropTypes.string,
+  count: PropTypes.number,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  query: PropTypes.string,
+  style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
   type: PropTypes.string,
-  query: PropTypes.string,
-  count: PropTypes.number,
-  className: PropTypes.string,
-  placeholder: PropTypes.string,
-  autocomplete: PropTypes.bool,
-  onChange: PropTypes.func,
-  city: PropTypes.bool
 };
 
 export default ReactDadata;
