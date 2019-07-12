@@ -92,6 +92,9 @@ class ReactDadata extends React.Component {
     } else if (event.which === 38 && suggestionIndex > 0) {
       // Arrow up
       this.setState(prevState => ({ suggestionIndex: prevState.suggestionIndex - 1 }));
+    } else if (event.which === 39 && suggestionIndex >= 0) {
+      // Arrow right
+      this.selectSuggestion(this.state.suggestionIndex, true);
     } else if (event.which === 13 && suggestionIndex >= 0) {
       // Enter
       this.selectSuggestion(this.state.suggestionIndex);
@@ -140,13 +143,13 @@ class ReactDadata extends React.Component {
     this.selectSuggestion(index);
   };
 
-  selectSuggestion = index => {
+  selectSuggestion = (index, showSuggestions = false) => {
     const { suggestions } = this.state;
 
     const { value } = suggestions[index];
     this.setState({
       query: value,
-      showSuggestions: false
+      showSuggestions: showSuggestions
     });
 
     if (this.props.onChange) {
