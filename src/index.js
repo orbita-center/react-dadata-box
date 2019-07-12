@@ -160,7 +160,7 @@ class ReactDadata extends React.Component {
     const showSuggestionsList = inputFocused && showSuggestions && !!suggestions.length;
 
     return (
-      <div className={`react-dadata react-dadata__container ${this.props.className}`}>
+      <div className={`react-dadata react-dadata__container ${this.props.className}`} style={this.props.styles}>
         <input
           className="react-dadata__input"
           placeholder={this.props.placeholder || ''}
@@ -189,15 +189,16 @@ class ReactDadata extends React.Component {
 }
 
 ReactDadata.propTypes = {
+  autocomplete: PropTypes.bool,
+  city: PropTypes.bool,
+  className: PropTypes.string,
+  count: PropTypes.number,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  query: PropTypes.string,
+  style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
   type: PropTypes.string,
-  query: PropTypes.string,
-  count: PropTypes.number,
-  className: PropTypes.string,
-  placeholder: PropTypes.string,
-  autocomplete: PropTypes.bool,
-  onChange: PropTypes.func,
-  city: PropTypes.bool
 };
 
 export default ReactDadata;
