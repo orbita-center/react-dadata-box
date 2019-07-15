@@ -99,6 +99,6 @@ interface Props {
     type?: string,
 }
 
-class ReactDadataBox extends React.Component<Props> {}
+declare class ReactDadataBox extends React.Component<Props> {}
 
 export default ReactDadataBox;
