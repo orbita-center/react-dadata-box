@@ -32,6 +32,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
 
+var defaultSuggestion = {
+  data: {},
+  unrestricted_value: '',
+  value: ''
+};
+
 var getHighlightWords = function getHighlightWords(query) {
   var words = query.replace(',', '').split(' ');
   var filteredWords = words.filter(function (word) {
@@ -134,6 +140,8 @@ var ReactDadata = function (_React$Component) {
       _this.setState({ query: value, showSuggestions: true }, function () {
         _this.fetchSuggestions();
       });
+
+      !value && _this.clear();
     }, _this.onKeyPress = function (event) {
       var _this$state = _this.state,
           suggestionIndex = _this$state.suggestionIndex,
@@ -197,6 +205,12 @@ var ReactDadata = function (_React$Component) {
       };
     }, _this.onSuggestionClick = function (index) {
       _this.selectSuggestion(index);
+    }, _this.clear = function () {
+      _this.setState({
+        query: '',
+        showSuggestions: false
+      });
+      _this.props.onChange && _this.props.onChange(defaultSuggestion);
     }, _this.selectSuggestion = function (index) {
       var showSuggestions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var suggestions = _this.state.suggestions;
@@ -225,16 +239,22 @@ var ReactDadata = function (_React$Component) {
           suggestions = _state.suggestions,
           showSuggestions = _state.showSuggestions,
           type = _state.type;
+      var _props = this.props,
+          placeholder = _props.placeholder,
+          autocomplete = _props.autocomplete,
+          styles = _props.styles,
+          allowClear = _props.allowClear,
+          className = _props.className;
 
 
       var showSuggestionsList = inputFocused && showSuggestions && !!suggestions.length;
 
       return React.createElement(
         'div',
-        { className: 'react-dadata react-dadata__container ' + this.props.className, style: this.props.styles },
+        { className: 'react-dadata react-dadata__container ' + className, style: styles },
         React.createElement('input', {
-          className: 'react-dadata__input',
-          placeholder: this.props.placeholder || '',
+          className: 'react-dadata__input' + (allowClear ? ' react-dadata__input-clearable' : ''),
+          placeholder: placeholder || '',
           value: query,
           ref: function ref(input) {
             _this2.textInput = input;
@@ -243,8 +263,13 @@ var ReactDadata = function (_React$Component) {
           onKeyDown: this.onKeyPress,
           onFocus: this.onInputFocus,
           onBlur: this.onInputBlur,
-          autoComplete: this.props.autocomplete || 'off'
+          autoComplete: autocomplete || 'off'
         }),
+        allowClear && query && React.createElement(
+          'span',
+          { className: 'react-dadata__input-suffix', onClick: this.clear },
+          React.createElement('i', { className: 'react-dadata__icon react-dadata__icon-clear' })
+        ),
         showSuggestionsList && React.createElement(SuggestionsList, {
           suggestions: suggestions,
           suggestionIndex: suggestionIndex,
@@ -269,7 +294,8 @@ ReactDadata.propTypes = {
   query: _propTypes2.default.string,
   style: _propTypes2.default.objectOf(_propTypes2.default.string),
   token: _propTypes2.default.string.isRequired,
-  type: _propTypes2.default.string
+  type: _propTypes2.default.string,
+  allowClear: _propTypes2.default.bool
 };
 
 exports.default = ReactDadata;
