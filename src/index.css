@@ -1,65 +1,111 @@
 .react-dadata__container {
-    position: relative;
-
+  position: relative;
   font-family: sans-serif;
-  }
-  
-  .react-dadata__input {
-    display: block;
-    box-sizing: border-box;
-    height: 38px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    font-size: 16px;
-    padding: 0 10px;
+}
 
-    outline: none;
-  }
-  
-  .react-dadata__input:focus {
-    border-color: #85b7d9;
-  }
-  
-  .react-dadata__suggestions {
-    position: absolute;
-    z-index: 10;
-    background-color: #fff;
-    box-shadow: 0 1px 6px 3px rgba(0,0,0,.1);
-    top: 100%;
-    left: 0;
-    right: 0;
-  }
-  
-  .react-dadata__suggestion-note {
-    font-size: 14px;
-    color: #828282;
-    padding: 10px 10px 5px 10px;
-  }
-  
-  .react-dadata__suggestion {
-    font-size: 15px;
-    padding: 7px 10px;
-    cursor: pointer;
-  }
+.react-dadata__input {
+  display: block;
+  box-sizing: border-box;
+  height: 38px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px;
+  padding: 0 10px;
+  outline: none;
+}
 
-  .react-dadata__suggestion-info {
-    font-size: 14px;
-    color: #777777;
-  }
-  
-  .react-dadata__suggestion--current {
-    background-color: rgba(65, 131, 196, 0.2);
-  }
-  
-  .react-dadata__suggestion:hover {
-    background-color: rgba(65, 131, 196, 0.2);
-  }
-  
-  .react-dadata mark {
-    background: none;
-  }
-  
-  .react-dadata--highlighted {
-    color: #4183c4;
-  }
+.react-dadata__input:focus {
+  border-color: #85b7d9;
+}
+
+.react-dadata__suggestions {
+  position: absolute;
+  z-index: 10;
+  background-color: #fff;
+  box-shadow: 0 1px 6px 3px rgba(0, 0, 0, .1);
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.react-dadata__suggestion-note {
+  font-size: 14px;
+  color: #828282;
+  padding: 10px 10px 5px 10px;
+}
+
+.react-dadata__suggestion {
+  font-size: 15px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.react-dadata__suggestion-info {
+  font-size: 14px;
+  color: #777777;
+}
+
+.react-dadata__suggestion--current {
+  background-color: rgba(65, 131, 196, 0.2);
+}
+
+.react-dadata__suggestion:hover {
+  background-color: rgba(65, 131, 196, 0.2);
+}
+
+.react-dadata mark {
+  background: none;
+}
+
+.react-dadata--highlighted {
+  color: #4183c4;
+}
+
+.react-dadata__input-suffix {
+  right: 12px;
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.react-dadata__icon {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  -webkit-transition: color .3s;
+  transition: color .3s;
+  width: 16px;
+  height: 16px;
+  opacity: 0.3;
+  background-color: #cccccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.react-dadata__icon:hover {
+  opacity: 1;
+}
+
+.react-dadata__icon.clear:before, .react-dadata__icon.clear:after {
+  position: absolute;
+  top: 4px;
+  left: 7px;
+  content: ' ';
+  height: 8px;
+  width: 1px;
+  background-color: #ffffff;
+}
+
+.react-dadata__icon.clear:before {
+  transform: rotate(45deg);
+}
+
+.react-dadata__icon.clear:after {
+  transform: rotate(-45deg);
+}
