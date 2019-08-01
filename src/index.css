@@ -15,6 +15,10 @@
   outline: none;
 }
 
+.react-dadata__input.react-dadata__input-clearable {
+  padding-right: 30px;
+}
+
 .react-dadata__input:focus {
   border-color: #85b7d9;
 }
@@ -92,7 +96,7 @@
   opacity: 1;
 }
 
-.react-dadata__icon.clear:before, .react-dadata__icon.clear:after {
+.react-dadata__icon.react-dadata__icon-clear:before, .react-dadata__icon.react-dadata__icon-clear:after {
   position: absolute;
   top: 4px;
   left: 7px;
@@ -102,10 +106,10 @@
   background-color: #ffffff;
 }
 
-.react-dadata__icon.clear:before {
+.react-dadata__icon.react-dadata__icon-clear:before {
   transform: rotate(45deg);
 }
 
-.react-dadata__icon.clear:after {
+.react-dadata__icon.react-dadata__icon-clear:after {
   transform: rotate(-45deg);
 }

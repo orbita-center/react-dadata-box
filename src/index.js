@@ -182,7 +182,7 @@ class ReactDadata extends React.Component {
     return (
       <div className={`react-dadata react-dadata__container ${className}`} style={styles}>
         <input
-          className="react-dadata__input"
+          className={`react-dadata__input${allowClear ? ' react-dadata__input-clearable' : ''}`}
           placeholder={placeholder || ''}
           value={query}
           ref={input => {
@@ -198,7 +198,7 @@ class ReactDadata extends React.Component {
           allowClear &&
           query &&
           <span className="react-dadata__input-suffix" onClick={this.clear}>
-            <i className="react-dadata__icon clear" />
+            <i className="react-dadata__icon react-dadata__icon-clear" />
           </span>
         }
         {showSuggestionsList && (
