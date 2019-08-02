@@ -10,17 +10,29 @@ class App extends Component {
     value: ''
   };
 
+  handleType = e => this.setState({ value: e.target.value });
+
+  handleChange = data => {
+    this.setState({ value: data ? data.value : '' });
+  };
+
   render() {
     return (
       <div>
         <input
           placeholder="адрес"
           value={this.state.value}
-          onChange={e => {
-            this.setState({ value: e.target.value });
-          }}
+          onChange={this.handleType}
         />
-        <ReactDadataBox className="data" token={token} placeholder="Адрес" type="address" query={this.state.value} />
+        <ReactDadataBox
+          className="data"
+          token={token}
+          placeholder="Адрес"
+          type="address"
+          query={this.state.value}
+          onChange={this.handleChange}
+          allowClear
+        />
         <ReactDadataBox className="data" token={token} placeholder="Организация" type="party" />
         <ReactDadataBox className="data" token={token} placeholder="Банк" type="bank" />
         <ReactDadataBox className="data" token={token} placeholder="Email" type="email" />

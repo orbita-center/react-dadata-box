@@ -33,4 +33,5 @@ import ReactDadataBox from 'react-dadata-box';
 | autocomplete  | Нет  |string  | Параметр описывающий автозаполнение поля, например street-address, если не задан, будет установлен как off  |
 | count | Нет | string | Кол-во возвращаемых записей, по умолчанию 10
 | className | Нет | string | Дополнительный класс стилей
+| allowClear | Нет | boolean | Показывать иконку для очищения текущего значения, по-умолчанию false
 

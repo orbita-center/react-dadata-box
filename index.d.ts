@@ -97,6 +97,7 @@ interface Props {
     style?: React.CSSProperties,
     token: string,
     type?: string,
+    allowClear?: boolean,
 }
 
 declare class ReactDadataBox extends React.Component<Props> {}

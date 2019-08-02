@@ -5,6 +5,12 @@ import './index.css';
 
 const wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'деревня', 'поселок', 'пр-д', 'пл', 'к', 'кв', 'обл', 'д'];
 
+const defaultSuggestion = {
+  data: {},
+  unrestricted_value: '',
+  value: ''
+};
+
 const getHighlightWords = query => {
   const words = query.replace(',', '').split(' ');
   const filteredWords = words.filter(word => wordsToPass.indexOf(word) < 0);
@@ -81,6 +87,8 @@ class ReactDadata extends React.Component {
     this.setState({ query: value, showSuggestions: true }, () => {
       this.fetchSuggestions();
     });
+
+    !value && this.clear()
   };
 
   onKeyPress = event => {
@@ -143,6 +151,14 @@ class ReactDadata extends React.Component {
     this.selectSuggestion(index);
   };
 
+  clear = () => {
+    this.setState({
+      query: '',
+      showSuggestions: false
+    });
+    this.props.onChange && this.props.onChange(defaultSuggestion);
+  }
+
   selectSuggestion = (index, showSuggestions = false) => {
     const { suggestions } = this.state;
 
@@ -159,14 +175,15 @@ class ReactDadata extends React.Component {
 
   render() {
     const { suggestionIndex, query, inputFocused, suggestions, showSuggestions, type } = this.state;
+    const { placeholder, autocomplete, styles, allowClear, className } =  this.props;
 
     const showSuggestionsList = inputFocused && showSuggestions && !!suggestions.length;
 
     return (
-      <div className={`react-dadata react-dadata__container ${this.props.className}`} style={this.props.styles}>
+      <div className={`react-dadata react-dadata__container ${className}`} style={styles}>
         <input
-          className="react-dadata__input"
-          placeholder={this.props.placeholder || ''}
+          className={`react-dadata__input${allowClear ? ' react-dadata__input-clearable' : ''}`}
+          placeholder={placeholder || ''}
           value={query}
           ref={input => {
             this.textInput = input;
@@ -175,8 +192,15 @@ class ReactDadata extends React.Component {
           onKeyDown={this.onKeyPress}
           onFocus={this.onInputFocus}
           onBlur={this.onInputBlur}
-          autoComplete={this.props.autocomplete || 'off'}
+          autoComplete={autocomplete || 'off'}
         />
+        {
+          allowClear &&
+          query &&
+          <span className="react-dadata__input-suffix" onClick={this.clear}>
+            <i className="react-dadata__icon react-dadata__icon-clear" />
+          </span>
+        }
         {showSuggestionsList && (
           <SuggestionsList
             suggestions={suggestions}
@@ -202,6 +226,7 @@ ReactDadata.propTypes = {
   style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
   type: PropTypes.string,
+  allowClear: PropTypes.bool
 };
 
 export default ReactDadata;
