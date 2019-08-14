@@ -35,8 +35,21 @@
 
 .react-dadata__suggestion-note {
   font-size: 14px;
+  line-height: 18px;
   color: #828282;
   padding: 10px 10px 5px 10px;
+  display: flex;
+}
+
+.react-dadata__suggestion-note span {
+  display: block;
+  line-height: 16px;
+}
+
+.react-dadata__suggestion-note span.suggestion-note_arrow {
+  display: flex;
+  align-items: center;
+  margin: 0 3px;
 }
 
 .react-dadata__suggestion {
@@ -50,12 +63,12 @@
   color: #777777;
 }
 
-.react-dadata__suggestion--current {
+.react-dadata__suggestion--current, .react-dadata__suggestion.react-dadata__suggestion--current:hover {
   background-color: rgba(65, 131, 196, 0.2);
 }
 
 .react-dadata__suggestion:hover {
-  background-color: rgba(65, 131, 196, 0.2);
+  background-color: rgba(65, 131, 196, 0.1);
 }
 
 .react-dadata mark {
@@ -112,4 +125,12 @@
 
 .react-dadata__icon.react-dadata__icon-clear:after {
   transform: rotate(-45deg);
+}
+
+.react-dadata__keyboard-arrows-up-and-down{
+  height: 10%;
+}
+
+.react-dadata__keyboard-arrows-right{
+  height: 10%;
 }
