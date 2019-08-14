@@ -1,5 +1,11 @@
 import * as React from 'react';
 
+/**
+ * @type {Object} DadataSuggestion
+ * @property  { string } value - [required]
+ * @property  { string } unrestricted_value - [required]
+ * @property  { DadataSuggestion.data } data - [optional]
+ */
 export interface DadataSuggestion {
     value: string;
     unrestricted_value: string;
@@ -86,11 +92,30 @@ export interface DadataSuggestion {
     };
 }
 
+/**
+ * @typedef { Props } ReactDadataBox_Props
+ * @property  { boolean } autocomplete - [optional];
+ * @property  { boolean } city - [optional]
+ * @property  { string } className - [optional]
+ * @property  { number } count - [optional]
+ * @property  { Props.onChange } onChange - [optional]
+ * @property  { string } placeholder - [optional]
+ * @property  { string } query - [optional]
+ * @property  { React.CSSProperties } style - [optional]
+ * @property  { string } token - [required]
+ * @property  { string } type - [optional]
+ * @property  { boolean } allowClear - [optional]
+ */
 interface Props {
     autocomplete?: boolean;
     city?: boolean;
     className?: string;
     count?: number;
+    /**
+     * @function
+     * @param {DadataSuggestion} suggestion
+     * @returns void
+     */
     onChange?: (suggestion: DadataSuggestion) => void;
     placeholder?: string;
     query?: string;
@@ -100,6 +125,15 @@ interface Props {
     allowClear?: boolean;
 }
 
+/**
+ * Ready for use implementation of dropdown input that fetch resolve-object from DaData.ru service by query printed in input field
+ *
+ * @module ReactDadataBox
+ * @class ReactDadataBox
+ * @param props { Props }
+ *
+ * @see Documentation {@link https://github.com/orbita-center/react-dadata-box/blob/master/README.md on GitHub}
+ */
 declare class ReactDadataBox extends React.Component<Props> {}
 
 export default ReactDadataBox;
