@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-interface DadataSuggestion {
+export interface DadataSuggestion {
     value: string;
     unrestricted_value: string;
     data: {[key: string]: any} & {
@@ -83,21 +83,21 @@ interface DadataSuggestion {
         "unparsed_parts"?: string | null
         "source"?: string | null
         "qc"?: string | null
-    }
+    };
 }
 
 interface Props {
-    autocomplete?: boolean,
-    city?: boolean,
-    className?: string,
-    count?: number,
-    onChange?: (suggestion: DadataSuggestion) => void,
-    placeholder?: string,
-    query?: string,
-    style?: React.CSSProperties,
-    token: string,
-    type?: string,
-    allowClear?: boolean,
+    autocomplete?: boolean;
+    city?: boolean;
+    className?: string;
+    count?: number;
+    onChange?: (suggestion: DadataSuggestion) => void;
+    placeholder?: string;
+    query?: string;
+    style?: React.CSSProperties;
+    token: string;
+    type?: string;
+    allowClear?: boolean;
 }
 
 declare class ReactDadataBox extends React.Component<Props> {}
