@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 /**
- * @type {Object} DadataSuggestion
+ * @typedef { DadataSuggestion } DadataSuggestion
  * @property  { string } value - [required]
  * @property  { string } unrestricted_value - [required]
  * @property  { DadataSuggestion.data } data - [optional]
@@ -93,18 +93,24 @@ export interface DadataSuggestion {
 }
 
 /**
- * @typedef { Props } ReactDadataBox_Props
- * @property  { boolean } autocomplete - [optional];
- * @property  { boolean } city - [optional]
- * @property  { string } className - [optional]
- * @property  { number } count - [optional]
- * @property  { Props.onChange } onChange - [optional]
- * @property  { string } placeholder - [optional]
- * @property  { string } query - [optional]
- * @property  { React.CSSProperties } style - [optional]
- * @property  { string } token - [required]
- * @property  { string } type - [optional]
- * @property  { boolean } allowClear - [optional]
+ * @typedef { FetchType } FetchType
+ */
+type FetchType = "address" | "party" | "bank" | "email" | "fio" | undefined;
+
+/**
+ * @typedef { Props } Props
+ * @property  { boolean } autocomplete - [optional] property translated to native input tag;
+ * @property  { boolean } city - [optional] optional to "city-mode"
+ * @property  { string } className - [optional] additional classname
+ * @property  { number } count - [optional] single query limit (default: 10)
+ * @property  { onChange } onChange - [optional] - onChange handler
+ * @property  { string } placeholder - [optional] - placeholder
+ * @property  { string } query - [optional] - initial query for search
+ * @property  { React.CSSProperties } style - [optional] - custom styling
+ * @property  { string } token - [required] - API authorization token
+ * @property  { FetchType } type - [optional] specifics fetching by data type groups
+ * @property  { boolean } allowClear - [optional] show/hide clear fieldd control
+ * @property  { boolean } showNote - [optional] show/hide note at suggestions list
  */
 interface Props {
     autocomplete?: boolean;
@@ -112,7 +118,7 @@ interface Props {
     className?: string;
     count?: number;
     /**
-     * @function
+     * @function onChange
      * @param {DadataSuggestion} suggestion
      * @returns void
      */
@@ -121,8 +127,9 @@ interface Props {
     query?: string;
     style?: React.CSSProperties;
     token: string;
-    type?: string;
+    type?: FetchType;
     allowClear?: boolean;
+    showNote?: boolean;
 }
 
 /**
