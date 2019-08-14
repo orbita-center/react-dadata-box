@@ -50,12 +50,12 @@
   color: #777777;
 }
 
-.react-dadata__suggestion--current {
+.react-dadata__suggestion--current, .react-dadata__suggestion.react-dadata__suggestion--current:hover {
   background-color: rgba(65, 131, 196, 0.2);
 }
 
 .react-dadata__suggestion:hover {
-  background-color: rgba(65, 131, 196, 0.2);
+  background-color: rgba(65, 131, 196, 0.1);
 }
 
 .react-dadata mark {
