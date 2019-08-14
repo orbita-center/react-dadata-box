@@ -105,6 +105,8 @@ class ReactDadata extends React.Component {
       this.selectSuggestion(this.state.suggestionIndex, true);
     } else if (event.which === 13 && suggestionIndex >= 0) {
       // Enter
+      event.preventDefault();
+      event.stopPropagation();
       this.selectSuggestion(this.state.suggestionIndex);
     }
   };
@@ -157,7 +159,7 @@ class ReactDadata extends React.Component {
       showSuggestions: false
     });
     this.props.onChange && this.props.onChange(defaultSuggestion);
-  }
+  };
 
   selectSuggestion = (index, showSuggestions = false) => {
     const { suggestions } = this.state;
