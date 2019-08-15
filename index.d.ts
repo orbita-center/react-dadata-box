@@ -1,6 +1,12 @@
 import * as React from 'react';
 
-interface DadataSuggestion {
+/**
+ * @typedef { DadataSuggestion } DadataSuggestion
+ * @property  { string } value - [required]
+ * @property  { string } unrestricted_value - [required]
+ * @property  { DadataSuggestion.data } data - [optional]
+ */
+export interface DadataSuggestion {
     value: string;
     unrestricted_value: string;
     data: {[key: string]: any} & {
@@ -83,23 +89,58 @@ interface DadataSuggestion {
         "unparsed_parts"?: string | null
         "source"?: string | null
         "qc"?: string | null
-    }
+    };
 }
 
+/**
+ * @typedef { FetchType } FetchType
+ */
+type FetchType = "address" | "party" | "bank" | "email" | "fio" | undefined;
+
+/**
+ * @typedef { Props } Props
+ * @property  { boolean } autocomplete - [optional] property translated to native input tag;
+ * @property  { boolean } city - [optional] optional to "city-mode"
+ * @property  { string } className - [optional] additional classname
+ * @property  { number } count - [optional] single query limit (default: 10)
+ * @property  { onChange } onChange - [optional] - onChange handler
+ * @property  { string } placeholder - [optional] - placeholder
+ * @property  { string } query - [optional] - initial query for search
+ * @property  { React.CSSProperties } style - [optional] - custom styling
+ * @property  { string } token - [required] - API authorization token
+ * @property  { FetchType } type - [optional] specifics fetching by data type groups
+ * @property  { boolean } allowClear - [optional] show/hide clear fieldd control
+ * @property  { boolean } showNote - [optional] show/hide note at suggestions list
+ */
 interface Props {
-    autocomplete?: boolean,
-    city?: boolean,
-    className?: string,
-    count?: number,
-    onChange?: (suggestion: DadataSuggestion) => void,
-    placeholder?: string,
-    query?: string,
-    style?: React.CSSProperties,
-    token: string,
-    type?: string,
-    allowClear?: boolean,
+    autocomplete?: boolean;
+    city?: boolean;
+    className?: string;
+    count?: number;
+    /**
+     * @function onChange
+     * @param {DadataSuggestion} suggestion
+     * @returns void
+     */
+    onChange?: (suggestion: DadataSuggestion) => void;
+    placeholder?: string;
+    query?: string;
+    style?: React.CSSProperties;
+    token: string;
+    type?: FetchType;
+    allowClear?: boolean;
+    showNote?: boolean;
 }
 
+/**
+ * Ready for use implementation of dropdown input that fetch resolve-object from DaData.ru service by query printed in input field
+ *
+ * @module ReactDadataBox
+ * @class ReactDadataBox
+ * @param props { Props }
+ *
+ * @see Documentation {@link https://github.com/orbita-center/react-dadata-box/blob/master/README.md on GitHub}
+ */
 declare class ReactDadataBox extends React.Component<Props> {}
 
 export default ReactDadataBox;
