@@ -82,7 +82,7 @@ class ReactDadata extends React.Component {
   xhr = new XMLHttpRequest();
 
   componentDidMount = () => {
-    if (this.props.query) {
+    if (this.props.query || this.props.silentQuery) {
       this.fetchSuggestions();
     }
   };
@@ -94,7 +94,11 @@ class ReactDadata extends React.Component {
   };
 
   onInputFocus = () => {
-    this.setState({ inputFocused: true });
+    if (!this.state.value && this.props.silentQuery) {
+      this.fetchSuggestions({ inputFocused: true, showSuggestions: true});
+    } else {
+      this.setState({ inputFocused: true })
+    }
   };
 
   onInputBlur = () => {
@@ -131,14 +135,14 @@ class ReactDadata extends React.Component {
     }
   };
 
-  fetchSuggestions = () => {
+  fetchSuggestions = setStateAdditional => {
     this.xhr.abort();
 
     const { type } = this.state;
     const { city } = this.props;
 
     const payload = {
-      query: this.state.query,
+      query: this.state.query || this.props.silentQuery,
       count: this.props.count || 10
     };
 
@@ -163,7 +167,7 @@ class ReactDadata extends React.Component {
         const { suggestions } = JSON.parse(this.xhr.response);
 
         if (suggestions) {
-          this.setState({ suggestions, suggestionIndex: 0 });
+          this.setState(Object.assign({ suggestions, suggestionIndex: 0,}, (setStateAdditional || {})));
         }
       }
     };
@@ -183,8 +187,8 @@ class ReactDadata extends React.Component {
 
   selectSuggestion = (index, showSuggestions = false) => {
     const { suggestions } = this.state;
-
     const { value } = suggestions[index];
+
     this.setState({
       query: value,
       showSuggestions: showSuggestions
@@ -246,6 +250,7 @@ ReactDadata.propTypes = {
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   query: PropTypes.string,
+  silentQuery: PropTypes.string,
   style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
   type: PropTypes.string,

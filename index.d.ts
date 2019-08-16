@@ -105,13 +105,15 @@ type FetchType = "address" | "party" | "bank" | "email" | "fio" | "fms_unit" | u
  * @property  { number } count - [optional] single query limit (default: 10)
  * @property  { onChange } onChange - [optional] - onChange handler
  * @property  { string } placeholder - [optional] - placeholder
- * @property  { string } query - [optional] - initial query for search
+ * @property  { string } query - [optional] - query for search
  * @property  { React.CSSProperties } style - [optional] - custom styling
  * @property  { string } token - [required] - API authorization token
  * @property  { FetchType } type - [optional] specifics fetching by data type groups
  * @property  { boolean } allowClear - [optional] show/hide clear fieldd control
  * @property  { boolean } showNote - [optional] show/hide note at suggestions list
+ * @property  { boolean } silentQuery - [optional] initial query that not showed on input but determine  suggestion list that showed at first
  */
+
 interface Props {
     autocomplete?: boolean;
     city?: boolean;
@@ -130,6 +132,7 @@ interface Props {
     type?: FetchType;
     allowClear?: boolean;
     showNote?: boolean;
+    silentQuery?: string;
 }
 
 /**
