@@ -95,7 +95,7 @@ export interface DadataSuggestion {
 /**
  * @typedef { FetchType } FetchType
  */
-type FetchType = "address" | "party" | "bank" | "email" | "fio" | undefined;
+type FetchType = "address" | "party" | "bank" | "email" | "fio" | "fms_unit" | undefined;
 
 /**
  * @typedef { Props } Props
