@@ -1,6 +1,6 @@
 {
   "name": "react-dadata-box",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Компонент для работы с DaData",
   "main": "dist/index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "style-loader": "^0.22.0",
     "webpack": "^4.16.4",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
+    "webpack-dev-server": "^3.8.0"
   },
   "babel": {
     "presets": [
