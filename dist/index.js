@@ -155,7 +155,7 @@ var ReactDadata = function (_React$Component) {
       suggestionIndex: 0,
       isValid: false
     }, _this.textInput = React.createRef(), _this.xhr = new XMLHttpRequest(), _this.componentDidMount = function () {
-      if (_this.props.query) {
+      if (_this.props.query || _this.props.silentQuery) {
         _this.fetchSuggestions();
       }
     }, _this.componentDidUpdate = function (prevProps) {
@@ -163,7 +163,11 @@ var ReactDadata = function (_React$Component) {
         _this.setState({ query: _this.props.query }, _this.fetchSuggestions);
       }
     }, _this.onInputFocus = function () {
-      _this.setState({ inputFocused: true });
+      if (!_this.state.value && _this.props.silentQuery) {
+        _this.fetchSuggestions({ inputFocused: true, showSuggestions: true });
+      } else {
+        _this.setState({ inputFocused: true });
+      }
     }, _this.onInputBlur = function () {
       _this.setState({ inputFocused: false });
     }, _this.onInputChange = function (event) {
@@ -200,7 +204,7 @@ var ReactDadata = function (_React$Component) {
         event.stopPropagation();
         _this.selectSuggestion(_this.state.suggestionIndex);
       }
-    }, _this.fetchSuggestions = function () {
+    }, _this.fetchSuggestions = function (setStateAdditional) {
       _this.xhr.abort();
 
       var type = _this.state.type;
@@ -208,7 +212,7 @@ var ReactDadata = function (_React$Component) {
 
 
       var payload = {
-        query: _this.state.query,
+        query: _this.state.query || _this.props.silentQuery,
         count: _this.props.count || 10
       };
 
@@ -234,7 +238,7 @@ var ReactDadata = function (_React$Component) {
               suggestions = _JSON$parse.suggestions;
 
           if (suggestions) {
-            _this.setState({ suggestions: suggestions, suggestionIndex: 0 });
+            _this.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}));
           }
         }
       };
@@ -250,6 +254,7 @@ var ReactDadata = function (_React$Component) {
       var showSuggestions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var suggestions = _this.state.suggestions;
       var value = suggestions[index].value;
+
 
       _this.setState({
         query: value,
@@ -329,6 +334,7 @@ ReactDadata.propTypes = {
   onChange: _propTypes2.default.func,
   placeholder: _propTypes2.default.string,
   query: _propTypes2.default.string,
+  silentQuery: _propTypes2.default.string,
   style: _propTypes2.default.objectOf(_propTypes2.default.string),
   token: _propTypes2.default.string.isRequired,
   type: _propTypes2.default.string,
