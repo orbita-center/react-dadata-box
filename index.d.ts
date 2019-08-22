@@ -104,6 +104,8 @@ type FetchType = "address" | "party" | "bank" | "email" | "fio" | "fms_unit" | u
  * @property  { string } className - [optional] additional classname
  * @property  { number } count - [optional] single query limit (default: 10)
  * @property  { onChange } onChange - [optional] - onChange handler
+ * @property  { onIdleOut } onIdleOut - [optional] - onIdleOut handler, fires with one argument - current query, when by this query has not returned suggestions
+ * @property  { debounce } onChange - [optional] - debounce to onChange handler (default: 350 ms).
  * @property  { string } placeholder - [optional] - placeholder
  * @property  { string } query - [optional] - query for search
  * @property  { React.CSSProperties } style - [optional] - custom styling
@@ -125,6 +127,8 @@ interface Props {
      * @returns void
      */
     onChange?: (suggestion: DadataSuggestion) => void;
+    onIdleOut?: (query: string) => void;
+    debounce?: number;
     placeholder?: string;
     query?: string;
     style?: React.CSSProperties;

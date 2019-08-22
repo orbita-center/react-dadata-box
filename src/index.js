@@ -60,6 +60,7 @@ const SuggestionsList = ({ suggestions, suggestionIndex, query, type, onSuggesti
           highlightClassName="react-dadata--highlighted"
           searchWords={getHighlightWords(query)}
           textToHighlight={value}
+          autoEscape
         />
         {(type === 'party' || type === 'bank') && <SuggestionInfo data={data} type={type} />}
       </div>
@@ -80,6 +81,7 @@ class ReactDadata extends React.Component {
 
   textInput = React.createRef();
   xhr = new XMLHttpRequest();
+  debounceTimer;
 
   componentDidMount = () => {
     if (this.props.query || this.props.silentQuery) {
@@ -104,12 +106,21 @@ class ReactDadata extends React.Component {
   onInputBlur = () => {
     this.setState({ inputFocused: false });
   };
+  
+  debounce = (func, cooldown = 350) => {
+    return (...args) => {
+      if (this.debounceTimer) { clearTimeout(this.debounceTimer) };
+      this.debounceTimer = setTimeout(() => {
+        func(...args)
+      }, cooldown)
+    }
+  };
 
   onInputChange = event => {
     const { value } = event.target;
 
     this.setState({ query: value, showSuggestions: true }, () => {
-      this.fetchSuggestions();
+        this.debounce(this.fetchSuggestions, this.props.debounce)({ inputFocused: true, showSuggestions: true})
     });
 
     !value && this.clear()
@@ -166,15 +177,17 @@ class ReactDadata extends React.Component {
       if (this.xhr.status === 200) {
         const { suggestions } = JSON.parse(this.xhr.response);
 
-        if (suggestions) {
+        if (suggestions && suggestions.length) {
           this.setState(Object.assign({ suggestions, suggestionIndex: 0,}, (setStateAdditional || {})));
+        } else if (this.props.onIdleOut) {
+          this.props.onIdleOut(this.state.query);
         }
       }
     };
   };
 
   onSuggestionClick = index => {
-    this.selectSuggestion(index);
+    if (this.state.suggestions[index]){ this.selectSuggestion(index) };
   };
 
   clear = () => {
@@ -247,7 +260,9 @@ ReactDadata.propTypes = {
   city: PropTypes.bool,
   className: PropTypes.string,
   count: PropTypes.number,
+  debounce: PropTypes.number,
   onChange: PropTypes.func,
+  onIdleOut: PropTypes.func,
   placeholder: PropTypes.string,
   query: PropTypes.string,
   silentQuery: PropTypes.string,
