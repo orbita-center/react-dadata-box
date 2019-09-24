@@ -124,7 +124,8 @@ var SuggestionsList = function SuggestionsList(_ref2) {
         React.createElement(_reactHighlightWords2.default, {
           highlightClassName: 'react-dadata--highlighted',
           searchWords: getHighlightWords(query),
-          textToHighlight: value
+          textToHighlight: value,
+          autoEscape: true
         }),
         (type === 'party' || type === 'bank') && React.createElement(SuggestionInfo, { data: data, type: type })
       );
@@ -146,128 +147,17 @@ var ReactDadata = function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref4 = ReactDadata.__proto__ || Object.getPrototypeOf(ReactDadata)).call.apply(_ref4, [this].concat(args))), _this), _this.state = {
-      query: _this.props.query || '',
-      type: _this.props.type || 'address',
-      inputFocused: false,
-      showSuggestions: true,
-      suggestions: [],
-      suggestionIndex: 0,
-      isValid: false
-    }, _this.textInput = React.createRef(), _this.xhr = new XMLHttpRequest(), _this.componentDidMount = function () {
-      if (_this.props.query || _this.props.silentQuery) {
-        _this.fetchSuggestions();
-      }
-    }, _this.componentDidUpdate = function (prevProps) {
-      if (_this.props.query !== prevProps.query) {
-        _this.setState({ query: _this.props.query }, _this.fetchSuggestions);
-      }
-    }, _this.onInputFocus = function () {
-      if (!_this.state.value && _this.props.silentQuery) {
-        _this.fetchSuggestions({ inputFocused: true, showSuggestions: true });
-      } else {
-        _this.setState({ inputFocused: true });
-      }
-    }, _this.onInputBlur = function () {
-      _this.setState({ inputFocused: false });
-    }, _this.onInputChange = function (event) {
-      var value = event.target.value;
-
-
-      _this.setState({ query: value, showSuggestions: true }, function () {
-        _this.fetchSuggestions();
-      });
-
-      !value && _this.clear();
-    }, _this.onKeyPress = function (event) {
-      var _this$state = _this.state,
-          suggestionIndex = _this$state.suggestionIndex,
-          suggestions = _this$state.suggestions;
-
-
-      if (event.which === 40 && suggestionIndex < suggestions.length - 1) {
-        // Arrow down
-        _this.setState(function (prevState) {
-          return { suggestionIndex: prevState.suggestionIndex + 1 };
-        });
-      } else if (event.which === 38 && suggestionIndex > 0) {
-        // Arrow up
-        _this.setState(function (prevState) {
-          return { suggestionIndex: prevState.suggestionIndex - 1 };
-        });
-      } else if (event.which === 39 && suggestionIndex >= 0) {
-        // Arrow right
-        _this.selectSuggestion(_this.state.suggestionIndex, true);
-      } else if (event.which === 13 && suggestionIndex >= 0) {
-        // Enter
-        event.preventDefault();
-        event.stopPropagation();
-        _this.selectSuggestion(_this.state.suggestionIndex);
-      }
-    }, _this.fetchSuggestions = function (setStateAdditional) {
-      _this.xhr.abort();
-
-      var type = _this.state.type;
-      var city = _this.props.city;
-
-
-      var payload = {
-        query: _this.state.query || _this.props.silentQuery,
-        count: _this.props.count || 10
-      };
-
-      if (city && type === 'address') {
-        payload.from_bound = { value: 'city' };
-        payload.to_bound = { value: 'settlement' };
-        payload.value = 'settlement';
-      }
-
-      _this.xhr.open('POST', 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/' + type);
-      _this.xhr.setRequestHeader('Accept', 'application/json');
-      _this.xhr.setRequestHeader('Authorization', 'Token ' + _this.props.token);
-      _this.xhr.setRequestHeader('Content-Type', 'application/json');
-      _this.xhr.send(JSON.stringify(payload));
-
-      _this.xhr.onreadystatechange = function () {
-        if (_this.xhr.readyState !== 4) {
-          return;
-        }
-
-        if (_this.xhr.status === 200) {
-          var _JSON$parse = JSON.parse(_this.xhr.response),
-              suggestions = _JSON$parse.suggestions;
-
-          if (suggestions) {
-            _this.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}));
-          }
-        }
-      };
-    }, _this.onSuggestionClick = function (index) {
-      _this.selectSuggestion(index);
-    }, _this.clear = function () {
-      _this.setState({
-        query: '',
-        showSuggestions: false
-      });
-      _this.props.onChange && _this.props.onChange(defaultSuggestion);
-    }, _this.selectSuggestion = function (index) {
-      var showSuggestions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var suggestions = _this.state.suggestions;
-      var value = suggestions[index].value;
-
-
-      _this.setState({
-        query: value,
-        showSuggestions: showSuggestions
-      });
-
-      if (_this.props.onChange) {
-        _this.props.onChange(suggestions[index]);
-      }
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref4 = ReactDadata.__proto__ || Object.getPrototypeOf(ReactDadata)).call.apply(_ref4, [this].concat(args))), _this), _initialiseProps.call(_this), _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(ReactDadata, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Cancel all subscriptions and asynchronous tasks
+      clearTimeout(this.debounceTimer);
+      this.xhr.abort();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -326,12 +216,181 @@ var ReactDadata = function (_React$Component) {
   return ReactDadata;
 }(React.Component);
 
+var _initialiseProps = function _initialiseProps() {
+  var _this3 = this;
+
+  this.state = {
+    query: this.props.query || '',
+    type: this.props.type || 'address',
+    inputFocused: false,
+    showSuggestions: true,
+    suggestions: [],
+    suggestionIndex: 0,
+    isValid: false
+  };
+  this.textInput = React.createRef();
+  this.xhr = new XMLHttpRequest();
+
+  this.componentDidMount = function () {
+    if (_this3.props.query || _this3.props.silentQuery) {
+      _this3.fetchSuggestions();
+    }
+  };
+
+  this.componentDidUpdate = function (prevProps) {
+    if (_this3.props.query !== prevProps.query) {
+      _this3.setState({ query: _this3.props.query }, _this3.fetchSuggestions);
+    }
+  };
+
+  this.onInputFocus = function () {
+    if (!_this3.state.value && _this3.props.silentQuery) {
+      _this3.fetchSuggestions({ inputFocused: true, showSuggestions: true });
+    } else {
+      _this3.setState({ inputFocused: true });
+    }
+  };
+
+  this.onInputBlur = function () {
+    _this3.setState({ inputFocused: false });
+  };
+
+  this.debounce = function (func) {
+    var cooldown = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 350;
+
+    return function () {
+      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      if (_this3.debounceTimer) {
+        clearTimeout(_this3.debounceTimer);
+      };
+      _this3.debounceTimer = setTimeout(function () {
+        func.apply(undefined, args);
+      }, cooldown);
+    };
+  };
+
+  this.onInputChange = function (event) {
+    var value = event.target.value;
+
+
+    _this3.setState({ query: value, showSuggestions: true }, function () {
+      _this3.debounce(_this3.fetchSuggestions, _this3.props.debounce)({ inputFocused: true, showSuggestions: true });
+    });
+
+    !value && _this3.clear();
+  };
+
+  this.onKeyPress = function (event) {
+    var _state2 = _this3.state,
+        suggestionIndex = _state2.suggestionIndex,
+        suggestions = _state2.suggestions;
+
+
+    if (event.which === 40 && suggestionIndex < suggestions.length - 1) {
+      // Arrow down
+      _this3.setState(function (prevState) {
+        return { suggestionIndex: prevState.suggestionIndex + 1 };
+      });
+    } else if (event.which === 38 && suggestionIndex > 0) {
+      // Arrow up
+      _this3.setState(function (prevState) {
+        return { suggestionIndex: prevState.suggestionIndex - 1 };
+      });
+    } else if (event.which === 39 && suggestionIndex >= 0) {
+      // Arrow right
+      _this3.selectSuggestion(_this3.state.suggestionIndex, true);
+    } else if (event.which === 13 && suggestionIndex >= 0) {
+      // Enter
+      event.preventDefault();
+      event.stopPropagation();
+      _this3.selectSuggestion(_this3.state.suggestionIndex);
+    }
+  };
+
+  this.fetchSuggestions = function (setStateAdditional) {
+    _this3.xhr.abort();
+
+    var type = _this3.state.type;
+    var city = _this3.props.city;
+
+
+    var payload = {
+      query: _this3.state.query || _this3.props.silentQuery,
+      count: _this3.props.count || 10
+    };
+
+    if (city && type === 'address') {
+      payload.from_bound = { value: 'city' };
+      payload.to_bound = { value: 'settlement' };
+      payload.value = 'settlement';
+    }
+
+    _this3.xhr.open('POST', 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/' + type);
+    _this3.xhr.setRequestHeader('Accept', 'application/json');
+    _this3.xhr.setRequestHeader('Authorization', 'Token ' + _this3.props.token);
+    _this3.xhr.setRequestHeader('Content-Type', 'application/json');
+    _this3.xhr.send(JSON.stringify(payload));
+
+    _this3.xhr.onreadystatechange = function () {
+      if (_this3.xhr.readyState !== 4) {
+        return;
+      }
+
+      if (_this3.xhr.status === 200) {
+        var _JSON$parse = JSON.parse(_this3.xhr.response),
+            suggestions = _JSON$parse.suggestions;
+
+        if (suggestions && suggestions.length) {
+          _this3.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}));
+        } else if (_this3.props.onIdleOut) {
+          _this3.props.onIdleOut(_this3.state.query);
+        }
+      }
+    };
+  };
+
+  this.onSuggestionClick = function (index) {
+    if (_this3.state.suggestions[index]) {
+      _this3.selectSuggestion(index);
+    };
+  };
+
+  this.clear = function () {
+    _this3.setState({
+      query: '',
+      showSuggestions: false
+    });
+    _this3.props.onChange && _this3.props.onChange(defaultSuggestion);
+  };
+
+  this.selectSuggestion = function (index) {
+    var showSuggestions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var suggestions = _this3.state.suggestions;
+    var value = suggestions[index].value;
+
+
+    _this3.setState({
+      query: value,
+      showSuggestions: showSuggestions
+    });
+
+    if (_this3.props.onChange) {
+      _this3.props.onChange(suggestions[index]);
+    }
+  };
+};
+
 ReactDadata.propTypes = {
   autocomplete: _propTypes2.default.bool,
   city: _propTypes2.default.bool,
   className: _propTypes2.default.string,
   count: _propTypes2.default.number,
+  debounce: _propTypes2.default.number,
   onChange: _propTypes2.default.func,
+  onIdleOut: _propTypes2.default.func,
   placeholder: _propTypes2.default.string,
   query: _propTypes2.default.string,
   silentQuery: _propTypes2.default.string,
