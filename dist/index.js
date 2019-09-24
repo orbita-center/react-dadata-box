@@ -151,6 +151,13 @@ var ReactDadata = function (_React$Component) {
   }
 
   _createClass(ReactDadata, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // Cancel all subscriptions and asynchronous tasks
+      clearTimeout(this.debounceTimer);
+      this.xhr.abort();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;

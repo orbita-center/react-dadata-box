@@ -95,6 +95,12 @@ class ReactDadata extends React.Component {
     }
   };
 
+  componentWillUnmount() {
+    // Cancel all subscriptions and asynchronous tasks
+    clearTimeout(this.debounceTimer);
+    this.xhr.abort();
+  }
+
   onInputFocus = () => {
     if (!this.state.value && this.props.silentQuery) {
       this.fetchSuggestions({ inputFocused: true, showSuggestions: true});
