@@ -46,7 +46,7 @@ const Note = () => <div className="react-dadata__suggestion-note">
 
 const SuggestionsList = ({ suggestions, suggestionIndex, query, type, onSuggestionClick, showNote=true }) => (
     <div className="react-dadata__suggestions">
-    {showNote && Note}
+    {showNote && <Note />}
     {suggestions.map(({ value, data }, index) => (
       <div
         key={value + index}

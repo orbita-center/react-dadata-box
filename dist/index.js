@@ -112,7 +112,7 @@ var SuggestionsList = function SuggestionsList(_ref2) {
   return React.createElement(
     'div',
     { className: 'react-dadata__suggestions' },
-    showNote && Note,
+    showNote && React.createElement(Note, null),
     suggestions.map(function (_ref3, index) {
       var value = _ref3.value,
           data = _ref3.data;
