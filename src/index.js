@@ -17,19 +17,18 @@ const getHighlightWords = query => {
   return filteredWords;
 };
 
-const SuggestionInfo = ({ data, type }) => (
+const SuggestionInfo = ({ data = {}, type }) => (
   <div className="react-dadata__suggestion-info">
     <span>
-      {type === 'party' ? data.inn : data.bic} {data.address.value}
+      {[
+        type === 'party' ? (data.inn || null) : (data.bic || null),
+        data.address && data.address.value || null
+      ]}
     </span>
   </div>
 );
 
-const SuggestionsList = ({ suggestions, suggestionIndex, query, type, onSuggestionClick, showNote=true }) => (
-    <div className="react-dadata__suggestions">
-    {
-      showNote &&
-        <div className="react-dadata__suggestion-note">
+const Note = () => <div className="react-dadata__suggestion-note">
           <span className="suggestion-note_arrow">
             <svg width="34" height="16" viewBox="0 0 44 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M25.9 20.1H41.2C42.1 20.1 42.9 19.4 42.9 18.4V3.1C42.9 2.2 42.1 1.4 41.2 1.4H25.9C24.9 1.4 24.2 2.2 24.2 3.1V18.4C24.2 19.4 25 20.1 25.9 20.1Z" stroke="#424242" strokeWidth="1.122" strokeMiterlimit="10"/>
@@ -38,16 +37,19 @@ const SuggestionsList = ({ suggestions, suggestionIndex, query, type, onSuggesti
               <path d="M10.3 15C10.3 14.3 10.3 13.6 10.3 12.9C10.3 10.7 10.3 8.4 10.3 6.1C10.3 6 10.3 6 10.3 5.9C10.3 5.8 10.2 5.7 10.1 5.7C9.99999 5.7 9.89999 5.8 9.89999 5.9C9.89999 6 9.89999 6 9.89999 6.1C9.89999 9 9.89999 11.8 9.89999 14.7C9.89999 14.8 9.89999 14.8 9.89999 14.9C9.79999 14.8 9.79999 14.8 9.69999 14.8C9.29999 14.4 8.79999 13.9 8.39999 13.5C8.29999 13.4 8.19999 13.4 8.09999 13.4C7.99999 13.4 7.89999 13.5 7.89999 13.6C7.89999 13.7 7.89999 13.8 7.99999 13.9C8.29999 14.2 8.59999 14.5 8.89999 14.8C9.19999 15.1 9.49999 15.4 9.89999 15.8C10.1 16 10.2 16 10.3 15.8C10.9 15.2 11.5 14.6 12.2 13.9C12.4 13.7 12.3 13.5 12.1 13.5C12 13.5 11.9 13.6 11.8 13.6C11.4 14 10.9 14.5 10.5 14.9C10.4 14.9 10.3 14.9 10.3 15Z" fill="#424242" stroke="#424242" strokeWidth="0.8" strokeMiterlimit="10"/>
             </svg>
           </span>
-          <span>навигация</span>
-          <span className="suggestion-note_arrow">
+  <span>навигация</span>
+  <span className="suggestion-note_arrow">
             <svg width="18" height="16" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2.9 20.1H18.2C19.1 20.1 19.9 19.4 19.9 18.4V3.09999C19.9 2.19999 19.1 1.39999 18.2 1.39999H2.9C1.9 1.39999 1.2 2.19999 1.2 3.09999V18.4C1.2 19.4 2 20.1 2.9 20.1Z" stroke="#424242" strokeWidth="1.122" strokeMiterlimit="10"/>
               <path d="M14.8 10.6C14.1 10.6 13.4 10.6 12.7 10.6C10.5 10.6 8.2 10.6 5.9 10.6C5.8 10.6 5.8 10.6 5.7 10.6C5.6 10.6 5.5 10.7 5.5 10.8C5.5 10.9 5.6 11 5.7 11C5.8 11 5.8 11 5.9 11C8.8 11 11.6 11 14.5 11C14.6 11 14.6 11 14.7 11C14.6 11.1 14.6 11.1 14.6 11.2C14.2 11.6 13.7 12.1 13.3 12.5C13.2 12.6 13.2 12.7 13.2 12.8C13.2 12.9 13.3 13 13.4 13C13.5 13 13.6 13 13.7 12.9C14 12.6 14.3 12.3 14.6 12C14.9 11.7 15.2 11.4 15.6 11C15.8 10.8 15.8 10.7 15.6 10.6C15 9.99999 14.4 9.39999 13.7 8.69999C13.5 8.49999 13.3 8.59999 13.3 8.79999C13.3 8.89999 13.4 8.99999 13.4 9.09999C13.8 9.49999 14.3 9.99999 14.7 10.4C14.7 10.4 14.7 10.5 14.8 10.6Z" fill="#424242" stroke="#424242" strokeWidth="0.8" strokeMiterlimit="10"/>
             </svg>
           </span>
-          <span>подстановка</span>
-        </div>
-    }
+  <span>подстановка</span>
+</div>;
+
+const SuggestionsList = ({ suggestions, suggestionIndex, query, type, onSuggestionClick, showNote=true }) => (
+    <div className="react-dadata__suggestions">
+    {showNote && <Note />}
     {suggestions.map(({ value, data }, index) => (
       <div
         key={value + index}
