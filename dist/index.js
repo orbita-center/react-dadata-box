@@ -47,7 +47,8 @@ var getHighlightWords = function getHighlightWords(query) {
 };
 
 var SuggestionInfo = function SuggestionInfo(_ref) {
-  var data = _ref.data,
+  var _ref$data = _ref.data,
+      data = _ref$data === undefined ? {} : _ref$data,
       type = _ref.type;
   return React.createElement(
     'div',
@@ -55,9 +56,7 @@ var SuggestionInfo = function SuggestionInfo(_ref) {
     React.createElement(
       'span',
       null,
-      type === 'party' ? data.inn : data.bic,
-      ' ',
-      data.address.value
+      [type === 'party' ? data.inn || null : data.bic || null, data.address && data.address.value || null]
     )
   );
 };

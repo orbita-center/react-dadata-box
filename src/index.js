@@ -17,10 +17,13 @@ const getHighlightWords = query => {
   return filteredWords;
 };
 
-const SuggestionInfo = ({ data, type }) => (
+const SuggestionInfo = ({ data = {}, type }) => (
   <div className="react-dadata__suggestion-info">
     <span>
-      {type === 'party' ? data.inn : data.bic} {data.address.value}
+      {[
+        type === 'party' ? (data.inn || null) : (data.bic || null),
+        data.address && data.address.value || null
+      ]}
     </span>
   </div>
 );
