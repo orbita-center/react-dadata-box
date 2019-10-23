@@ -100,6 +100,7 @@ type FetchType = "address" | "party" | "bank" | "email" | "fio" | "fms_unit" | u
 /**
  * @typedef { Props } Props
  * @property  { boolean } autocomplete - [optional] property translated to native input tag;
+ * @property  { boolean } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service)
  * @property  { boolean } city - [optional] optional to "city-mode"
  * @property  { string } className - [optional] additional classname
  * @property  { number } count - [optional] single query limit (default: 10)
@@ -121,6 +122,7 @@ interface Props {
     city?: boolean;
     className?: string;
     count?: number;
+    customEndpoint: string;
     /**
      * @function onChange
      * @param {DadataSuggestion} suggestion

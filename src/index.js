@@ -158,7 +158,7 @@ class ReactDadata extends React.Component {
     this.xhr.abort();
 
     const { type } = this.state;
-    const { city } = this.props;
+    const { city, customEndpoint  } = this.props;
 
     const payload = {
       query: this.state.query || this.props.silentQuery,
@@ -171,7 +171,13 @@ class ReactDadata extends React.Component {
       payload.value = 'settlement';
     }
 
-    this.xhr.open('POST', `https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/${type}`);
+    this.xhr.open('POST', `${
+          customEndpoint && customEndpoint.slice(-1) === '/'
+                ? customEndpoint.slice(0, -1) 
+                : customEndpoint
+          || 'https://suggestions.dadata.ru'
+        }/suggestions/api/4_1/rs/suggest/${type}`
+    );
     this.xhr.setRequestHeader('Accept', 'application/json');
     this.xhr.setRequestHeader('Authorization', `Token ${this.props.token}`);
     this.xhr.setRequestHeader('Content-Type', 'application/json');
@@ -264,21 +270,22 @@ class ReactDadata extends React.Component {
 }
 
 ReactDadata.propTypes = {
+  allowClear: PropTypes.bool,
   autocomplete: PropTypes.bool,
   city: PropTypes.bool,
   className: PropTypes.string,
   count: PropTypes.number,
+  customEndpoint: PropTypes.string,
   debounce: PropTypes.number,
   onChange: PropTypes.func,
   onIdleOut: PropTypes.func,
   placeholder: PropTypes.string,
   query: PropTypes.string,
+  showNote: PropTypes.bool,
   silentQuery: PropTypes.string,
   style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
   type: PropTypes.string,
-  allowClear: PropTypes.bool,
-  showNote: PropTypes.bool
 };
 
 export default ReactDadata;
