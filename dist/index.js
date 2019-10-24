@@ -317,7 +317,9 @@ var _initialiseProps = function _initialiseProps() {
     _this3.xhr.abort();
 
     var type = _this3.state.type;
-    var city = _this3.props.city;
+    var _props2 = _this3.props,
+        city = _props2.city,
+        customEndpoint = _props2.customEndpoint;
 
 
     var payload = {
@@ -331,7 +333,7 @@ var _initialiseProps = function _initialiseProps() {
       payload.value = 'settlement';
     }
 
-    _this3.xhr.open('POST', 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/' + type);
+    _this3.xhr.open('POST', (customEndpoint && customEndpoint.slice(-1) === '/' ? customEndpoint.slice(0, -1) : customEndpoint || 'https://suggestions.dadata.ru') + '/suggestions/api/4_1/rs/suggest/' + type);
     _this3.xhr.setRequestHeader('Accept', 'application/json');
     _this3.xhr.setRequestHeader('Authorization', 'Token ' + _this3.props.token);
     _this3.xhr.setRequestHeader('Content-Type', 'application/json');
@@ -387,21 +389,22 @@ var _initialiseProps = function _initialiseProps() {
 };
 
 ReactDadata.propTypes = {
+  allowClear: _propTypes2.default.bool,
   autocomplete: _propTypes2.default.bool,
   city: _propTypes2.default.bool,
   className: _propTypes2.default.string,
   count: _propTypes2.default.number,
+  customEndpoint: _propTypes2.default.string,
   debounce: _propTypes2.default.number,
   onChange: _propTypes2.default.func,
   onIdleOut: _propTypes2.default.func,
   placeholder: _propTypes2.default.string,
   query: _propTypes2.default.string,
+  showNote: _propTypes2.default.bool,
   silentQuery: _propTypes2.default.string,
   style: _propTypes2.default.objectOf(_propTypes2.default.string),
   token: _propTypes2.default.string.isRequired,
-  type: _propTypes2.default.string,
-  allowClear: _propTypes2.default.bool,
-  showNote: _propTypes2.default.bool
+  type: _propTypes2.default.string
 };
 
 exports.default = ReactDadata;
