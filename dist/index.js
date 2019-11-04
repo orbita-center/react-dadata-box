@@ -333,6 +333,10 @@ var _initialiseProps = function _initialiseProps() {
       payload.value = 'settlement';
     }
 
+    if (_this3.props.payloadModifier) {
+      payload = _this3.props.payloadModifier instanceof Function ? _this3.props.payloadModifier(payload) : _this3.props.payloadModifier instanceof Object ? Object.assign(payload, _this3.props.payloadModifier) : payload;
+    }
+
     _this3.xhr.open('POST', (customEndpoint && customEndpoint.slice(-1) === '/' ? customEndpoint.slice(0, -1) : customEndpoint || 'https://suggestions.dadata.ru') + '/suggestions/api/4_1/rs/suggest/' + type);
     _this3.xhr.setRequestHeader('Accept', 'application/json');
     _this3.xhr.setRequestHeader('Authorization', 'Token ' + _this3.props.token);
@@ -398,6 +402,7 @@ ReactDadata.propTypes = {
   debounce: _propTypes2.default.number,
   onChange: _propTypes2.default.func,
   onIdleOut: _propTypes2.default.func,
+  payloadModifier: _propTypes2.default.oneOf(_propTypes2.default.shape, _propTypes2.default.func),
   placeholder: _propTypes2.default.string,
   query: _propTypes2.default.string,
   showNote: _propTypes2.default.bool,

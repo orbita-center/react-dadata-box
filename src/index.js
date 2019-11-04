@@ -160,7 +160,7 @@ class ReactDadata extends React.Component {
     const { type } = this.state;
     const { city, customEndpoint  } = this.props;
 
-    const payload = {
+    let payload = {
       query: this.state.query || this.props.silentQuery,
       count: this.props.count || 10
     };
@@ -169,6 +169,14 @@ class ReactDadata extends React.Component {
       payload.from_bound = { value: 'city' };
       payload.to_bound = { value: 'settlement' };
       payload.value = 'settlement';
+    }
+
+    if (this.props.payloadModifier) {
+      payload = this.props.payloadModifier instanceof Function
+        ? this.props.payloadModifier(payload)
+        : this.props.payloadModifier instanceof Object
+          ? Object.assign(payload, this.props.payloadModifier)
+          : payload
     }
 
     this.xhr.open('POST', `${
@@ -279,6 +287,7 @@ ReactDadata.propTypes = {
   debounce: PropTypes.number,
   onChange: PropTypes.func,
   onIdleOut: PropTypes.func,
+  payloadModifier: PropTypes.oneOf(PropTypes.shape, PropTypes.func),
   placeholder: PropTypes.string,
   query: PropTypes.string,
   showNote: PropTypes.bool,
