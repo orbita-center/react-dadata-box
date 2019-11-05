@@ -1,4 +1,6 @@
+// tslint:disable:max-line-length
 import * as React from 'react';
+import { strict } from 'assert';
 
 /**
  * @typedef { DadataSuggestion } DadataSuggestion
@@ -98,6 +100,17 @@ export interface DadataSuggestion {
 type FetchType = "address" | "party" | "bank" | "email" | "fio" | "fms_unit" | undefined;
 
 /**
+ * @typedef { BasePayload } BasePayload
+ * @property  { string } query - [required] fetched query
+ * @property  { number } count - [optional] suggestions count limit (default: 10)
+ */
+
+interface BasePayload {
+    query: string;
+    count?: number;
+}
+
+/**
  * @typedef { Props } Props
  * @property  { boolean } autocomplete - [optional] property translated to native input tag;
  * @property  { boolean } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service)
@@ -106,6 +119,7 @@ type FetchType = "address" | "party" | "bank" | "email" | "fio" | "fms_unit" | u
  * @property  { number } count - [optional] single query limit (default: 10)
  * @property  { onChange } onChange - [optional] - onChange handler
  * @property  { onIdleOut } onIdleOut - [optional] - onIdleOut handler, fires with one argument - current query, when by this query has not returned suggestions
+ * @property  { object | function } payloadModifier - [optional] - object to patch payload or function returned payload object to send, that has auto generated payload object as argument
  * @property  { debounce } onChange - [optional] - debounce to onChange handler (default: 350 ms).
  * @property  { string } placeholder - [optional] - placeholder
  * @property  { string } query - [optional] - query for search
@@ -129,6 +143,7 @@ interface Props {
      * @returns void
      */
     onChange?: (suggestion: DadataSuggestion) => void;
+    payloadModifier?: object | ((payload: BasePayload) => BasePayload & object);
     onIdleOut?: (query: string) => void;
     debounce?: number;
     placeholder?: string;
