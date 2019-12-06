@@ -287,7 +287,7 @@ ReactDadata.propTypes = {
   debounce: PropTypes.number,
   onChange: PropTypes.func,
   onIdleOut: PropTypes.func,
-  payloadModifier: PropTypes.oneOf(PropTypes.shape, PropTypes.func),
+  payloadModifier: PropTypes.oneOf([PropTypes.shape, PropTypes.func]),
   placeholder: PropTypes.string,
   query: PropTypes.string,
   showNote: PropTypes.bool,
