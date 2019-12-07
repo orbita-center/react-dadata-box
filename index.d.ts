@@ -1,6 +1,5 @@
 // tslint:disable:max-line-length
 import * as React from 'react';
-import { strict } from 'assert';
 
 /**
  * @typedef { DadataSuggestion } DadataSuggestion
@@ -113,6 +112,7 @@ interface BasePayload {
 /**
  * @typedef { Props } Props
  * @property  { boolean } autocomplete - [optional] property translated to native input tag;
+ * @property  { customActions } customActions - [optional] adding custom action to base suggestions dropdown list
  * @property  { boolean } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service)
  * @property  { boolean } city - [optional] optional to "city-mode"
  * @property  { string } className - [optional] additional classname
@@ -136,7 +136,8 @@ interface Props {
     city?: boolean;
     className?: string;
     count?: number;
-    customEndpoint: string;
+    customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
+    customEndpoint?: string;
     /**
      * @function onChange
      * @param {DadataSuggestion} suggestion
