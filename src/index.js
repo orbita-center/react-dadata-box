@@ -20,10 +20,12 @@ const getHighlightWords = query => {
 const SuggestionInfo = ({ data = {}, type }) => (
   <div className="react-dadata__suggestion-info">
     <span>
-      {[
-        type === 'party' ? (data.inn || null) : (data.bic || null),
-        data.address && data.address.value || null
-      ]}
+      {
+        [
+          type === 'party' ? (data.inn || null) : (data.bic || null),
+          data.address && data.address.value || null
+        ].join(' ')
+      }
     </span>
   </div>
 );
