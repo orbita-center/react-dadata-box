@@ -46,6 +46,10 @@ var getHighlightWords = function getHighlightWords(query) {
   return filteredWords;
 };
 
+var fakeRandomKey = function fakeRandomKey() {
+  return Math.random().toString(16).slice(2);
+};
+
 var SuggestionInfo = function SuggestionInfo(_ref) {
   var _ref$data = _ref.data,
       data = _ref$data === undefined ? {} : _ref$data,
@@ -100,25 +104,47 @@ var Note = function Note() {
   );
 };
 
-var SuggestionsList = function SuggestionsList(_ref2) {
-  var suggestions = _ref2.suggestions,
-      suggestionIndex = _ref2.suggestionIndex,
-      query = _ref2.query,
-      type = _ref2.type,
-      onSuggestionClick = _ref2.onSuggestionClick,
-      _ref2$showNote = _ref2.showNote,
-      showNote = _ref2$showNote === undefined ? true : _ref2$showNote;
-  return React.createElement(
+var renderCustomActions = function renderCustomActions(_ref2) {
+  var customActions = _ref2.customActions,
+      suggestions = _ref2.suggestions;
+
+  if (!customActions) return [];
+
+  var actions = customActions instanceof Function ? actions = customActions(suggestions) : customActions;
+
+  actions = actions instanceof Array ? actions : actions ? [actions] : false;
+
+  return actions && actions.length ? [React.createElement('hr', { key: 'custom-actions-line', className: 'actions-delimiter' })].concat(actions.map(function (node) {
+    return React.createElement(
+      'div',
+      { key: fakeRandomKey(), className: 'react-dadata__suggestion' },
+      node
+    );
+  })) : false;
+};
+
+var SuggestionsList = function SuggestionsList(_ref3) {
+  var customActions = _ref3.customActions,
+      onSuggestionClick = _ref3.onSuggestionClick,
+      query = _ref3.query,
+      _ref3$showNote = _ref3.showNote,
+      showNote = _ref3$showNote === undefined ? true : _ref3$showNote,
+      suggestionIndex = _ref3.suggestionIndex,
+      suggestions = _ref3.suggestions,
+      type = _ref3.type;
+
+  var actions = renderCustomActions({ customActions: customActions, suggestions: suggestions });
+  return !!(suggestions.length || actions.length) && React.createElement(
     'div',
     { className: 'react-dadata__suggestions' },
     showNote && React.createElement(Note, null),
-    suggestions.map(function (_ref3, index) {
-      var value = _ref3.value,
-          data = _ref3.data;
+    suggestions.map(function (_ref4, index) {
+      var value = _ref4.value,
+          data = _ref4.data;
       return React.createElement(
         'div',
         {
-          key: value + index,
+          key: fakeRandomKey(),
           onMouseDown: function onMouseDown() {
             onSuggestionClick(index);
           },
@@ -132,7 +158,8 @@ var SuggestionsList = function SuggestionsList(_ref2) {
         }),
         (type === 'party' || type === 'bank') && React.createElement(SuggestionInfo, { data: data, type: type })
       );
-    })
+    }),
+    actions
   );
 };
 
@@ -140,7 +167,7 @@ var ReactDadata = function (_React$Component) {
   _inherits(ReactDadata, _React$Component);
 
   function ReactDadata() {
-    var _ref4;
+    var _ref5;
 
     var _temp, _this, _ret;
 
@@ -150,7 +177,7 @@ var ReactDadata = function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref4 = ReactDadata.__proto__ || Object.getPrototypeOf(ReactDadata)).call.apply(_ref4, [this].concat(args))), _this), _initialiseProps.call(_this), _temp), _possibleConstructorReturn(_this, _ret);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref5 = ReactDadata.__proto__ || Object.getPrototypeOf(ReactDadata)).call.apply(_ref5, [this].concat(args))), _this), _initialiseProps.call(_this), _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(ReactDadata, [{
@@ -166,22 +193,23 @@ var ReactDadata = function (_React$Component) {
       var _this2 = this;
 
       var _state = this.state,
-          suggestionIndex = _state.suggestionIndex,
-          query = _state.query,
           inputFocused = _state.inputFocused,
-          suggestions = _state.suggestions,
+          query = _state.query,
           showSuggestions = _state.showSuggestions,
+          suggestionIndex = _state.suggestionIndex,
+          suggestions = _state.suggestions,
           type = _state.type;
       var _props = this.props,
-          placeholder = _props.placeholder,
-          autocomplete = _props.autocomplete,
-          styles = _props.styles,
           allowClear = _props.allowClear,
+          autocomplete = _props.autocomplete,
           className = _props.className,
-          showNote = _props.showNote;
+          customActions = _props.customActions,
+          placeholder = _props.placeholder,
+          showNote = _props.showNote,
+          styles = _props.styles;
 
 
-      var showSuggestionsList = inputFocused && showSuggestions && !!suggestions.length;
+      var showSuggestionsList = inputFocused && showSuggestions;
 
       return React.createElement(
         'div',
@@ -205,6 +233,7 @@ var ReactDadata = function (_React$Component) {
           React.createElement('i', { className: 'react-dadata__icon react-dadata__icon-clear' })
         ),
         showSuggestionsList && React.createElement(SuggestionsList, {
+          customActions: customActions,
           suggestions: suggestions,
           suggestionIndex: suggestionIndex,
           query: query,
@@ -398,6 +427,7 @@ ReactDadata.propTypes = {
   city: _propTypes2.default.bool,
   className: _propTypes2.default.string,
   count: _propTypes2.default.number,
+  customActions: _propTypes2.default.node,
   customEndpoint: _propTypes2.default.string,
   debounce: _propTypes2.default.number,
   onChange: _propTypes2.default.func,
