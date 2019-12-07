@@ -56,7 +56,7 @@ var SuggestionInfo = function SuggestionInfo(_ref) {
     React.createElement(
       'span',
       null,
-      [type === 'party' ? data.inn || null : data.bic || null, data.address && data.address.value || null]
+      [type === 'party' ? data.inn || null : data.bic || null, data.address && data.address.value || null].join(' ')
     )
   );
 };
