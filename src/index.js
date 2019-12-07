@@ -17,6 +17,8 @@ const getHighlightWords = query => {
   return filteredWords;
 };
 
+const fakeRandomKey = () => Math.random().toString(16).slice(2);
+
 const SuggestionInfo = ({ data = {}, type }) => (
   <div className="react-dadata__suggestion-info">
     <span>
@@ -49,28 +51,68 @@ const Note = () => <div className="react-dadata__suggestion-note">
   <span>подстановка</span>
 </div>;
 
-const SuggestionsList = ({ suggestions, suggestionIndex, query, type, onSuggestionClick, showNote=true }) => (
-    <div className="react-dadata__suggestions">
-    {showNote && <Note />}
-    {suggestions.map(({ value, data }, index) => (
-      <div
-        key={value + index}
-        onMouseDown={() => {
-          onSuggestionClick(index);
-        }}
-        className={`react-dadata__suggestion ${index === suggestionIndex && 'react-dadata__suggestion--current'}`}
-      >
-        <Highlighter
-          highlightClassName="react-dadata--highlighted"
-          searchWords={getHighlightWords(query)}
-          textToHighlight={value}
-          autoEscape
-        />
-        {(type === 'party' || type === 'bank') && <SuggestionInfo data={data} type={type} />}
-      </div>
-    ))}
-  </div>
-);
+const renderCustomActions = ({ customActions, suggestions }) => {
+  if (!customActions) return [];
+
+  let actions = customActions instanceof Function
+    ? actions = customActions(suggestions)
+    : customActions;
+
+  actions = actions instanceof Array
+      ? actions
+      : actions
+          ? [actions]
+          : false;
+
+  return actions && actions.length
+      ? (
+          [<hr key={'custom-actions-line'} className='actions-delimiter'/>].concat(
+              actions.map(node =>
+                  <div key={fakeRandomKey()} className='react-dadata__suggestion'>
+                    {node}
+                  </div>
+              )
+          )
+      )
+      : false
+
+};
+
+const SuggestionsList = ({
+   customActions,
+   onSuggestionClick,
+   query,
+   showNote=true,
+   suggestionIndex,
+   suggestions,
+   type,
+}) => {
+  const actions = renderCustomActions({customActions, suggestions});
+  return !!(suggestions.length || actions.length) &&
+      (
+        <div className="react-dadata__suggestions">
+          {showNote && <Note />}
+          {suggestions.map(({ value, data }, index) => (
+              <div
+                  key={fakeRandomKey()}
+                  onMouseDown={() => {
+                    onSuggestionClick(index);
+                  }}
+                  className={`react-dadata__suggestion ${index === suggestionIndex && 'react-dadata__suggestion--current'}`}
+              >
+                <Highlighter
+                    highlightClassName="react-dadata--highlighted"
+                    searchWords={getHighlightWords(query)}
+                    textToHighlight={value}
+                    autoEscape
+                />
+                {(type === 'party' || type === 'bank') && <SuggestionInfo data={data} type={type} />}
+              </div>
+          ))}
+          {actions}
+        </div>
+    )
+};
 
 class ReactDadata extends React.Component {
   state = {
@@ -237,10 +279,25 @@ class ReactDadata extends React.Component {
   };
 
   render() {
-    const { suggestionIndex, query, inputFocused, suggestions, showSuggestions, type } = this.state;
-    const { placeholder, autocomplete, styles, allowClear, className, showNote } =  this.props;
+    const {
+      inputFocused,
+      query,
+      showSuggestions,
+      suggestionIndex,
+      suggestions,
+      type,
+    } = this.state;
+    const {
+      allowClear,
+      autocomplete,
+      className,
+      customActions,
+      placeholder,
+      showNote,
+      styles,
+    } = this.props;
 
-    const showSuggestionsList = inputFocused && showSuggestions && !!suggestions.length;
+    const showSuggestionsList = inputFocused && showSuggestions;
 
     return (
       <div className={`react-dadata react-dadata__container ${className}`} style={styles}>
@@ -266,6 +323,7 @@ class ReactDadata extends React.Component {
         }
         {showSuggestionsList && (
           <SuggestionsList
+            customActions={customActions}
             suggestions={suggestions}
             suggestionIndex={suggestionIndex}
             query={query}
@@ -285,6 +343,7 @@ ReactDadata.propTypes = {
   city: PropTypes.bool,
   className: PropTypes.string,
   count: PropTypes.number,
+  customActions: PropTypes.oneOf([PropTypes.node, PropTypes.func]),
   customEndpoint: PropTypes.string,
   debounce: PropTypes.number,
   onChange: PropTypes.func,

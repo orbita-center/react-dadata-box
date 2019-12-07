@@ -37,7 +37,7 @@
   font-size: 14px;
   line-height: 18px;
   color: #828282;
-  padding: 10px 10px 5px 10px;
+  padding: 5px 10px;
   display: flex;
 }
 
@@ -133,4 +133,11 @@
 
 .react-dadata__keyboard-arrows-right{
   height: 10%;
+}
+
+.actions-delimiter{
+  margin: 0;
+  border-top: 1px solid #eeeeee;
+  border-left: none;
+  border-right: none;
 }
