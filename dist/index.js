@@ -119,7 +119,7 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
       'div',
       {
         key: fakeRandomKey(),
-        className: 'react-dadata__suggestion',
+        className: 'react-dadata__suggestion react-dadata-custom-action',
         onMouseDown: muteEventHandler,
         onClick: onBlur
       },
@@ -129,7 +129,8 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
 };
 
 var SuggestionsList = function SuggestionsList(_ref3) {
-  var actions = _ref3.actions,
+  var _ref3$actions = _ref3.actions,
+      actions = _ref3$actions === undefined ? [] : _ref3$actions,
       onSuggestionClick = _ref3.onSuggestionClick,
       query = _ref3.query,
       _ref3$showNote = _ref3.showNote,
@@ -237,7 +238,7 @@ var ReactDadata = function (_React$Component) {
           React.createElement('i', { className: 'react-dadata__icon react-dadata__icon-clear' })
         ),
         showSuggestionsList && React.createElement(SuggestionsList, {
-          actions: renderCustomActions({ customActions: customActions, suggestions: suggestions }, this.muteEventHandler, this.onInputBlur),
+          actions: customActions && renderCustomActions({ customActions: customActions, suggestions: suggestions }, this.muteEventHandler, this.onInputBlur),
           suggestions: suggestions,
           suggestionIndex: suggestionIndex,
           query: query,

@@ -70,7 +70,7 @@ const renderCustomActions = ({ customActions, suggestions }, muteEventHandler, o
               actions.map(node =>
                   <div
                       key={fakeRandomKey()}
-                      className='react-dadata__suggestion'
+                      className='react-dadata__suggestion react-dadata-custom-action'
                       onMouseDown={muteEventHandler}
                       onClick={onBlur}
                   >
