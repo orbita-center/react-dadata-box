@@ -135,6 +135,17 @@
   height: 10%;
 }
 
+.react-dadata-custom-action {
+  padding: 0;
+}
+
+.react-dadata-custom-action > * {
+  display: block;
+  height: 100%;
+  padding: 7px 10px;
+  width: 100%;
+}
+
 .actions-delimiter{
   margin: 0;
   border-top: 1px solid #eeeeee;
