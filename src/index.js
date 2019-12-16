@@ -231,8 +231,8 @@ class ReactDadata extends React.Component {
           customEndpoint && customEndpoint.slice(-1) === '/'
                 ? customEndpoint.slice(0, -1) 
                 : customEndpoint
-          || 'https://suggestions.dadata.ru'
-        }/suggestions/api/4_1/rs/suggest/${type}`
+          || 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest'
+        }/${type}`
     );
     this.xhr.setRequestHeader('Accept', 'application/json');
     this.xhr.setRequestHeader('Authorization', `Token ${this.props.token}`);

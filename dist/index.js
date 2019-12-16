@@ -371,7 +371,7 @@ var _initialiseProps = function _initialiseProps() {
       payload = _this3.props.payloadModifier instanceof Function ? _this3.props.payloadModifier(payload) : _this3.props.payloadModifier instanceof Object ? Object.assign(payload, _this3.props.payloadModifier) : payload;
     }
 
-    _this3.xhr.open('POST', (customEndpoint && customEndpoint.slice(-1) === '/' ? customEndpoint.slice(0, -1) : customEndpoint || 'https://suggestions.dadata.ru') + '/suggestions/api/4_1/rs/suggest/' + type);
+    _this3.xhr.open('POST', (customEndpoint && customEndpoint.slice(-1) === '/' ? customEndpoint.slice(0, -1) : customEndpoint || 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest') + '/' + type);
     _this3.xhr.setRequestHeader('Accept', 'application/json');
     _this3.xhr.setRequestHeader('Authorization', 'Token ' + _this3.props.token);
     _this3.xhr.setRequestHeader('Content-Type', 'application/json');
