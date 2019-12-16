@@ -11,6 +11,31 @@ const defaultSuggestion = {
   value: '',
 };
 
+const defaultEndpoint = {
+  host: 'https://suggestions.dadata.ru',
+  api: 'suggestions/api/4_1/rs/suggest'
+};
+
+const backSlashTailFix = uriPart => uriPart.endsWith('/') ? uriPart.slice(0, -1) : uriPart;
+
+const buildTargetURI = customEndpoint => {
+  if ( typeof customEndpoint === 'string') {
+    if (/^http[s]?:/g.test(customEndpoint) || customEndpoint.startsWith('/')) {
+      // Full path of host
+      return backSlashTailFix(`${customEndpoint}/${defaultEndpoint.api}`);
+    } else {
+      console.warn('react-dadata-box: customEndpoint must be a valid full url of host accessed by http or https protocol or path relative by root; placed is wrong:', customEndpoint);
+    }
+  } else if (customEndpoint instanceof Object) {
+    // Customize by object
+    const endpointObject = {...defaultEndpoint, ...customEndpoint};
+    return `${backSlashTailFix(endpointObject.host)}/${backSlashTailFix(endpointObject.api)}`;
+  }
+
+  // Default
+  return backSlashTailFix(`${defaultEndpoint.host}/${defaultEndpoint.api}`);
+};
+
 const getHighlightWords = query => {
   const words = query.replace(',', '').split(' ');
   const filteredWords = words.filter(word => wordsToPass.indexOf(word) < 0);
@@ -55,7 +80,7 @@ const renderCustomActions = ({ customActions, suggestions }, muteEventHandler, o
   if (!customActions) return [];
 
   let actions = customActions instanceof Function
-    ? actions = customActions(suggestions)
+    ? customActions(suggestions)
     : customActions;
 
   actions = actions instanceof Array
@@ -227,13 +252,7 @@ class ReactDadata extends React.Component {
           : payload
     }
 
-    this.xhr.open('POST', `${
-          customEndpoint && customEndpoint.slice(-1) === '/'
-                ? customEndpoint.slice(0, -1) 
-                : customEndpoint
-          || 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest'
-        }/${type}`
-    );
+    this.xhr.open('POST', `${buildTargetURI(customEndpoint)}/${type}`);
     this.xhr.setRequestHeader('Accept', 'application/json');
     this.xhr.setRequestHeader('Authorization', `Token ${this.props.token}`);
     this.xhr.setRequestHeader('Content-Type', 'application/json');
@@ -359,7 +378,7 @@ ReactDadata.propTypes = {
   className: PropTypes.string,
   count: PropTypes.number,
   customActions: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  customEndpoint: PropTypes.string,
+  customEndpoint: PropTypes.oneOfType([PropTypes.object, PropTypes.shape, PropTypes.string]),
   debounce: PropTypes.number,
   onChange: PropTypes.func,
   onIdleOut: PropTypes.func,
