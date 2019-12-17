@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = require('react');
 
 var React = _interopRequireWildcard(_react);
@@ -36,6 +38,33 @@ var defaultSuggestion = {
   data: {},
   unrestricted_value: '',
   value: ''
+};
+
+var defaultEndpoint = {
+  host: 'https://suggestions.dadata.ru',
+  api: 'suggestions/api/4_1/rs/suggest'
+};
+
+var backSlashTailFix = function backSlashTailFix(uriPart) {
+  return uriPart.endsWith('/') ? uriPart.slice(0, -1) : uriPart;
+};
+
+var buildTargetURI = function buildTargetURI(customEndpoint) {
+  if (typeof customEndpoint === 'string') {
+    if (/^http[s]?:/g.test(customEndpoint) || customEndpoint.startsWith('/')) {
+      // Full path of host
+      return backSlashTailFix(customEndpoint + '/' + defaultEndpoint.api);
+    } else {
+      console.warn('react-dadata-box: customEndpoint must be a valid full url of host accessed by http or https protocol or path relative by root; placed is wrong:', customEndpoint);
+    }
+  } else if (customEndpoint instanceof Object) {
+    // Customize by object
+    var endpointObject = _extends({}, defaultEndpoint, customEndpoint);
+    return backSlashTailFix(endpointObject.host) + '/' + backSlashTailFix(endpointObject.api);
+  }
+
+  // Default
+  return backSlashTailFix(defaultEndpoint.host + '/' + defaultEndpoint.api);
 };
 
 var getHighlightWords = function getHighlightWords(query) {
@@ -110,7 +139,7 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
 
   if (!customActions) return [];
 
-  var actions = customActions instanceof Function ? actions = customActions(suggestions) : customActions;
+  var actions = customActions instanceof Function ? customActions(suggestions) : customActions;
 
   actions = actions instanceof Array ? actions : actions ? [actions] : false;
 
@@ -371,7 +400,7 @@ var _initialiseProps = function _initialiseProps() {
       payload = _this3.props.payloadModifier instanceof Function ? _this3.props.payloadModifier(payload) : _this3.props.payloadModifier instanceof Object ? Object.assign(payload, _this3.props.payloadModifier) : payload;
     }
 
-    _this3.xhr.open('POST', (customEndpoint && customEndpoint.slice(-1) === '/' ? customEndpoint.slice(0, -1) : customEndpoint || 'https://suggestions.dadata.ru') + '/suggestions/api/4_1/rs/suggest/' + type);
+    _this3.xhr.open('POST', buildTargetURI(customEndpoint) + '/' + type);
     _this3.xhr.setRequestHeader('Accept', 'application/json');
     _this3.xhr.setRequestHeader('Authorization', 'Token ' + _this3.props.token);
     _this3.xhr.setRequestHeader('Content-Type', 'application/json');
@@ -438,7 +467,7 @@ ReactDadata.propTypes = {
   className: _propTypes2.default.string,
   count: _propTypes2.default.number,
   customActions: _propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.func]),
-  customEndpoint: _propTypes2.default.string,
+  customEndpoint: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.shape, _propTypes2.default.string]),
   debounce: _propTypes2.default.number,
   onChange: _propTypes2.default.func,
   onIdleOut: _propTypes2.default.func,
