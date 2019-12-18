@@ -113,7 +113,7 @@ interface BasePayload {
  * @typedef { Props } Props
  * @property  { boolean } autocomplete - [optional] property translated to native input tag;
  * @property  { customActions } customActions - [optional] adding custom action to base suggestions dropdown list
- * @property  { boolean } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service)
+ * @property  { boolean | object } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service), may be string: full or relative uri or object with 'host' and/or 'api' property
  * @property  { boolean } city - [optional] optional to "city-mode"
  * @property  { string } className - [optional] additional classname
  * @property  { number } count - [optional] single query limit (default: 10)
@@ -137,7 +137,7 @@ interface Props {
     className?: string;
     count?: number;
     customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
-    customEndpoint?: string;
+    customEndpoint?: string | { host?: string, api?: string };
     /**
      * @function onChange
      * @param {DadataSuggestion} suggestion
