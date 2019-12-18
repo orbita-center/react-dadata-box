@@ -16,24 +16,22 @@ const defaultEndpoint = {
   api: 'suggestions/api/4_1/rs/suggest'
 };
 
-const backSlashTailFix = uriPart => uriPart.endsWith('/') ? uriPart.slice(0, -1) : uriPart;
+const backslashTailFix = uriPart => uriPart.endsWith('/') ? uriPart.slice(0, -1) : uriPart;
 
 const buildTargetURI = customEndpoint => {
   if ( typeof customEndpoint === 'string') {
     if (/^http[s]?:/g.test(customEndpoint) || customEndpoint.startsWith('/')) {
-      // Full path of host
-      return backSlashTailFix(`${customEndpoint}/${defaultEndpoint.api}`);
-    } else {
-      console.warn('react-dadata-box: customEndpoint must be a valid full url of host accessed by http or https protocol or path relative by root; placed is wrong:', customEndpoint);
+      // Full path of host (API placed automatically - back compatibility to v1.2.8 and later)
+      return backslashTailFix(`${customEndpoint}/${defaultEndpoint.api}`);
     }
   } else if (customEndpoint instanceof Object) {
     // Customize by object
     const endpointObject = {...defaultEndpoint, ...customEndpoint};
-    return `${backSlashTailFix(endpointObject.host)}/${backSlashTailFix(endpointObject.api)}`;
+    return `${backslashTailFix(endpointObject.host)}/${backslashTailFix(endpointObject.api)}`;
   }
 
   // Default
-  return backSlashTailFix(`${defaultEndpoint.host}/${defaultEndpoint.api}`);
+  return backslashTailFix(`${defaultEndpoint.host}/${defaultEndpoint.api}`);
 };
 
 const getHighlightWords = query => {
@@ -252,7 +250,7 @@ class ReactDadata extends React.Component {
           : payload
     }
 
-    this.xhr.open('POST', `${buildTargetURI(customEndpoint)}/${type}`);
+    this.xhr.open('POST', `${backslashTailFix(buildTargetURI(customEndpoint))}/${type}`);
     this.xhr.setRequestHeader('Accept', 'application/json');
     this.xhr.setRequestHeader('Authorization', `Token ${this.props.token}`);
     this.xhr.setRequestHeader('Content-Type', 'application/json');

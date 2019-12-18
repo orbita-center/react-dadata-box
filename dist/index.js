@@ -45,26 +45,24 @@ var defaultEndpoint = {
   api: 'suggestions/api/4_1/rs/suggest'
 };
 
-var backSlashTailFix = function backSlashTailFix(uriPart) {
+var backslashTailFix = function backslashTailFix(uriPart) {
   return uriPart.endsWith('/') ? uriPart.slice(0, -1) : uriPart;
 };
 
 var buildTargetURI = function buildTargetURI(customEndpoint) {
   if (typeof customEndpoint === 'string') {
     if (/^http[s]?:/g.test(customEndpoint) || customEndpoint.startsWith('/')) {
-      // Full path of host
-      return backSlashTailFix(customEndpoint + '/' + defaultEndpoint.api);
-    } else {
-      console.warn('react-dadata-box: customEndpoint must be a valid full url of host accessed by http or https protocol or path relative by root; placed is wrong:', customEndpoint);
+      // Full path of host (API placed automatically - back compatibility to v1.2.8 and later)
+      return backslashTailFix(customEndpoint + '/' + defaultEndpoint.api);
     }
   } else if (customEndpoint instanceof Object) {
     // Customize by object
     var endpointObject = _extends({}, defaultEndpoint, customEndpoint);
-    return backSlashTailFix(endpointObject.host) + '/' + backSlashTailFix(endpointObject.api);
+    return backslashTailFix(endpointObject.host) + '/' + backslashTailFix(endpointObject.api);
   }
 
   // Default
-  return backSlashTailFix(defaultEndpoint.host + '/' + defaultEndpoint.api);
+  return backslashTailFix(defaultEndpoint.host + '/' + defaultEndpoint.api);
 };
 
 var getHighlightWords = function getHighlightWords(query) {
@@ -400,7 +398,7 @@ var _initialiseProps = function _initialiseProps() {
       payload = _this3.props.payloadModifier instanceof Function ? _this3.props.payloadModifier(payload) : _this3.props.payloadModifier instanceof Object ? Object.assign(payload, _this3.props.payloadModifier) : payload;
     }
 
-    _this3.xhr.open('POST', buildTargetURI(customEndpoint) + '/' + type);
+    _this3.xhr.open('POST', backslashTailFix(buildTargetURI(customEndpoint)) + '/' + type);
     _this3.xhr.setRequestHeader('Accept', 'application/json');
     _this3.xhr.setRequestHeader('Authorization', 'Token ' + _this3.props.token);
     _this3.xhr.setRequestHeader('Content-Type', 'application/json');
