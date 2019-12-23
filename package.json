@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "react-highlight-words": "^0.12.0"
   },
   "devDependencies": {

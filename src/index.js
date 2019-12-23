@@ -321,25 +321,26 @@ class ReactDadata extends React.Component {
       placeholder,
       showNote,
       styles,
+      customInput,
     } = this.props;
 
     const showSuggestionsList = inputFocused && showSuggestions;
 
+    const inputConfig = {
+      className: `react-dadata__input${allowClear ? ' react-dadata__input-clearable' : ''}`,
+      placeholder: placeholder,
+      value: query,
+      autoComplete: autocomplete || 'off',
+      ref: input => { this.textInput = input },
+      onChange: this.onInputChange,
+      onKeyDown: this.onKeyPress,
+      onFocus: this.onInputFocus,
+      onBlur: this.onInputBlur
+    };
+
     return (
       <div className={`react-dadata react-dadata__container ${className}`} style={styles}>
-        <input
-          className={`react-dadata__input${allowClear ? ' react-dadata__input-clearable' : ''}`}
-          placeholder={placeholder || ''}
-          value={query}
-          ref={input => {
-            this.textInput = input;
-          }}
-          onChange={this.onInputChange}
-          onKeyDown={this.onKeyPress}
-          onFocus={this.onInputFocus}
-          onBlur={this.onInputBlur}
-          autoComplete={autocomplete || 'off'}
-        />
+        {customInput(inputConfig)}
         {
           allowClear &&
           query &&
@@ -388,6 +389,11 @@ ReactDadata.propTypes = {
   style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
   type: PropTypes.string,
+  customInput: PropTypes.func,
+};
+
+ReactDadata.defaultProps = {
+  customInput: params => <input { ...params } />,
 };
 
 export default ReactDadata;

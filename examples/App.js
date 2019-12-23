@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDadataBox from '../src';
 
 import './index.css';
+import TestComponent from './TestComponent';
 
 const token = 'ff2eea11bd30f0e52d7107978323e3dcc170d5f1';
 
@@ -38,6 +39,8 @@ class App extends Component {
         <ReactDadataBox className="data" token={token} placeholder="Email" type="email" />
         <ReactDadataBox className="data" token={token} placeholder="ФИО" type="fio" />
         <ReactDadataBox className="data" token={token} placeholder="Город" type="address" city={true} />
+        <ReactDadataBox className="data" token={token} placeholder="Custom" type="address"
+          customInput={params => <TestComponent {...params} className="test" />} />
       </div>
     );
   }
