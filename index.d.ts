@@ -110,8 +110,32 @@ interface BasePayload {
 }
 
 /**
+ * @typedef { BasePayload } BasePayload
+ * @property  { string } className - [required] component CSS class name (default: native generated style with 'react-dadata__' prefix)
+ * @property  { string } placeholder - [required] placeholder
+ * @property  { string } value - [required] fetched query
+ * @property  { boolean | 'off' } autocomplete - [required] suggestions count limit (default: 'off')
+ * @property  { function } onChange - [required] change event handler (default: native component handler)
+ * @property  { function } onKeyDown - [required] 'key down' event handler (default: native component handler)
+ * @property  { function } onFocus - [required] focus event handler (default: native component handler)
+ * @property  { function } onBlur - [required] blur event handler (default: native component handler)
+ */
+
+interface BaseInputProps<T=HTMLInputElement> {
+    autoComplete: boolean | 'off',
+    className: string,
+    onBlur: React.FocusEventHandler<T>
+    onChange: React.ChangeEventHandler<T>,
+    onFocus: React.FocusEventHandler<T>,
+    onKeyDown: React.KeyboardEventHandler<T>,
+    placeholder: string,
+    value: string,
+}
+
+/**
  * @typedef { Props } Props
  * @property  { boolean } autocomplete - [optional] property translated to native input tag;
+ * @property  { customInput } customInput - [optional] function that fires with one argument { BaseInputProps }
  * @property  { customActions } customActions - [optional] adding custom action to base suggestions dropdown list
  * @property  { boolean | object } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service), may be string: full or relative uri or object with 'host' and/or 'api' property
  * @property  { boolean } city - [optional] optional to "city-mode"
@@ -138,6 +162,7 @@ interface Props {
     count?: number;
     customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
     customEndpoint?: string | { host?: string, api?: string };
+    customInput?: (props: BaseInputProps) => React.ReactNode;
     /**
      * @function onChange
      * @param {DadataSuggestion} suggestion

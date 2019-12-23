@@ -222,8 +222,6 @@ var ReactDadata = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var _state = this.state,
           inputFocused = _state.inputFocused,
           query = _state.query,
@@ -238,27 +236,27 @@ var ReactDadata = function (_React$Component) {
           customActions = _props.customActions,
           placeholder = _props.placeholder,
           showNote = _props.showNote,
-          styles = _props.styles;
+          styles = _props.styles,
+          customInput = _props.customInput;
 
 
       var showSuggestionsList = inputFocused && showSuggestions;
 
+      var inputConfig = {
+        className: 'react-dadata__input' + (allowClear ? ' react-dadata__input-clearable' : ''),
+        placeholder: placeholder,
+        value: query,
+        autoComplete: autocomplete || 'off',
+        onChange: this.onInputChange,
+        onKeyDown: this.onKeyPress,
+        onFocus: this.onInputFocus,
+        onBlur: this.onInputBlur
+      };
+
       return React.createElement(
         'div',
         { className: 'react-dadata react-dadata__container ' + className, style: styles },
-        React.createElement('input', {
-          className: 'react-dadata__input' + (allowClear ? ' react-dadata__input-clearable' : ''),
-          placeholder: placeholder || '',
-          value: query,
-          ref: function ref(input) {
-            _this2.textInput = input;
-          },
-          onChange: this.onInputChange,
-          onKeyDown: this.onKeyPress,
-          onFocus: this.onInputFocus,
-          onBlur: this.onInputBlur,
-          autoComplete: autocomplete || 'off'
-        }),
+        customInput(inputConfig),
         allowClear && query && React.createElement(
           'span',
           { className: 'react-dadata__input-suffix', onClick: this.clear },
@@ -281,7 +279,7 @@ var ReactDadata = function (_React$Component) {
 }(React.Component);
 
 var _initialiseProps = function _initialiseProps() {
-  var _this3 = this;
+  var _this2 = this;
 
   this.state = {
     query: this.props.query || '',
@@ -292,31 +290,30 @@ var _initialiseProps = function _initialiseProps() {
     suggestionIndex: 0,
     isValid: false
   };
-  this.textInput = React.createRef();
   this.xhr = new XMLHttpRequest();
 
   this.componentDidMount = function () {
-    if (_this3.props.query || _this3.props.silentQuery) {
-      _this3.fetchSuggestions();
+    if (_this2.props.query || _this2.props.silentQuery) {
+      _this2.fetchSuggestions();
     }
   };
 
   this.componentDidUpdate = function (prevProps) {
-    if (_this3.props.query !== prevProps.query) {
-      _this3.setState({ query: _this3.props.query }, _this3.fetchSuggestions);
+    if (_this2.props.query !== prevProps.query) {
+      _this2.setState({ query: _this2.props.query }, _this2.fetchSuggestions);
     }
   };
 
   this.onInputFocus = function () {
-    if (!_this3.state.value && _this3.props.silentQuery) {
-      _this3.fetchSuggestions({ inputFocused: true, showSuggestions: true });
+    if (!_this2.state.value && _this2.props.silentQuery) {
+      _this2.fetchSuggestions({ inputFocused: true, showSuggestions: true });
     } else {
-      _this3.setState({ inputFocused: true });
+      _this2.setState({ inputFocused: true });
     }
   };
 
   this.onInputBlur = function () {
-    _this3.setState({ inputFocused: false });
+    _this2.setState({ inputFocused: false });
   };
 
   this.debounce = function (func) {
@@ -327,10 +324,10 @@ var _initialiseProps = function _initialiseProps() {
         args[_key2] = arguments[_key2];
       }
 
-      if (_this3.debounceTimer) {
-        clearTimeout(_this3.debounceTimer);
+      if (_this2.debounceTimer) {
+        clearTimeout(_this2.debounceTimer);
       };
-      _this3.debounceTimer = setTimeout(function () {
+      _this2.debounceTimer = setTimeout(function () {
         func.apply(undefined, args);
       }, cooldown);
     };
@@ -340,52 +337,52 @@ var _initialiseProps = function _initialiseProps() {
     var value = event.target.value;
 
 
-    _this3.setState({ query: value, showSuggestions: true }, function () {
-      _this3.debounce(_this3.fetchSuggestions, _this3.props.debounce)({ inputFocused: true, showSuggestions: true });
+    _this2.setState({ query: value, showSuggestions: true }, function () {
+      _this2.debounce(_this2.fetchSuggestions, _this2.props.debounce)({ inputFocused: true, showSuggestions: true });
     });
 
-    !value && _this3.clear();
+    !value && _this2.clear();
   };
 
   this.onKeyPress = function (event) {
-    var _state2 = _this3.state,
+    var _state2 = _this2.state,
         suggestionIndex = _state2.suggestionIndex,
         suggestions = _state2.suggestions;
 
 
     if (event.which === 40 && suggestionIndex < suggestions.length - 1) {
       // Arrow down
-      _this3.setState(function (prevState) {
+      _this2.setState(function (prevState) {
         return { suggestionIndex: prevState.suggestionIndex + 1 };
       });
     } else if (event.which === 38 && suggestionIndex > 0) {
       // Arrow up
-      _this3.setState(function (prevState) {
+      _this2.setState(function (prevState) {
         return { suggestionIndex: prevState.suggestionIndex - 1 };
       });
     } else if (event.which === 39 && suggestionIndex >= 0) {
       // Arrow right
-      _this3.selectSuggestion(_this3.state.suggestionIndex, true);
+      _this2.selectSuggestion(_this2.state.suggestionIndex, true);
     } else if (event.which === 13 && suggestionIndex >= 0) {
       // Enter
       event.preventDefault();
       event.stopPropagation();
-      _this3.selectSuggestion(_this3.state.suggestionIndex);
+      _this2.selectSuggestion(_this2.state.suggestionIndex);
     }
   };
 
   this.fetchSuggestions = function (setStateAdditional) {
-    _this3.xhr.abort();
+    _this2.xhr.abort();
 
-    var type = _this3.state.type;
-    var _props2 = _this3.props,
+    var type = _this2.state.type;
+    var _props2 = _this2.props,
         city = _props2.city,
         customEndpoint = _props2.customEndpoint;
 
 
     var payload = {
-      query: _this3.state.query || _this3.props.silentQuery,
-      count: _this3.props.count || 10
+      query: _this2.state.query || _this2.props.silentQuery,
+      count: _this2.props.count || 10
     };
 
     if (city && type === 'address') {
@@ -394,61 +391,61 @@ var _initialiseProps = function _initialiseProps() {
       payload.value = 'settlement';
     }
 
-    if (_this3.props.payloadModifier) {
-      payload = _this3.props.payloadModifier instanceof Function ? _this3.props.payloadModifier(payload) : _this3.props.payloadModifier instanceof Object ? Object.assign(payload, _this3.props.payloadModifier) : payload;
+    if (_this2.props.payloadModifier) {
+      payload = _this2.props.payloadModifier instanceof Function ? _this2.props.payloadModifier(payload) : _this2.props.payloadModifier instanceof Object ? Object.assign(payload, _this2.props.payloadModifier) : payload;
     }
 
-    _this3.xhr.open('POST', backslashTailFix(buildTargetURI(customEndpoint)) + '/' + type);
-    _this3.xhr.setRequestHeader('Accept', 'application/json');
-    _this3.xhr.setRequestHeader('Authorization', 'Token ' + _this3.props.token);
-    _this3.xhr.setRequestHeader('Content-Type', 'application/json');
-    _this3.xhr.send(JSON.stringify(payload));
+    _this2.xhr.open('POST', backslashTailFix(buildTargetURI(customEndpoint)) + '/' + type);
+    _this2.xhr.setRequestHeader('Accept', 'application/json');
+    _this2.xhr.setRequestHeader('Authorization', 'Token ' + _this2.props.token);
+    _this2.xhr.setRequestHeader('Content-Type', 'application/json');
+    _this2.xhr.send(JSON.stringify(payload));
 
-    _this3.xhr.onreadystatechange = function () {
-      if (_this3.xhr.readyState !== 4) {
+    _this2.xhr.onreadystatechange = function () {
+      if (_this2.xhr.readyState !== 4) {
         return;
       }
 
-      if (_this3.xhr.status === 200) {
-        var _JSON$parse = JSON.parse(_this3.xhr.response),
+      if (_this2.xhr.status === 200) {
+        var _JSON$parse = JSON.parse(_this2.xhr.response),
             suggestions = _JSON$parse.suggestions;
 
         if (suggestions && suggestions.length) {
-          _this3.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}));
-        } else if (_this3.props.onIdleOut) {
-          _this3.props.onIdleOut(_this3.state.query);
+          _this2.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}));
+        } else if (_this2.props.onIdleOut) {
+          _this2.props.onIdleOut(_this2.state.query);
         }
       }
     };
   };
 
   this.onSuggestionClick = function (index) {
-    if (_this3.state.suggestions[index]) {
-      _this3.selectSuggestion(index);
+    if (_this2.state.suggestions[index]) {
+      _this2.selectSuggestion(index);
     };
   };
 
   this.clear = function () {
-    _this3.setState({
+    _this2.setState({
       query: '',
       showSuggestions: false
     });
-    _this3.props.onChange && _this3.props.onChange(defaultSuggestion);
+    _this2.props.onChange && _this2.props.onChange(defaultSuggestion);
   };
 
   this.selectSuggestion = function (index) {
     var showSuggestions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    var suggestions = _this3.state.suggestions;
+    var suggestions = _this2.state.suggestions;
     var value = suggestions[index].value;
 
 
-    _this3.setState({
+    _this2.setState({
       query: value,
       showSuggestions: showSuggestions
     });
 
-    if (_this3.props.onChange) {
-      _this3.props.onChange(suggestions[index]);
+    if (_this2.props.onChange) {
+      _this2.props.onChange(suggestions[index]);
     }
   };
 
@@ -476,7 +473,14 @@ ReactDadata.propTypes = {
   silentQuery: _propTypes2.default.string,
   style: _propTypes2.default.objectOf(_propTypes2.default.string),
   token: _propTypes2.default.string.isRequired,
-  type: _propTypes2.default.string
+  type: _propTypes2.default.string,
+  customInput: _propTypes2.default.func
+};
+
+ReactDadata.defaultProps = {
+  customInput: function customInput(params) {
+    return React.createElement('input', params);
+  }
 };
 
 exports.default = ReactDadata;
