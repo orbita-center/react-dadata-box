@@ -234,10 +234,10 @@ var ReactDadata = function (_React$Component) {
           autocomplete = _props.autocomplete,
           className = _props.className,
           customActions = _props.customActions,
+          customInput = _props.customInput,
           placeholder = _props.placeholder,
           showNote = _props.showNote,
-          styles = _props.styles,
-          customInput = _props.customInput;
+          styles = _props.styles;
 
 
       var showSuggestionsList = inputFocused && showSuggestions;
@@ -463,6 +463,7 @@ ReactDadata.propTypes = {
   count: _propTypes2.default.number,
   customActions: _propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.func]),
   customEndpoint: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.shape, _propTypes2.default.string]),
+  customInput: _propTypes2.default.func,
   debounce: _propTypes2.default.number,
   onChange: _propTypes2.default.func,
   onIdleOut: _propTypes2.default.func,
@@ -473,8 +474,7 @@ ReactDadata.propTypes = {
   silentQuery: _propTypes2.default.string,
   style: _propTypes2.default.objectOf(_propTypes2.default.string),
   token: _propTypes2.default.string.isRequired,
-  type: _propTypes2.default.string,
-  customInput: _propTypes2.default.func
+  type: _propTypes2.default.string
 };
 
 ReactDadata.defaultProps = {
