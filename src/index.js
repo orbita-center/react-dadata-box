@@ -152,7 +152,6 @@ class ReactDadata extends React.Component {
     isValid: false
   };
 
-  textInput = React.createRef();
   xhr = new XMLHttpRequest();
   debounceTimer;
 
@@ -318,6 +317,7 @@ class ReactDadata extends React.Component {
       autocomplete,
       className,
       customActions,
+      customInput,
       placeholder,
       showNote,
       styles,
@@ -325,21 +325,20 @@ class ReactDadata extends React.Component {
 
     const showSuggestionsList = inputFocused && showSuggestions;
 
+    const inputConfig = {
+      className: `react-dadata__input${allowClear ? ' react-dadata__input-clearable' : ''}`,
+      placeholder: placeholder,
+      value: query,
+      autoComplete: autocomplete || 'off',
+      onChange: this.onInputChange,
+      onKeyDown: this.onKeyPress,
+      onFocus: this.onInputFocus,
+      onBlur: this.onInputBlur
+    };
+
     return (
       <div className={`react-dadata react-dadata__container ${className}`} style={styles}>
-        <input
-          className={`react-dadata__input${allowClear ? ' react-dadata__input-clearable' : ''}`}
-          placeholder={placeholder || ''}
-          value={query}
-          ref={input => {
-            this.textInput = input;
-          }}
-          onChange={this.onInputChange}
-          onKeyDown={this.onKeyPress}
-          onFocus={this.onInputFocus}
-          onBlur={this.onInputBlur}
-          autoComplete={autocomplete || 'off'}
-        />
+        {customInput(inputConfig)}
         {
           allowClear &&
           query &&
@@ -377,6 +376,7 @@ ReactDadata.propTypes = {
   count: PropTypes.number,
   customActions: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   customEndpoint: PropTypes.oneOfType([PropTypes.object, PropTypes.shape, PropTypes.string]),
+  customInput: PropTypes.func,
   debounce: PropTypes.number,
   onChange: PropTypes.func,
   onIdleOut: PropTypes.func,
@@ -388,6 +388,10 @@ ReactDadata.propTypes = {
   style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
   type: PropTypes.string,
+};
+
+ReactDadata.defaultProps = {
+  customInput: params => <input { ...params } />,
 };
 
 export default ReactDadata;
