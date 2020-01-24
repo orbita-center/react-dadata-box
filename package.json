@@ -1,6 +1,6 @@
 {
   "name": "react-dadata-box",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Компонент для работы с DaData",
   "main": "dist/index.js",
   "scripts": {
