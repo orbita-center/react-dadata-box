@@ -161,6 +161,12 @@ interface Props {
   className?: string;
   count?: number;
   customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
+  customStyles?: {
+    'react-dadata__custom-action'?: string | React.CSSProperties;
+    'react-dadata__suggestion'?: string | React.CSSProperties;
+    'react-dadata__suggestion-note'?: string | React.CSSProperties;
+    'react-dadata__suggestions'?: string | React.CSSProperties;
+  };
   customEndpoint?: string | { host?: string; api?: string };
   customInput?: (props: BaseInputProps) => React.ReactNode;
   /**
