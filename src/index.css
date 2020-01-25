@@ -135,11 +135,11 @@
   height: 10%;
 }
 
-.react-dadata-custom-action {
+.react-dadata__custom-action {
   padding: 0;
 }
 
-.react-dadata-custom-action > * {
+.react-dadata__custom-action > * {
   display: block;
   height: 100%;
   padding: 7px 10px;

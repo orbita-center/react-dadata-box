@@ -16,6 +16,25 @@ const defaultEndpoint = {
   host: 'https://suggestions.dadata.ru'
 };
 
+const defaultClasses = {
+  'react-dadata__custom-action': 'react-dadata__suggestion react-dadata__custom-action',
+  'react-dadata__suggestion': 'react-dadata__suggestion',
+  'react-dadata__suggestion-note': 'react-dadata__suggestion-note',
+  'react-dadata__suggestions': 'react-dadata__suggestions'
+};
+
+const getStylingProps = (baseClass, customStyles = {}, additionalClass) => {
+  return customStyles[baseClass] && typeof customStyles[baseClass] === 'object'
+    ? {
+        className: `${defaultClasses[baseClass] || baseClass} ${additionalClass || ''}`.trim(),
+        style: customStyles[baseClass]
+      }
+    : {
+        className: `${defaultClasses[baseClass] || baseClass} ${additionalClass || ''} ${customStyles[baseClass] ||
+          ''}`.trim()
+      };
+};
+
 const backslashTailFix = uriPart => (uriPart.endsWith('/') ? uriPart.slice(0, -1) : uriPart);
 
 const buildTargetURI = customEndpoint => {
@@ -53,8 +72,8 @@ const SuggestionInfo = ({ data = {}, type }) => (
   </div>
 );
 
-const Note = () => (
-  <div className="react-dadata__suggestion-note">
+const Note = customStyles => (
+  <div {...getStylingProps('react-dadata__suggestion-note', customStyles)}>
     <span className="suggestion-note_arrow">
       <svg width="34" height="16" viewBox="0 0 44 21" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -107,7 +126,7 @@ const Note = () => (
   </div>
 );
 
-const renderCustomActions = ({ customActions, suggestions }, muteEventHandler, onBlur) => {
+const renderCustomActions = ({ customActions, customStyles, suggestions }, muteEventHandler, onBlur) => {
   if (!customActions) return [];
 
   let actions = customActions instanceof Function ? customActions(suggestions) : customActions;
@@ -119,9 +138,9 @@ const renderCustomActions = ({ customActions, suggestions }, muteEventHandler, o
         actions.map(node => (
           <div
             key={fakeRandomKey()}
-            className="react-dadata__suggestion react-dadata-custom-action"
             onMouseDown={muteEventHandler}
             onClick={onBlur}
+            {...getStylingProps('react-dadata__custom-action', customStyles)}
           >
             {node}
           </div>
@@ -132,6 +151,7 @@ const renderCustomActions = ({ customActions, suggestions }, muteEventHandler, o
 
 const SuggestionsList = ({
   actions = [],
+  customStyles,
   onSuggestionClick,
   query,
   showNote = true,
@@ -141,7 +161,7 @@ const SuggestionsList = ({
 }) => {
   return (
     !!(suggestions.length || actions.length) && (
-      <div className="react-dadata__suggestions">
+      <div {...getStylingProps('react-dadata__suggestions', customStyles)}>
         {showNote && <Note />}
         {suggestions.map(({ value, data }, index) => (
           <div
@@ -149,7 +169,11 @@ const SuggestionsList = ({
             onMouseDown={() => {
               onSuggestionClick(index);
             }}
-            className={`react-dadata__suggestion ${index === suggestionIndex && 'react-dadata__suggestion--current'}`}
+            {...getStylingProps(
+              'react-dadata__suggestion',
+              customStyles,
+              index === suggestionIndex && 'react-dadata__suggestion--current'
+            )}
           >
             <Highlighter
               highlightClassName="react-dadata--highlighted"
@@ -341,6 +365,7 @@ class ReactDadata extends React.Component {
       className,
       customActions,
       customInput,
+      customStyles,
       placeholder,
       showNote,
       styles
@@ -358,7 +383,6 @@ class ReactDadata extends React.Component {
       placeholder: placeholder,
       value: query
     };
-
     return (
       <div className={`react-dadata react-dadata__container ${className}`} style={styles}>
         {customInput(inputConfig)}
@@ -371,8 +395,9 @@ class ReactDadata extends React.Component {
           <SuggestionsList
             actions={
               customActions &&
-              renderCustomActions({ customActions, suggestions }, this.muteEventHandler, this.onInputBlur)
+              renderCustomActions({ customActions, customStyles, suggestions }, this.muteEventHandler, this.onInputBlur)
             }
+            customStyles={customStyles}
             suggestions={suggestions}
             suggestionIndex={suggestionIndex}
             query={query}
@@ -395,6 +420,7 @@ ReactDadata.propTypes = {
   customActions: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   customEndpoint: PropTypes.oneOfType([PropTypes.object, PropTypes.shape, PropTypes.string]),
   customInput: PropTypes.func,
+  customStyles: PropTypes.object,
   debounce: PropTypes.number,
   onChange: PropTypes.func,
   onIdleOut: PropTypes.func,
