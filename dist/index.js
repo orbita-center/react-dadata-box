@@ -249,8 +249,8 @@ var SuggestionsList = function SuggestionsList(_ref3) {
   );
 };
 
-var ReactDadata = function (_React$Component) {
-  _inherits(ReactDadata, _React$Component);
+var ReactDadata = function (_React$PureComponent) {
+  _inherits(ReactDadata, _React$PureComponent);
 
   function ReactDadata() {
     var _ref5;
@@ -331,7 +331,7 @@ var ReactDadata = function (_React$Component) {
   }]);
 
   return ReactDadata;
-}(React.Component);
+}(React.PureComponent);
 
 var _initialiseProps = function _initialiseProps() {
   var _this2 = this;

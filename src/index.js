@@ -190,7 +190,7 @@ const SuggestionsList = ({
   );
 };
 
-class ReactDadata extends React.Component {
+class ReactDadata extends React.PureComponent {
   state = {
     inputFocused: false,
     isValid: false,
