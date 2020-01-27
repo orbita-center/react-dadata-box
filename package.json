@@ -1,6 +1,6 @@
 {
   "name": "react-dadata-box",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Компонент для работы с DaData",
   "main": "dist/index.js",
   "scripts": {
@@ -18,13 +18,11 @@
     "url": "git+https://github.com/orbita-center/react-dadata-box.git"
   },
   "peerDependencies": {
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
   },
   "dependencies": {
-    "prop-types": "^15.6.2",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
     "react-highlight-words": "^0.12.0"
   },
   "devDependencies": {

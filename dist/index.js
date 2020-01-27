@@ -8,6 +8,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _react = require('react');
 
 var React = _interopRequireWildcard(_react);
@@ -43,6 +45,25 @@ var defaultSuggestion = {
 var defaultEndpoint = {
   api: 'suggestions/api/4_1/rs/suggest',
   host: 'https://suggestions.dadata.ru'
+};
+
+var defaultClasses = {
+  'react-dadata__custom-action': 'react-dadata__suggestion react-dadata__custom-action',
+  'react-dadata__suggestion': 'react-dadata__suggestion',
+  'react-dadata__suggestion-note': 'react-dadata__suggestion-note',
+  'react-dadata__suggestions': 'react-dadata__suggestions'
+};
+
+var getStylingProps = function getStylingProps(baseClass) {
+  var customStyles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var additionalClass = arguments[2];
+
+  return customStyles[baseClass] && _typeof(customStyles[baseClass]) === 'object' ? {
+    className: ((defaultClasses[baseClass] || baseClass) + ' ' + (additionalClass || '')).trim(),
+    style: customStyles[baseClass]
+  } : {
+    className: ((defaultClasses[baseClass] || baseClass) + ' ' + (additionalClass || '') + ' ' + (customStyles[baseClass] || '')).trim()
+  };
 };
 
 var backslashTailFix = function backslashTailFix(uriPart) {
@@ -92,10 +113,10 @@ var SuggestionInfo = function SuggestionInfo(_ref) {
   );
 };
 
-var Note = function Note() {
+var Note = function Note(customStyles) {
   return React.createElement(
     'div',
-    { className: 'react-dadata__suggestion-note' },
+    getStylingProps('react-dadata__suggestion-note', customStyles),
     React.createElement(
       'span',
       { className: 'suggestion-note_arrow' },
@@ -166,6 +187,7 @@ var Note = function Note() {
 
 var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, onBlur) {
   var customActions = _ref2.customActions,
+      customStyles = _ref2.customStyles,
       suggestions = _ref2.suggestions;
 
   if (!customActions) return [];
@@ -177,12 +199,11 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
   return actions && actions.length ? [React.createElement('hr', { key: 'custom-actions-line', className: 'actions-delimiter' })].concat(actions.map(function (node) {
     return React.createElement(
       'div',
-      {
+      _extends({
         key: fakeRandomKey(),
-        className: 'react-dadata__suggestion react-dadata-custom-action',
         onMouseDown: muteEventHandler,
         onClick: onBlur
-      },
+      }, getStylingProps('react-dadata__custom-action', customStyles)),
       node
     );
   })) : false;
@@ -191,6 +212,7 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
 var SuggestionsList = function SuggestionsList(_ref3) {
   var _ref3$actions = _ref3.actions,
       actions = _ref3$actions === undefined ? [] : _ref3$actions,
+      customStyles = _ref3.customStyles,
       onSuggestionClick = _ref3.onSuggestionClick,
       query = _ref3.query,
       _ref3$showNote = _ref3.showNote,
@@ -201,20 +223,19 @@ var SuggestionsList = function SuggestionsList(_ref3) {
 
   return !!(suggestions.length || actions.length) && React.createElement(
     'div',
-    { className: 'react-dadata__suggestions' },
+    getStylingProps('react-dadata__suggestions', customStyles),
     showNote && React.createElement(Note, null),
     suggestions.map(function (_ref4, index) {
       var value = _ref4.value,
           data = _ref4.data;
       return React.createElement(
         'div',
-        {
+        _extends({
           key: fakeRandomKey(),
           onMouseDown: function onMouseDown() {
             onSuggestionClick(index);
-          },
-          className: 'react-dadata__suggestion ' + (index === suggestionIndex && 'react-dadata__suggestion--current')
-        },
+          }
+        }, getStylingProps('react-dadata__suggestion', customStyles, index === suggestionIndex && 'react-dadata__suggestion--current')),
         React.createElement(_reactHighlightWords2.default, {
           highlightClassName: 'react-dadata--highlighted',
           searchWords: getHighlightWords(query),
@@ -228,8 +249,8 @@ var SuggestionsList = function SuggestionsList(_ref3) {
   );
 };
 
-var ReactDadata = function (_React$Component) {
-  _inherits(ReactDadata, _React$Component);
+var ReactDadata = function (_React$PureComponent) {
+  _inherits(ReactDadata, _React$PureComponent);
 
   function ReactDadata() {
     var _ref5;
@@ -268,6 +289,7 @@ var ReactDadata = function (_React$Component) {
           className = _props.className,
           customActions = _props.customActions,
           customInput = _props.customInput,
+          customStyles = _props.customStyles,
           placeholder = _props.placeholder,
           showNote = _props.showNote,
           styles = _props.styles;
@@ -276,7 +298,7 @@ var ReactDadata = function (_React$Component) {
       var showSuggestionsList = inputFocused && showSuggestions;
 
       var inputConfig = {
-        autoComplete: autocomplete || 'off',
+        autoComplete: autocomplete === 'on' && autocomplete || 'off',
         className: 'react-dadata__input' + (allowClear ? ' react-dadata__input-clearable' : ''),
         onBlur: this.onInputBlur,
         onChange: this.onInputChange,
@@ -285,7 +307,6 @@ var ReactDadata = function (_React$Component) {
         placeholder: placeholder,
         value: query
       };
-
       return React.createElement(
         'div',
         { className: 'react-dadata react-dadata__container ' + className, style: styles },
@@ -296,7 +317,8 @@ var ReactDadata = function (_React$Component) {
           React.createElement('i', { className: 'react-dadata__icon react-dadata__icon-clear' })
         ),
         showSuggestionsList && React.createElement(SuggestionsList, {
-          actions: customActions && renderCustomActions({ customActions: customActions, suggestions: suggestions }, this.muteEventHandler, this.onInputBlur),
+          actions: customActions && renderCustomActions({ customActions: customActions, customStyles: customStyles, suggestions: suggestions }, this.muteEventHandler, this.onInputBlur),
+          customStyles: customStyles,
           suggestions: suggestions,
           suggestionIndex: suggestionIndex,
           query: query,
@@ -309,7 +331,7 @@ var ReactDadata = function (_React$Component) {
   }]);
 
   return ReactDadata;
-}(React.Component);
+}(React.PureComponent);
 
 var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
@@ -497,6 +519,7 @@ ReactDadata.propTypes = {
   customActions: _propTypes2.default.oneOfType([_propTypes2.default.node, _propTypes2.default.func]),
   customEndpoint: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.shape, _propTypes2.default.string]),
   customInput: _propTypes2.default.func,
+  customStyles: _propTypes2.default.object,
   debounce: _propTypes2.default.number,
   onChange: _propTypes2.default.func,
   onIdleOut: _propTypes2.default.func,
