@@ -156,7 +156,7 @@ interface BaseInputProps<T = HTMLInputElement> {
  */
 
 interface Props {
-  autocomplete?: boolean;
+  autocomplete?: 'on' | 'off';
   city?: boolean;
   className?: string;
   count?: number;
