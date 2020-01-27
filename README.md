@@ -1,18 +1,34 @@
-# React Dadata
-React компонент для подсказок с помощью сервиса DaData.ru
+# react-dadata-box
+[![GitHub](https://img.shields.io/github/license/orbita-center/react-dadata-box)](https://github.com/orbita-center/react-dadata-box/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
+[![npm](https://img.shields.io/npm/dm/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-dadata-box)](https://bundlephobia.com/result?p=react-dadata-box)
+[![npm peer dependency version](https://img.shields.io/npm/dependency-version/react-dadata-box/peer/react?logo=react)](https://www.npmjs.com/package/react)
+[![npm peer dependency version](https://img.shields.io/npm/dependency-version/react-dadata-box/peer/react-dom?logo=react)](https://www.npmjs.com/package/react-dom)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
+[![](https://img.shields.io/badge/TypeScript-types-blue?logo=typescript)](https://www.typescriptlang.org/)
 
-Поддерживаются подсказки адресов, организаций, банков.
 
-### Установка
+Ready out of the box React-component for use [DaData](https://dadata.ru/api/#suggestv) service API (suggestions) implemented as input with dropdown suggestion list, with auto-fetch data at user input.
+It provides user-friendly navigation and select from keyboard in addition to the ability do that by mouse click.
+
+#### Demo 
+[![](https://img.shields.io/badge/CodeSandbox-playground-black?logo=codesandbox)](https://codesandbox.io/s/react-dadata-box-example-g9xb0)
+
+(at top of demo showed keystrokes captured by [keycastr](https://github.com/keycastr/keycastr) MacOS appliccation)
+![](proof_of_cocept.gif)
+
+[![](https://img.shields.io/badge/SHAREWARE-WARNING-orange)](https://en.wikipedia.org/wiki/Shareware&logo=wikipedia)
+
+ [DatData](https://dadata.ru/api/#suggestv) service is [shareware](https://img.shields.io/badge/SHAREWARE-gray?link=https://en.wikipedia.org/wiki/Shareware&logo=wikipedia), to use API you need token (person/organization).
+For personal use, you need to have [Account](https://dadata.ru/#registration_popup), your token lets you to have 10000 free API call's per day.
+
+### Installation
 ```
 npm install react-dadata-box
 ```
-или
-```
-yarn react-dadata-box
-```
 
-### Пример
+### Usage
 ```javascript
 import ReactDadataBox from 'react-dadata-box';
 
@@ -21,26 +37,132 @@ import ReactDadataBox from 'react-dadata-box';
 <ReactDadataBox token="API_KEY" query="Москва" />
 ```
 
-### Свойства
+### Properties
 
-| Свойство  | Обязательный | Тип | Описание | По умолчанию |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
-| allowClear | Нет | boolean | Показывать иконку для очищения текущего значения | false |
-| autocomplete | Нет | string | Параметр описывающий автозаполнение поля, например street-address, если не задан, будет установлен как off | "off" |
-| className | Нет | string | Дополнительный класс стилей | |
-| count | Нет | string | Кол-во возвращаемых записей | 10 |
-| customActions | Нет | React.ReactNode &#124; function [return: ReactNode] | Возможность добавления произвольных действия\[-ий\](элемента\[-ов\]) в конец базового выпадающего списка. Если устанавливается как функция, то принимает на вход полученный перечень вариантов(suggestions) в качестве аргумента. Каждый элемент (если в итоге предоставляется массив) - оборачивается в стандартный контейнер для отдельно взятого suggestion | |
-| customStyles | Нет | object | Возможность кастомизировать стили внутренних элементов, ключ - встроенный CSS класс элмента, в качестве значения можно установить строку (будет добавлено к преченю CSS классов), или объект со стилями (React.CSSProperties) который будет установлен в style соответствующего узла | {<br/>&nbsp;&nbsp;'react-dadata__custom-action': undefined,<br/>&nbsp;&nbsp;'react-dadata__suggestion': undefined,<br/>&nbsp;&nbsp;'react-dadata__suggestion-note': undefined,<br/>&nbsp;&nbsp;'react-dadata__suggestions': undefined<br/>}; |
-| customEndpoint | Нет | string &#124; object | Указать нестандартный URI для запроса подсказок (для использования в сценарии проксирования или при разворачивании сервиса локально в своей инфраструктуре); Если строка - рассматрривается как полный адрес хоста или относительный путь от корня текущего сайта (адрес api будет подставлен автоматически см. значение по умолчанию), если объект, то подразумевается наличие полей 'host' и/или 'api', опущенные значения будут подставленны из значения по умолчанию |{<br/>&nbsp;&nbsp;host: 'https://suggestions.dadata.ru',<br/>&nbsp;&nbsp;api: 'suggestions/api/4_1/rs/suggest'<br/>}|
-| customInput | Нет | function | Функция принимающая на вход props типового пол ввода, и позволяющая установить кастомный input-компонент или компонент с аналогичной сигнатурой | `(params) => <input { ...params } />`
-| debounce | Нет | number | Дебаунсинг обращения к сервису по изменениям строки поиска | 350 мс|
-| onChange | Нет | function | Функция, вызываемая при выборе подсказки | |
-| onIdleOut | Нет | function | Функция, вызываемая при изменении строки поиска, если по текущей подстроке не найдено вариантов подсказки, принимая текущую строку поиска как аргумент | |
-| payloadModifier | Нет | object &#124; function | Объект модифицирующий отправляемый payload ({...nativePayload, ...payloadModifier}}), или функция формирующая отправляемый payload, принимает аргументом объект payload формируемый компонентом для модификации. (Таким образом можно формировать и устанавливать дополнительные параметы н/п фильтрацию) | |
-| placeholder | Нет | string | Текст placeholder | |
-| query | Нет | string | Подстрока для запроса в DaData, значение для поля ввода, определяет набор доступных значений при раскрытии списка | |
-| showNote | Нет | boolean | Показывать подсказку по возможностям управления для пользователя в выпадающем списке | true |
-| silentQuery | Нет | string | Подстрока для запроса в DaData, которая применяется если свойство **query** не передано или является пустой строкой, оно не отображается в поле ввода, и в этом случае определяет список значений при раскрытии списка | |
-| token | Да | string | Авторизационный токен DaData.ru | |
-| type | Нет | string | Тип данных, которые необходимо запросить: адрес(address), организация(party) или банк(bank), почта(email), фио(fio), паспорт-подразделение(fms_unit) | "address" |
+#### allowClear ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-false-lightgrey)
+```typescript
+allowClear?: boolean;
+```
+show clear value ui control's
+___
 
+#### autocomplete ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"off"-lightgrey)
+```typescript
+allowClear?: 'on' | 'off';
+```
+autocomplete prop for input primitive
+___
+#### customActions ![](https://img.shields.io/badge/optional-green)
+node/nodes or function that returns node to place that as 'custom action' (it placed in separated block at the end of list)
+```typescript
+customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
+```
+___
+
+#### customStyles ![](https://img.shields.io/badge/optional-green)
+custom styling for embedded nodes: suggestion list, single suggestion, note and custom-action. Map-object, where key is native css classname of target node, and value is string interpreted as additional class name, or object with styles to place it into style property of target node primitive
+
+```typescript
+  customStyles?: {
+    'react-dadata__custom-action'?: string | React.CSSProperties;
+    'react-dadata__suggestion'?: string | React.CSSProperties;
+    'react-dadata__suggestion-note'?: string | React.CSSProperties;
+    'react-dadata__suggestions'?: string | React.CSSProperties;
+  }
+```
+___
+#### customEndpoint ![](https://img.shields.io/badge/optional-green)
+custom URI for fetching DaData service (when that placed behind the proxy, or service deployed locally in your infrastructure). It may be string that interpreted as path where available DaData service root (api call will added automatically) or it may be a object with 'host' or/and 'api' properties that interpreted respectively as DaData service root and api-call replacement
+```typescript
+customEndpoint?: string | { host?: string; api?: string };
+```
+![](https://img.shields.io/badge/default-object-lightgrey) 
+```javascript
+{
+  host: 'https://suggestions.dadata.ru',
+  api: 'suggestions/api/4_1/rs/suggest'
+}
+```
+___
+#### customInput ![](https://img.shields.io/badge/optional-green)
+function that get as argument user input, for replace embedded input primitive by custom or other component with compatible props signature
+```typescript
+interface BaseInputProps<T = HTMLInputElement> {
+  autoComplete: boolean | 'off';
+  className: string;
+  onBlur: React.FocusEventHandler<T>;
+  onChange: React.ChangeEventHandler<T>;
+  onFocus: React.FocusEventHandler<T>;
+  onKeyDown: React.KeyboardEventHandler<T>;
+  placeholder: string;
+  value: string;
+}
+...
+customInput?: (props: BaseInputProps) => React.ReactNode;
+```
+___
+#### debounce ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-350-lightgrey)
+debouncing interval for fetching data at user input in miliseconds
+```typescript
+debounce?: number;
+```
+___
+#### onChange ![](https://img.shields.io/badge/optional-green)
+change/select event handler, called when user select suggestion by mouse click or Enter key from keyboard. Handler gets suggestion object as argument
+```typescript
+onChange?: (suggestion: DadataSuggestion) => void;
+```
+___
+#### onIdleOut ![](https://img.shields.io/badge/optional-green)
+handler called when by current query, service return nothing variants of suggestion. Handler gets cureent query string as argument
+```typescript
+ onIdleOut?: (query: string) => void;
+```
+___
+#### payloadModifier ![](https://img.shields.io/badge/optional-green)
+patch for payload object (that sended to DaData service). It may be function that returns patch object that will be spread on native generated payload, or it may be object that permanently spread on native payload at each call. (it allows use difficult filters and additional parameters available for DaData API but not implemented in interface of this component)
+```typescript
+interface BasePayload {
+  query: string;
+  count?: number;
+}
+...
+object | ((payload: BasePayload) => BasePayload & object);
+```
+___
+#### placeholder ![](https://img.shields.io/badge/optional-green)
+placeholder text for input (it placed into relevant prop of target input)
+```typescript
+placeholder?: string;
+```
+___
+#### query ![](https://img.shields.io/badge/optional-green)
+query string for fetch suggestion from DaData service
+```typescript
+query?: string;
+```
+___
+#### showNote ![](https://img.shields.io/badge/optional-green)
+show at the top of suggestions list with help note about available keyboard actions
+```typescript
+showNote?: boolean;
+```
+___
+#### silentQuery ![](https://img.shields.io/badge/optional-green)
+special query string alternative that used when directly query prop is undefined or is empty string. It query will not be show in input node, but it determine of available suggestions in list at component on focus. (if directly query defined and not empty, this is ignored)
+```typescript
+silentQuery?: string;
+```
+___
+#### token ![](https://img.shields.io/badge/required-important)
+auth token for [DaData](https://dadata.ru/api/#suggestv) service
+```typescript
+token: string;
+```
+___
+#### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
+fethed suggestions type (declarative in DaData service terms). It may be 'address', 'bank', 'email', 'fio' (last/first/middle names), 'fms_unit' (branch/unit that issued Russian pasport)
+```typescript
+type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
+```
+___
