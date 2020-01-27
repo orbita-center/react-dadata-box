@@ -8,14 +8,19 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
 [![](https://img.shields.io/badge/TypeScript-types-blue?logo=typescript)](https://www.typescriptlang.org/)
 
+#### README LANGUAGE
+[Russian](README.ru.md) | <u>*English*</u>
+___
 
-Ready out of the box React-component for use [DaData](https://dadata.ru/api/#suggestv) service API (suggestions) implemented as input with dropdown suggestion list, with auto-fetch data at user input.
-It provides user-friendly navigation and select from keyboard in addition to the ability do that by mouse click.
+React component for use [DaData](https://dadata.ru/api/#suggestv) service API (suggestions) implemented as input with dropdown suggestions list, with auto-fetch data at user input.
+It provides user-friendly navigation from keyboard in addition to mouse click.
+
+![](https://img.shields.io/badge/ATTENTION-blueviolet) DaData service oriented to Russian Federation and russian-speaking users with russian queries. It use FIAS and KLADR and other national registry's and datasets, it provides suggestions only on russian language.
 
 #### Demo 
 [![](https://img.shields.io/badge/CodeSandbox-playground-black?logo=codesandbox)](https://codesandbox.io/s/react-dadata-box-example-g9xb0)
 
-(at top of demo showed keystrokes captured by [keycastr](https://github.com/keycastr/keycastr) MacOS appliccation)
+(at top of demo showed keystrokes captured by [keycastr](https://github.com/keycastr/keycastr) MacOS application)
 ![](proof_of_cocept.gif)
 
 [![](https://img.shields.io/badge/SHAREWARE-WARNING-orange)](https://en.wikipedia.org/wiki/Shareware&logo=wikipedia)
@@ -43,7 +48,7 @@ import ReactDadataBox from 'react-dadata-box';
 ```typescript
 allowClear?: boolean;
 ```
-show clear value ui control's
+show 'clear value' ui control's (at clear - change handlers are called)
 ___
 
 #### autocomplete ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"off"-lightgrey)
@@ -114,7 +119,7 @@ onChange?: (suggestion: DadataSuggestion) => void;
 ```
 ___
 #### onIdleOut ![](https://img.shields.io/badge/optional-green)
-handler called when by current query, service return nothing variants of suggestion. Handler gets cureent query string as argument
+handler called when by current query, service return nothing variants of suggestion. Handler gets current query string as argument
 ```typescript
  onIdleOut?: (query: string) => void;
 ```
@@ -142,7 +147,7 @@ query string for fetch suggestion from DaData service
 query?: string;
 ```
 ___
-#### showNote ![](https://img.shields.io/badge/optional-green)
+#### showNote ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-true-lightgrey)
 show at the top of suggestions list with help note about available keyboard actions
 ```typescript
 showNote?: boolean;
@@ -161,7 +166,7 @@ token: string;
 ```
 ___
 #### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
-fethed suggestions type (declarative in DaData service terms). It may be 'address', 'bank', 'email', 'fio' (last/first/middle names), 'fms_unit' (branch/unit that issued Russian pasport)
+fetched suggestions type (declarative in DaData service terms). It may be 'address', 'bank', 'email', 'fio' (last/first/middle names + gender detection), 'fms_unit' (branch/unit that issued Russian pasport)
 ```typescript
 type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
 ```
