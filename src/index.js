@@ -374,7 +374,7 @@ class ReactDadata extends React.PureComponent {
     const showSuggestionsList = inputFocused && showSuggestions;
 
     const inputConfig = {
-      autoComplete: autocomplete || 'off',
+      autoComplete: (autocomplete === 'on' && autocomplete) || 'off',
       className: `react-dadata__input${allowClear ? ' react-dadata__input-clearable' : ''}`,
       onBlur: this.onInputBlur,
       onChange: this.onInputChange,

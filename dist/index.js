@@ -298,7 +298,7 @@ var ReactDadata = function (_React$PureComponent) {
       var showSuggestionsList = inputFocused && showSuggestions;
 
       var inputConfig = {
-        autoComplete: autocomplete || 'off',
+        autoComplete: autocomplete === 'on' && autocomplete || 'off',
         className: 'react-dadata__input' + (allowClear ? ' react-dadata__input-clearable' : ''),
         onBlur: this.onInputBlur,
         onChange: this.onInputChange,
