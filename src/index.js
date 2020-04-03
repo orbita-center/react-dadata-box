@@ -30,8 +30,7 @@ const getStylingProps = (baseClass, customStyles = {}, additionalClass) => {
         style: customStyles[baseClass]
       }
     : {
-        className: `${defaultClasses[baseClass] || baseClass} ${additionalClass || ''} ${customStyles[baseClass] ||
-          ''}`.trim()
+        className: `${defaultClasses[baseClass] || baseClass} ${additionalClass || ''} ${customStyles[baseClass] || ''}`.trim()
       };
 };
 
@@ -66,9 +65,7 @@ const fakeRandomKey = () =>
 
 const SuggestionInfo = ({ data = {}, type }) => (
   <div className="react-dadata__suggestion-info">
-    <span>
-      {[type === 'party' ? data.inn || null : data.bic || null, (data.address && data.address.value) || null].join(' ')}
-    </span>
+    <span>{[type === 'party' ? data.inn || null : data.bic || null, (data.address && data.address.value) || null].join(' ')}</span>
   </div>
 );
 
@@ -136,12 +133,7 @@ const renderCustomActions = ({ customActions, customStyles, suggestions }, muteE
   return actions && actions.length
     ? [<hr key={'custom-actions-line'} className="actions-delimiter" />].concat(
         actions.map(node => (
-          <div
-            key={fakeRandomKey()}
-            onMouseDown={muteEventHandler}
-            onClick={onBlur}
-            {...getStylingProps('react-dadata__custom-action', customStyles)}
-          >
+          <div key={fakeRandomKey()} onMouseDown={muteEventHandler} onClick={onBlur} {...getStylingProps('react-dadata__custom-action', customStyles)}>
             {node}
           </div>
         ))
@@ -149,16 +141,7 @@ const renderCustomActions = ({ customActions, customStyles, suggestions }, muteE
     : false;
 };
 
-const SuggestionsList = ({
-  actions = [],
-  customStyles,
-  onSuggestionClick,
-  query,
-  showNote = true,
-  suggestionIndex,
-  suggestions,
-  type
-}) => {
+const SuggestionsList = ({ actions = [], customStyles, onSuggestionClick, query, showNote = true, suggestionIndex, suggestions, type }) => {
   return (
     !!(suggestions.length || actions.length) && (
       <div {...getStylingProps('react-dadata__suggestions', customStyles)}>
@@ -169,18 +152,9 @@ const SuggestionsList = ({
             onMouseDown={() => {
               onSuggestionClick(index);
             }}
-            {...getStylingProps(
-              'react-dadata__suggestion',
-              customStyles,
-              index === suggestionIndex && 'react-dadata__suggestion--current'
-            )}
+            {...getStylingProps('react-dadata__suggestion', customStyles, index === suggestionIndex && 'react-dadata__suggestion--current')}
           >
-            <Highlighter
-              highlightClassName="react-dadata--highlighted"
-              searchWords={getHighlightWords(query)}
-              textToHighlight={value}
-              autoEscape
-            />
+            <Highlighter highlightClassName="react-dadata--highlighted" searchWords={getHighlightWords(query)} textToHighlight={value} autoEscape />
             {(type === 'party' || type === 'bank') && <SuggestionInfo data={data} type={type} />}
           </div>
         ))}
@@ -190,7 +164,7 @@ const SuggestionsList = ({
   );
 };
 
-class ReactDadata extends React.PureComponent {
+class ReactDaDataBox extends React.PureComponent {
   state = {
     inputFocused: false,
     isValid: false,
@@ -201,12 +175,21 @@ class ReactDadata extends React.PureComponent {
     type: this.props.type || 'address'
   };
 
+  static displayName = 'ReactDaDataBox';
+
   xhr = new XMLHttpRequest();
   debounceTimer;
 
   componentDidMount = () => {
     if (this.props.query || this.props.silentQuery) {
-      this.fetchSuggestions();
+      this.fetchSuggestions(null, () => {
+        if (this.props.silentInit) {
+          const forceSelect = this.props.silentInit(this.state.suggestions);
+          if (forceSelect !== undefined && typeof forceSelect === 'number' && forceSelect < this.state.suggestions.length) {
+            this.selectSuggestion(forceSelect);
+          }
+        }
+      });
     }
   };
 
@@ -275,7 +258,7 @@ class ReactDadata extends React.PureComponent {
     }
   };
 
-  fetchSuggestions = setStateAdditional => {
+  fetchSuggestions = (setStateAdditional, callback) => {
     this.xhr.abort();
 
     const { type } = this.state;
@@ -316,7 +299,7 @@ class ReactDadata extends React.PureComponent {
         const { suggestions } = JSON.parse(this.xhr.response);
 
         if (suggestions && suggestions.length) {
-          this.setState(Object.assign({ suggestions, suggestionIndex: 0 }, setStateAdditional || {}));
+          this.setState(Object.assign({ suggestions, suggestionIndex: 0 }, setStateAdditional || {}), callback);
         } else if (this.props.onIdleOut) {
           this.props.onIdleOut(this.state.query);
         }
@@ -359,17 +342,7 @@ class ReactDadata extends React.PureComponent {
 
   render() {
     const { inputFocused, query, showSuggestions, suggestionIndex, suggestions, type } = this.state;
-    const {
-      allowClear,
-      autocomplete,
-      className,
-      customActions,
-      customInput,
-      customStyles,
-      placeholder,
-      showNote,
-      styles
-    } = this.props;
+    const { allowClear, autocomplete, className, customActions, customInput, customStyles, placeholder, showNote, styles } = this.props;
 
     const showSuggestionsList = inputFocused && showSuggestions;
 
@@ -393,10 +366,7 @@ class ReactDadata extends React.PureComponent {
         )}
         {showSuggestionsList && (
           <SuggestionsList
-            actions={
-              customActions &&
-              renderCustomActions({ customActions, customStyles, suggestions }, this.muteEventHandler, this.onInputBlur)
-            }
+            actions={customActions && renderCustomActions({ customActions, customStyles, suggestions }, this.muteEventHandler, this.onInputBlur)}
             customStyles={customStyles}
             suggestions={suggestions}
             suggestionIndex={suggestionIndex}
@@ -411,7 +381,7 @@ class ReactDadata extends React.PureComponent {
   }
 }
 
-ReactDadata.propTypes = {
+ReactDaDataBox.propTypes = {
   allowClear: PropTypes.bool,
   autocomplete: PropTypes.bool,
   city: PropTypes.bool,
@@ -428,14 +398,15 @@ ReactDadata.propTypes = {
   placeholder: PropTypes.string,
   query: PropTypes.string,
   showNote: PropTypes.bool,
+  silentInit: PropTypes.func,
   silentQuery: PropTypes.string,
   style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
   type: PropTypes.string
 };
 
-ReactDadata.defaultProps = {
+ReactDaDataBox.defaultProps = {
   customInput: params => <input {...params} />
 };
 
-export default ReactDadata;
+export default ReactDaDataBox;

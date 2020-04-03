@@ -159,6 +159,12 @@ special query string alternative that used when directly query prop is undefined
 silentQuery?: string;
 ```
 ___
+#### silentInit ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
+function that may be used to autoselect from preventive fetched (by placed query or silentQuery), it called with list of fetched suggestions, and if it will return index, appropriate suggestion will be selected (all handlers fire as at user select)
+```typescript
+silentInit?: (suggestions: DadataSuggestion[]) => number | undefined;
+```
+___
 #### token ![](https://img.shields.io/badge/required-important)
 auth token for [DaData](https://dadata.ru/api/#suggestv) service
 ```typescript
@@ -170,4 +176,3 @@ fetched suggestions type (declarative in DaData service terms). It may be 'addre
 ```typescript
 type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
 ```
-___
