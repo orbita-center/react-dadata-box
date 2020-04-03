@@ -122,7 +122,7 @@ interface BasePayload {
  */
 
 interface BaseInputProps<T = HTMLInputElement> {
-  autoComplete: boolean | 'off';
+  autocomplete: boolean | 'off';
   className: string;
   onBlur: React.FocusEventHandler<T>;
   onChange: React.ChangeEventHandler<T>;
@@ -153,50 +153,47 @@ interface BaseInputProps<T = HTMLInputElement> {
  * @property  { boolean } allowClear - [optional] show/hide clear fieldd control
  * @property  { boolean } showNote - [optional] show/hide note at suggestions list
  * @property  { boolean } silentQuery - [optional] initial query that not showed on input but determine  suggestion list that showed at first
+ * @property  { function } silentInit - [optional] function that may be used to autoselect from preventive fetched (by placed query or silentQuery), it called with list of fetched suggestions, and if it will return index, appropriate suggestion will be selected (all handlers fire as at user select)
  */
 
 interface Props {
+  allowClear?: boolean;
   autocomplete?: 'on' | 'off';
   city?: boolean;
   className?: string;
-  count?: number;
-  customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
   customStyles?: {
     'react-dadata__custom-action'?: string | React.CSSProperties;
     'react-dadata__suggestion'?: string | React.CSSProperties;
     'react-dadata__suggestion-note'?: string | React.CSSProperties;
     'react-dadata__suggestions'?: string | React.CSSProperties;
   };
+  count?: number;
+  customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
   customEndpoint?: string | { host?: string; api?: string };
   customInput?: (props: BaseInputProps) => React.ReactNode;
-  /**
-   * @function onChange
-   * @param {DadataSuggestion} suggestion
-   * @returns void
-   */
-  onChange?: (suggestion: DadataSuggestion) => void;
-  payloadModifier?: object | ((payload: BasePayload) => BasePayload & object);
-  onIdleOut?: (query: string) => void;
   debounce?: number;
+  onChange?: (suggestion: DadataSuggestion) => void;
+  onIdleOut?: (query: string) => void;
+  payloadModifier?: object | ((payload: BasePayload) => BasePayload & object);
   placeholder?: string;
   query?: string;
+  showNote?: boolean;
+  silentInit?: (suggestions: DadataSuggestion[]) => number | undefined;
+  silentQuery?: string;
   style?: React.CSSProperties;
   token: string;
   type?: FetchType;
-  allowClear?: boolean;
-  showNote?: boolean;
-  silentQuery?: string;
 }
 
 /**
  * Ready for use implementation of dropdown input that fetch resolve-object from DaData.ru service by query printed in input field
  *
- * @module ReactDadataBox
- * @class ReactDadataBox
+ * @module ReactDaDataBox
+ * @class ReactDaDataBox
  * @param props { Props }
  *
  * @see Documentation {@link https://github.com/orbita-center/react-dadata-box/blob/master/README.md on GitHub}
  */
-declare class ReactDadataBox extends React.Component<Props> {}
+declare class ReactDaDataBox extends React.Component<Props> {}
 
-export default ReactDadataBox;
+export default ReactDaDataBox;

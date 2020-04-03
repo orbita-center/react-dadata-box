@@ -163,6 +163,13 @@ ___
 silentQuery?: string;
 ```
 ___
+#### silentInit ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
+функция которрая может быть использована для автоматического выбора предварительно запрошенной подсказки (если были установлены query или silentQuery)
+она принимает список полученных подсказок, и если она возвращает индекс выбранной подсказки - она будет выбрана (все обработчики выбора будут вызваны, так же как и для выбора пользователя)
+```typescript
+silentInit?: (suggestions: DadataSuggestion[]) => number | undefined;
+```
+___
 #### token ![](https://img.shields.io/badge/required-important)
 авторизационный токен сервиса [DaData](https://dadata.ru/api/#suggestv)
 ```typescript
