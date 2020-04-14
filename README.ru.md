@@ -54,7 +54,7 @@ ___
 
 #### autocomplete ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"off"-lightgrey)
 ```typescript
-allowClear?: 'on' | 'off';
+autocomplete?: 'on' | 'off';
 ```
 значение свойства 'autocomplete' передаваемого в поле ввода 
 ___
