@@ -29,7 +29,7 @@ React компонент для использования API сервиса [D
  [DatData](https://dadata.ru/api/#suggestv) сервис является [shareware](https://img.shields.io/badge/SHAREWARE-gray?link=https://en.wikipedia.org/wiki/Shareware&logo=wikipedia) (т.е. условно-бесплатный), для его использования необходим токен (персональный или для организации).
 Для персонального использования необходимо зарегестрировать [Account](https://dadata.ru/#registration_popup), ваш персональный токен позволяет осуществлять не более 10000 запросов к API в сутки.
 
-### Утсановка
+### Установка
 ```
 npm install react-dadata-box
 ```
