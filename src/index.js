@@ -129,8 +129,10 @@ const renderCustomActions = ({ customActions, customStyles, suggestions }, muteE
   let actions = customActions instanceof Function ? customActions(suggestions) : customActions;
 
   // ToDo: @remove in >= 1.3.5
-  if (true) {
-    console.warn("\x1b[31m" + (`
+  if (!(customActions instanceof Function)) {
+    console.warn(
+      '\x1b[31m' +
+        `
    ╭────────────────────────────────────────────────────────────────╮
    │                  react-dadata-box@1.3.4                        │
    │                *** DEPRECATION WARNING ****                    │
