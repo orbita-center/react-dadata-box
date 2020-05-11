@@ -196,8 +196,8 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
   var actions = customActions instanceof Function ? customActions(suggestions) : customActions;
 
   // ToDo: @remove in >= 1.3.5
-  if (true) {
-    console.warn("\x1b[31m" + '\n   \u256D\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E\n   \u2502                  react-dadata-box@1.3.4                        \u2502\n   \u2502                *** DEPRECATION WARNING ****                    \u2502\n   \u2502  at v1.3.5 will be deprecated variant to place customActions   \u2502\n   \u2502   as React.Element it must be placed only as function that     \u2502\n   \u2502    returns React.Element and take suggestions as argument      \u2502\n   \u2502               see more in project README.md                    \u2502\n   \u2502      https://github.com/orbita-center/react-dadata-box         \u2502\n   \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F\n    ' + "\x1b[0m");
+  if (!(customActions instanceof Function)) {
+    console.warn('\x1b[31m' + '\n   \u256D\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E\n   \u2502                  react-dadata-box@1.3.4                        \u2502\n   \u2502                *** DEPRECATION WARNING ****                    \u2502\n   \u2502  at v1.3.5 will be deprecated variant to place customActions   \u2502\n   \u2502   as React.Element it must be placed only as function that     \u2502\n   \u2502    returns React.Element and take suggestions as argument      \u2502\n   \u2502               see more in project README.md                    \u2502\n   \u2502      https://github.com/orbita-center/react-dadata-box         \u2502\n   \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F\n    ' + '\x1b[0m');
   }
 
   actions = actions instanceof Array ? actions : actions ? [actions] : false;
@@ -205,7 +205,11 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
   return actions && actions.length ? [React.createElement('hr', { key: 'custom-actions-line', className: 'actions-delimiter' })].concat(actions.map(function (node) {
     return React.createElement(
       'div',
-      _extends({ key: fakeRandomKey(), onMouseDown: muteEventHandler, onClick: onBlur }, getStylingProps('react-dadata__custom-action', customStyles)),
+      _extends({
+        key: fakeRandomKey(),
+        onMouseDown: muteEventHandler,
+        onClick: onBlur
+      }, getStylingProps('react-dadata__custom-action', customStyles)),
       node
     );
   })) : false;
@@ -238,7 +242,12 @@ var SuggestionsList = function SuggestionsList(_ref3) {
             onSuggestionClick(index);
           }
         }, getStylingProps('react-dadata__suggestion', customStyles, index === suggestionIndex && 'react-dadata__suggestion--current')),
-        React.createElement(_reactHighlightWords2.default, { highlightClassName: 'react-dadata--highlighted', searchWords: getHighlightWords(query), textToHighlight: value, autoEscape: true }),
+        React.createElement(_reactHighlightWords2.default, {
+          highlightClassName: 'react-dadata--highlighted',
+          searchWords: getHighlightWords(query),
+          textToHighlight: value,
+          autoEscape: true
+        }),
         (type === 'party' || type === 'bank') && React.createElement(SuggestionInfo, { data: data, type: type })
       );
     }),
@@ -287,9 +296,10 @@ var ReactDaDataBox = function (_React$PureComponent) {
           customActions = _props.customActions,
           customInput = _props.customInput,
           customStyles = _props.customStyles,
+          forceOpenList = _props.forceOpenList,
           placeholder = _props.placeholder,
           showNote = _props.showNote,
-          styles = _props.styles;
+          style = _props.style;
 
 
       var showSuggestionsList = inputFocused && showSuggestions;
@@ -306,14 +316,14 @@ var ReactDaDataBox = function (_React$PureComponent) {
       };
       return React.createElement(
         'div',
-        { className: 'react-dadata react-dadata__container ' + className, style: styles },
+        { className: 'react-dadata react-dadata__container ' + className, style: style },
         customInput(inputConfig),
         allowClear && query && React.createElement(
           'span',
           { className: 'react-dadata__input-suffix', onClick: this.clear },
           React.createElement('i', { className: 'react-dadata__icon react-dadata__icon-clear' })
         ),
-        showSuggestionsList && React.createElement(SuggestionsList, {
+        (showSuggestionsList || forceOpenList) && React.createElement(SuggestionsList, {
           actions: customActions && renderCustomActions({ customActions: customActions, customStyles: customStyles, suggestions: suggestions }, this.muteEventHandler, this.onInputBlur),
           customStyles: customStyles,
           suggestions: suggestions,
@@ -527,6 +537,7 @@ ReactDaDataBox.propTypes = {
   customInput: _propTypes2.default.func,
   customStyles: _propTypes2.default.object,
   debounce: _propTypes2.default.number,
+  forceOpenList: _propTypes2.default.bool,
   onChange: _propTypes2.default.func,
   onIdleOut: _propTypes2.default.func,
   payloadModifier: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.shape, _propTypes2.default.func]),

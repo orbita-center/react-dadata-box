@@ -192,3 +192,9 @@ fetched suggestions type (declarative in DaData service terms). It may be 'addre
 // {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
 type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
 ```
+___
+#### forceOpenList ![](https://img.shields.io/badge/optional-green)
+this property force the suggestions list will be permanently open (usually needed for debug)
+```typescript
+forceOpenList?: boolean;
+```
