@@ -1,27 +1,29 @@
 {
-    "include": [
-        "./examples/src/*",
-        "./src/"
+  "include": [
+    "./examples/src/*",
+    "./src/"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "module": "commonjs",
+    "target": "es6",
+    "strict": true,
+    "typeRoots": [
+      "./node_modules/@types"
     ],
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "downlevelIteration": true,
-        "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "noImplicitAny": true,
-        "sourceMap": true,
-        "module": "commonjs",
-        "target": "es6",
-        "strict": true,
-        "typeRoots": ["./node_modules/@types"],
-        "lib": [
-            "dom",
-            "es2015"
-        ],
-        "jsx": "react",
-        "baseUrl": "./"
-    }
+    "lib": [
+      "dom",
+      "es2015"
+    ],
+    "jsx": "react",
+    "baseUrl": "./"
+  }
 }
 
