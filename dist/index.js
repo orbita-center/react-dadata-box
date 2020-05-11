@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ReactDaDataBox = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -194,6 +195,11 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
 
   var actions = customActions instanceof Function ? customActions(suggestions) : customActions;
 
+  // ToDo: @remove in >= 1.3.5
+  if (!(customActions instanceof Function)) {
+    console.warn('\x1b[31m' + '\n   \u256D\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E\n   \u2502                  react-dadata-box@1.3.4                        \u2502\n   \u2502                *** DEPRECATION WARNING ****                    \u2502\n   \u2502  at v1.3.5 will be deprecated variant to place customActions   \u2502\n   \u2502   as React.Element it must be placed only as function that     \u2502\n   \u2502    returns React.Element and take suggestions as argument      \u2502\n   \u2502               see more in project README.md                    \u2502\n   \u2502      https://github.com/orbita-center/react-dadata-box         \u2502\n   \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F\n    ' + '\x1b[0m');
+  }
+
   actions = actions instanceof Array ? actions : actions ? [actions] : false;
 
   return actions && actions.length ? [React.createElement('hr', { key: 'custom-actions-line', className: 'actions-delimiter' })].concat(actions.map(function (node) {
@@ -249,24 +255,24 @@ var SuggestionsList = function SuggestionsList(_ref3) {
   );
 };
 
-var ReactDadata = function (_React$PureComponent) {
-  _inherits(ReactDadata, _React$PureComponent);
+var ReactDaDataBox = function (_React$PureComponent) {
+  _inherits(ReactDaDataBox, _React$PureComponent);
 
-  function ReactDadata() {
+  function ReactDaDataBox() {
     var _ref5;
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, ReactDadata);
+    _classCallCheck(this, ReactDaDataBox);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref5 = ReactDadata.__proto__ || Object.getPrototypeOf(ReactDadata)).call.apply(_ref5, [this].concat(args))), _this), _initialiseProps.call(_this), _temp), _possibleConstructorReturn(_this, _ret);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref5 = ReactDaDataBox.__proto__ || Object.getPrototypeOf(ReactDaDataBox)).call.apply(_ref5, [this].concat(args))), _this), _initialiseProps.call(_this), _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(ReactDadata, [{
+  _createClass(ReactDaDataBox, [{
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       // Cancel all subscriptions and asynchronous tasks
@@ -290,9 +296,10 @@ var ReactDadata = function (_React$PureComponent) {
           customActions = _props.customActions,
           customInput = _props.customInput,
           customStyles = _props.customStyles,
+          forceOpenList = _props.forceOpenList,
           placeholder = _props.placeholder,
           showNote = _props.showNote,
-          styles = _props.styles;
+          style = _props.style;
 
 
       var showSuggestionsList = inputFocused && showSuggestions;
@@ -309,14 +316,14 @@ var ReactDadata = function (_React$PureComponent) {
       };
       return React.createElement(
         'div',
-        { className: 'react-dadata react-dadata__container ' + className, style: styles },
+        { className: 'react-dadata react-dadata__container ' + className, style: style },
         customInput(inputConfig),
         allowClear && query && React.createElement(
           'span',
           { className: 'react-dadata__input-suffix', onClick: this.clear },
           React.createElement('i', { className: 'react-dadata__icon react-dadata__icon-clear' })
         ),
-        showSuggestionsList && React.createElement(SuggestionsList, {
+        (showSuggestionsList || forceOpenList) && React.createElement(SuggestionsList, {
           actions: customActions && renderCustomActions({ customActions: customActions, customStyles: customStyles, suggestions: suggestions }, this.muteEventHandler, this.onInputBlur),
           customStyles: customStyles,
           suggestions: suggestions,
@@ -330,8 +337,10 @@ var ReactDadata = function (_React$PureComponent) {
     }
   }]);
 
-  return ReactDadata;
+  return ReactDaDataBox;
 }(React.PureComponent);
+
+ReactDaDataBox.displayName = 'ReactDaDataBox';
 
 var _initialiseProps = function _initialiseProps() {
   var _this2 = this;
@@ -349,7 +358,14 @@ var _initialiseProps = function _initialiseProps() {
 
   this.componentDidMount = function () {
     if (_this2.props.query || _this2.props.silentQuery) {
-      _this2.fetchSuggestions();
+      _this2.fetchSuggestions(null, function () {
+        if (_this2.props.silentInit) {
+          var forceSelect = _this2.props.silentInit(_this2.state.suggestions);
+          if (forceSelect !== undefined && typeof forceSelect === 'number' && forceSelect < _this2.state.suggestions.length) {
+            _this2.selectSuggestion(forceSelect);
+          }
+        }
+      });
     }
   };
 
@@ -426,7 +442,7 @@ var _initialiseProps = function _initialiseProps() {
     }
   };
 
-  this.fetchSuggestions = function (setStateAdditional) {
+  this.fetchSuggestions = function (setStateAdditional, callback) {
     _this2.xhr.abort();
 
     var type = _this2.state.type;
@@ -466,7 +482,7 @@ var _initialiseProps = function _initialiseProps() {
             suggestions = _JSON$parse.suggestions;
 
         if (suggestions && suggestions.length) {
-          _this2.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}));
+          _this2.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}), callback);
         } else if (_this2.props.onIdleOut) {
           _this2.props.onIdleOut(_this2.state.query);
         }
@@ -510,7 +526,7 @@ var _initialiseProps = function _initialiseProps() {
   };
 };
 
-ReactDadata.propTypes = {
+ReactDaDataBox.propTypes = {
   allowClear: _propTypes2.default.bool,
   autocomplete: _propTypes2.default.bool,
   city: _propTypes2.default.bool,
@@ -521,22 +537,26 @@ ReactDadata.propTypes = {
   customInput: _propTypes2.default.func,
   customStyles: _propTypes2.default.object,
   debounce: _propTypes2.default.number,
+  forceOpenList: _propTypes2.default.bool,
   onChange: _propTypes2.default.func,
   onIdleOut: _propTypes2.default.func,
   payloadModifier: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.shape, _propTypes2.default.func]),
   placeholder: _propTypes2.default.string,
   query: _propTypes2.default.string,
   showNote: _propTypes2.default.bool,
+  silentInit: _propTypes2.default.func,
   silentQuery: _propTypes2.default.string,
   style: _propTypes2.default.objectOf(_propTypes2.default.string),
   token: _propTypes2.default.string.isRequired,
   type: _propTypes2.default.string
 };
 
-ReactDadata.defaultProps = {
+ReactDaDataBox.defaultProps = {
+  type: 'address',
   customInput: function customInput(params) {
     return React.createElement('input', params);
   }
 };
 
-exports.default = ReactDadata;
+exports.ReactDaDataBox = ReactDaDataBox;
+exports.default = ReactDaDataBox;
