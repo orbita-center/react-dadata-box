@@ -197,3 +197,8 @@ ___
 type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
 ```
 ___
+#### forceOpenList ![](https://img.shields.io/badge/optional-green)
+свойство определяющее принудительное раскрытие списка подсказок (преимущественно необходимо для удобства отладки/разработки н/п customActions)
+```typescript
+forceOpenList?: boolean;
+```

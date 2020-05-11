@@ -62,6 +62,7 @@ export default function App() {
       <ReactDadataBox
         token={testToken}
         onChange={(suggestion) => setSample3(suggestion)}
+        forceOpenList={true}
         customActions={() => <div>произвольное действие</div>}
       />
       <br />

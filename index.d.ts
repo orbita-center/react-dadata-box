@@ -406,6 +406,7 @@ type BaseProps = {
   customEndpoint?: string | { host?: string; api?: string };
   customInput?: (props: BaseInputProps) => React.ReactNode;
   debounce?: number;
+  forceOpenList?: boolean;
   onIdleOut?: (query: string) => void;
   payloadModifier?: object | ((payload: BasePayload) => BasePayload & object);
   placeholder?: string;
