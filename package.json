@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --hot --inline --mode development --open",
     "transpile": "NODE_ENV=production babel src -d dist --copy-files",
-    "prepublishOnly": "npm run transpile"
+    "prepublishOnly": "npm run transpile",
+    "postinstall": "node postinstall.js"
   },
   "author": {
     "name": "orbita",

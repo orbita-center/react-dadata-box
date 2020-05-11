@@ -62,7 +62,7 @@ export default function App() {
       <ReactDadataBox
         token={testToken}
         onChange={(suggestion) => setSample3(suggestion)}
-        customActions={<div>произвольное действие</div>}
+        customActions={() => <div>произвольное действие</div>}
       />
       <br />
       <ReactJsonView src={sample3} />

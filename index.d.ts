@@ -1,13 +1,15 @@
 // tslint:disable:max-line-length
 import * as React from 'react';
+import { ReactElement, ReactNode } from 'react';
 
-/**
- * @typedef { DadataSuggestion } DadataSuggestion
- * @property  { string } value - [required]
- * @property  { string } unrestricted_value - [required]
- * @property  { DadataSuggestion.data } data - [optional]
- */
-export interface DadataSuggestion {
+// types formed by description's from:
+// - https://dadata.ru/api/find-address/#response
+export interface AddressMetroBlock {
+  name: string | null;
+  line: string | null;
+  distance: number | null;
+}
+export interface AddressResponseType {
   value: string;
   unrestricted_value: string;
   data: { [key: string]: any } & {
@@ -66,13 +68,13 @@ export interface DadataSuggestion {
     square_meter_price?: string | null;
     flat_price?: string | null;
     postal_box?: string | null;
-    fias_id?: string | null;
+    fias_id?: 'HOUSE.HOUSEGUID' | 'ADDROBJ.AOGUID' | null;
     fias_code?: string | null;
-    fias_level?: string | null;
-    fias_actuality_state?: string | null;
+    fias_level?:  '0' | '1' | '3' | '4' | '5' | '6' | '7' | '8' | '65' | '-1' | null;
+    fias_actuality_state?: number | null;
     kladr_id?: string | null;
     geoname_id?: string | null;
-    capital_marker?: string | null;
+    capital_marker?: '0' | '1' | '2' | '3' | '4' | null;
     okato?: string | null;
     oktmo?: string | null;
     tax_office?: string | null;
@@ -82,8 +84,8 @@ export interface DadataSuggestion {
     geo_lon?: string | null;
     beltway_hit?: string | null;
     beltway_distance?: string | null;
-    metro?: string | null;
-    qc_geo?: string | null;
+    metro?: AddressMetroBlock | null;
+    qc_geo?: '0' | '1' | '2' | '3' | '4' | '5' | null;
     qc_complete?: string | null;
     qc_house?: string | null;
     history_values?: Array<string | null>;
@@ -93,10 +95,240 @@ export interface DadataSuggestion {
   };
 }
 
+// types formed by description's from:
+// - https://dadata.ru/api/find-party/
+export type FinanceTaxSystem = 'ENVD' | 'ESHN' | 'SRP' | 'USN' | 'ENVD_ESHN' | 'USN_ENVD'
+export type FinanceBlock = {
+  tax_system: FinanceTaxSystem | null;
+  income: string | null;
+  expense: string | null;
+  debt: string | null;
+  penalty: string | null
+}
+export type OKVED = {
+  main: string | null;
+  type: string | null;
+  code: string | number | null;
+  name: string | null;
+}
+
+// types formed by description's from:
+// - https://dadata.ru/api/suggest/party/
+export type PartyStatus = 'ACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'REORGANIZING'
+export type PartyType = 'LEGAL' | 'INDIVIDUAL'
+export type BranchType = 'MAIN' | 'BRANCH'
+export interface PartySateBlock {
+  status: PartyStatus | null;
+  actuality_date: number | null;
+  registration_date: number | null;
+  liquidation_date: null
+}
+export interface PartyPerson {
+  ogrn: string | number | null;
+  inn: string | number | null;
+  name: string | null;
+  fio: string | null;
+  hid: string | null;
+}
+export interface PartyFounder extends PartyPerson {
+  type: 'LEGAL' | 'PHYSICAL' | null
+}
+export interface PartyManager extends PartyPerson {
+  post: string | number | null;
+  type: 'EMPLOYEE' | 'FOREIGNER' | 'LEGAL' | null
+}
+export type PartyOpfType = 'BANK' | 'BANK_BRANCH' | 'NKO' | 'NKO_BRANCH' | 'RKC' | 'OTHER'
+export interface PartyOpf {
+  type: PartyOpfType | null,
+  code: string | null;
+  full: string | null;
+  short: string | null
+}
+export interface PartyName {
+  full_with_opf: string | null;
+  short_with_opf: string | null;
+  latin: null;
+  full: string | null;
+  short: string | null
+}
+export interface PartyFtsRegistration {
+  type: string | null;
+  code: string | number | null;
+  name: string | null;
+  address: string | null;
+}
+export interface PartyCapital {
+  type: string | null;
+  value: string | null;
+}
+export interface PartyManagement {
+  name: string | null;
+  post: string | null;
+  disqualified: string | null
+}
+
+// types formed by description's from:
+// - https://dadata.ru/api/suggest/party/
+// - https://dadata.ru/api/find-party/
+export interface PartyResponseType {
+  value: string | null;
+  data: {
+    kpp: string | null;
+    capital: PartyCapital | null;
+    management: PartyManagement | null;
+    founders: PartyFounder[] | null;
+    managers: PartyManager[] | null;
+    branch_type: BranchType | null;
+    branch_count: number | null;
+    source: string | null;
+    qc: '0' | '1' | '3' | null;
+    hid: string | null;
+    type: PartyType | null;
+    state: PartySateBlock | null;
+    opf: PartyOpf | null;
+    name: PartyName | null;
+    inn: string | null;
+    ogrn: string | null;
+    okpo: string | null;
+    okved: string | null;
+    okveds: OKVED[] | null;
+    authorities: any | null;
+    fts_registration: PartyFtsRegistration | null;
+    documents: any[] | null;
+    licenses: any[] | null;
+    finance: FinanceBlock;
+    address: AddressResponseType;
+    phones: any[] | null;
+    emails: string | null;
+    ogrn_date: number | null;
+    okved_type: string | null;
+    employee_count: string | null;
+  }
+}
+
+// types formed by description's from:
+// - https://dadata.ru/suggestions/usage/bank/
+export interface BankName {
+  "payment": string | null;
+  "full": string | null;
+  "short": string | null;
+}
+export interface BankResponseType {
+  "value": "АО «Тинькофф Банк»";
+  "unrestricted_value": "АО «Тинькофф Банк»";
+  "data": {
+    "opf": PartyOpf | null;
+    "name": BankName | null;
+    "bic": string | null;
+    "swift": string | null;
+    "inn": string | null;
+    "kpp": string | null;
+    "okpo": string | null;
+    "correspondent_account": string | null;
+    "registration_number": string | null;
+    "payment_city": string | null;
+    "state": PartySateBlock | null;
+    "rkc": string | null;
+    "address": AddressResponseType;
+    "phones": any[] | null;
+  }
+}
+
+// types formed by description's from:
+// https://dadata.ru/api/clean/email/
+// https://dadata.ru/api/clean/email/#qc
+export type EmailType = 'PERSONAL' | 'CORPORATE' | 'ROLE' | 'DISPOSABLE';
+export interface EmailResponseType {
+  "value": string;
+  "unrestricted_value": string | null;
+  "data": {
+    "local": string | null;
+    "domain": string | null;
+    "type": EmailType | null;
+    "source": string | null;
+    "qc": '0' | '1' | '2' | '3' | '4' | null;
+  }
+}
+
+// types formed by description's from:
+// https://dadata.ru/suggestions/usage/name/
+export type FioGender = 'MALE' | 'FEMALE' | 'UNKNOWN'
+export interface FioResponseType {
+  "value": string,
+  "unrestricted_value": string | null;
+  "data": {
+    "surname": string | null;
+    "name": string | null;
+    "patronymic": string | null;
+    "gender": FioGender | null;
+    "source": string | null;
+    "qc": '0' | '1';
+  }
+}
+
+// types formed by description's from:
+// https://dadata.ru/suggestions/outward/fms_unit/
+interface FmsUnitResponseType {
+  data: {
+    code: string | null;
+    name: string | null;
+    region_code: string | null;
+    type: '0' | '1' | '2' | '3' | null;
+  };
+  code: string | null;
+  name: string | null;
+  region_code: string | null;
+  type: string | null;
+  unrestricted_value: string | null;
+  value: string | null;
+}
+
 /**
  * @typedef { FetchType } FetchType
  */
-type FetchType = 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit' | undefined;
+type FetchType = AddressQueryMode | PartyQueryMode | BankQueryMode | EmailQueryMode | FioQueryMode | FmsUnitQueryMode;
+
+/**
+ * @typedef { AddressQueryMode } - address's by abstract text query (as text address representation)
+ */
+type AddressQueryMode = 'address'
+/**
+ * @typedef { PartyQueryMode } - organization's info by abstract text query (as organization name) or as numbers sequence (as INN code)
+ */
+type PartyQueryMode = 'party'
+/**
+ * @typedef { BankQueryMode } - bank's info by abstract text query (as bank name) or number or as numbers sequence (as bank BIC code)
+ */
+type BankQueryMode = 'bank'
+/**
+ * @typedef { EmailQueryMode } - search emails
+ */
+type EmailQueryMode = 'email'
+/**
+ * @typedef { FioQueryMode } - gender targeting by abstract text as first-name + last-name(?) + patronymic(?) [order is not important]
+ */
+type FioQueryMode = 'fio'
+/**
+ * @typedef { FmsUnitQueryMode } - fms_unit by abstract text query (as fms_unit name) or numbers sequence (as fms_unit_code)
+ */
+type FmsUnitQueryMode = 'fms_unit'
+
+/**
+ * @typedef { SpecificQueryModeResponse } - generic for detection response payload type by FetchType
+ */
+type SpecificQueryModeResponse<T> = T extends AddressQueryMode
+    ? AddressResponseType
+    : T extends PartyQueryMode
+        ? PartyResponseType
+        : T extends BankQueryMode
+            ? BankResponseType
+            : T extends EmailQueryMode
+                ? EmailResponseType
+                : T extends FioQueryMode
+                    ? FioResponseType
+                    : T extends FmsUnitQueryMode
+                        ? FmsUnitResponseType
+                        : AddressQueryMode
 
 /**
  * @typedef { BasePayload } BasePayload
@@ -133,12 +365,12 @@ interface BaseInputProps<T = HTMLInputElement> {
 }
 
 /**
- * @typedef { Props } Props
+ * @typedef { SpecificModeByTypeProps } SpecificModeByTypeProps
  * @property  { boolean } autocomplete - [optional] property translated to native input tag;
  * @property  { customInput } customInput - [optional] function that fires with one argument { BaseInputProps }
  * @property  { customActions } customActions - [optional] adding custom action to base suggestions dropdown list
  * @property  { boolean | object } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service), may be string: full or relative uri or object with 'host' and/or 'api' property
- * @property  { boolean } city - [optional] optional to "city-mode"
+ * @property  { boolean } city - [optional] optional to city-mode
  * @property  { string } className - [optional] additional classname
  * @property  { number } count - [optional] single query limit (default: 10)
  * @property  { onChange } onChange - [optional] - onChange handler
@@ -156,7 +388,10 @@ interface BaseInputProps<T = HTMLInputElement> {
  * @property  { function } silentInit - [optional] function that may be used to autoselect from preventive fetched (by placed query or silentQuery), it called with list of fetched suggestions, and if it will return index, appropriate suggestion will be selected (all handlers fire as at user select)
  */
 
-interface Props {
+/**
+ * @typedef { BaseProps } basic collect of props with predefined types independent of query mode type
+ */
+type BaseProps = {
   allowClear?: boolean;
   autocomplete?: 'on' | 'off';
   city?: boolean;
@@ -168,32 +403,57 @@ interface Props {
     'react-dadata__suggestions'?: string | React.CSSProperties;
   };
   count?: number;
-  customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
   customEndpoint?: string | { host?: string; api?: string };
   customInput?: (props: BaseInputProps) => React.ReactNode;
   debounce?: number;
-  onChange?: (suggestion: DadataSuggestion) => void;
   onIdleOut?: (query: string) => void;
   payloadModifier?: object | ((payload: BasePayload) => BasePayload & object);
   placeholder?: string;
   query?: string;
   showNote?: boolean;
-  silentInit?: (suggestions: DadataSuggestion[]) => number | undefined;
   silentQuery?: string;
   style?: React.CSSProperties;
   token: string;
-  type?: FetchType;
 }
 
 /**
+ * @template T
+ * @typedef { SpecificModeProps } generic declare typing of suggestions based on query mode {T}
+ */
+type SpecificModeProps<T extends FetchType> = {
+  customActions?: (suggestions: SpecificQueryModeResponse<T>[]) => React.ReactNode;
+  onChange?: (suggestion: SpecificQueryModeResponse<T>) => void;
+  silentInit?: (suggestions: SpecificQueryModeResponse<T>[]) => number;
+}
+
+/**
+ * @typedef { SpecificModeByTypeProps } discriminated union that provide correct suggestions typing based on placed value of 'type' property (default: {AddressQueryMode})
+ */
+type SpecificModePropsTaggedUnion =
+    (
+        {
+          type?: 'address',
+        } & SpecificModeProps<AddressQueryMode> | {
+          type: 'party',
+        } & SpecificModeProps<PartyQueryMode> | {
+          type: 'bank',
+        } & SpecificModeProps<BankQueryMode> | {
+          type: 'email',
+        } & SpecificModeProps<EmailQueryMode> | {
+          type: 'fio',
+        } & SpecificModeProps<FioQueryMode> | {
+          type: 'fms_unit',
+        } & SpecificModeProps<FmsUnitQueryMode>
+    )
+
+/**
  * Ready for use implementation of dropdown input that fetch resolve-object from DaData.ru service by query printed in input field
- *
  * @module ReactDaDataBox
- * @class ReactDaDataBox
- * @param props { Props }
- *
  * @see Documentation {@link https://github.com/orbita-center/react-dadata-box/blob/master/README.md on GitHub}
  */
-declare class ReactDaDataBox extends React.Component<Props> {}
+export const ReactDaDataBox: {
+  (props: BaseProps & SpecificModeProps<AddressQueryMode>): ReactElement<BaseProps & SpecificModeProps<AddressQueryMode>>
+  (props: BaseProps & SpecificModePropsTaggedUnion): ReactElement<BaseProps & SpecificModePropsTaggedUnion>
+};
 
 export default ReactDaDataBox;
