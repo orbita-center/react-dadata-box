@@ -58,8 +58,21 @@ autocomplete?: 'on' | 'off';
 autocomplete prop for input primitive
 ___
 #### customActions ![](https://img.shields.io/badge/optional-green)
-node/nodes or function that returns node to place that as 'custom action' (it placed in separated block at the end of list)
+function that returns node (or nodes array) to place that as 'custom action' 
+(each component from result placed in separated block at the end of list)
+
+at v1.3.4 variant 'React.ReactNode' deprecated at types definition  
+since v1.3.5 variant 'React.ReactNode' will be deprecated from functionality
 ```typescript
+// {ResponseType<T>} where 'T' is one of FetchType (value placed at 'type' prop):
+// {AddressQueryMode} 'address' | {PartyQueryMode} 'party' | {BankQueryMode} |
+// {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
+// it determines DaData response object type
+customActions?: ((suggestions: SpecificQueryModeResponse<T>[]) => React.ReactNode);
+```
+at versions < v1.3.4
+```typescript 
+// {DadataSuggestion} always typed responce as 'address' query { AddressResponseType }
 customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
 ```
 ___
@@ -174,5 +187,8 @@ ___
 #### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
 fetched suggestions type (declarative in DaData service terms). It may be 'address', 'bank', 'email', 'fio' (last/first/middle names + gender detection), 'fms_unit' (branch/unit that issued Russian pasport)
 ```typescript
+// {FetchType}:   
+// {AddressQueryMode} 'address' | {PartyQueryMode} 'party' | {BankQueryMode} |
+// {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
 type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
 ```

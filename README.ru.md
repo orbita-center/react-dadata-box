@@ -59,9 +59,21 @@ autocomplete?: 'on' | 'off';
 значение свойства 'autocomplete' передаваемого в поле ввода 
 ___
 #### customActions ![](https://img.shields.io/badge/optional-green)
-Компонент\[ы] или функция его возвращающая, для определения 'произвольных действий' (custom actions)
+Функция принимающая в качестве аргумента список подсказок, которая возвращающает компонент (или массив компонентов) для определения 'произвольных действий' (custom actions)
 которые размещаются обособленной отдельной группой в конце выпадающего списка подсказок.  
+
+в версии v1.3.4 вариант определения как 'React.ReactNode' упразднен в определении типов  
+насиная с версии v1.3.5 вариант определения как 'React.ReactNode' будет упразднен технически
 ```typescript
+// {ResponseType<T>} где 'T' это один из FetchType (значение передаваемое в пропс 'type'):
+// {AddressQueryMode} 'address' | {PartyQueryMode} 'party' | {BankQueryMode} |
+// {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
+// это определяет типизацию структуры соотв. ответа от DaData по специфическому type
+customActions?: ((suggestions: SpecificQueryModeResponse<T>[]) => React.ReactNode);
+```
+at versions < v1.3.4
+```typescript 
+// {DadataSuggestion} всегда типизируется как объект возвращаемый при запросе 'address'
 customActions?: ((suggestions: DadataSuggestion[]) => React.ReactNode) | React.ReactNode;
 ```
 ___
@@ -179,6 +191,9 @@ ___
 #### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
 тип запрашиваемых "подсказок" (в терминологии сервиса DaData): 'address' (адреса), 'bank' (банки), 'email' (электронная почта), 'fio' (ФИО + определение пола), 'fms_unit' (отделение выдавшее паспорт РФ) 
 ```typescript
+// {FetchType}:   
+// {AddressQueryMode} 'address' | {PartyQueryMode} 'party' | {BankQueryMode} |
+// {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
 type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
 ```
 ___

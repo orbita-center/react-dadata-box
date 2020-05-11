@@ -1,4 +1,5 @@
 declare module 'react-dadata-box' {
-    import * as ReactDaDataBox from 'index';
-    export default ReactDaDataBox.default
+    import { ReactDaDataBox } from 'index';
+    export { ReactDaDataBox }
+    export default ReactDaDataBox
 }
