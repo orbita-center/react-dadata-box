@@ -1,27 +1,27 @@
 .App {
-  font-family: sans-serif;
+    font-family: sans-serif;
 }
 
 .dark-theme * {
-  background-color: black;
-  color: white;
+    background-color: black;
+    color: white;
 }
 
 .dark-input input {
-  background-color: black;
-  color: orange;
+    background-color: black;
+    color: orange;
 }
 
 .dark-input .react-dadata__suggestion * {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .dark-input .react-dadata__suggestion--current {
-  background-color: darkgreen;
-  color: orange;
+    background-color: darkgreen;
+    color: orange;
 }
 
 .dark-input .react-dadata__suggestion:hover {
-  background-color: darkgray;
-  color: orange;
+    background-color: darkgray;
+    color: orange;
 }

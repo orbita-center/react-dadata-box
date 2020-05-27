@@ -24,7 +24,7 @@ export default function App() {
       <h1>react-dadata-box</h1>
       <hr />
       <h3>defaults</h3>
-      <ReactDadataBox token={testToken} onChange={(suggestion) => setSample1(suggestion)} />
+      <ReactDadataBox token={testToken} onChange={suggestion => setSample1(suggestion)} />
       <br />
       <ReactJsonView src={sample1} />
       <br />
@@ -33,8 +33,8 @@ export default function App() {
       <h3>custom action (#1) as function</h3>
       <ReactDadataBox
         token={testToken}
-        onChange={(suggestion) => setSample2(suggestion)}
-        customActions={(suggestions) =>
+        onChange={suggestion => setSample2(suggestion)}
+        customActions={suggestions =>
           !suggestions.length && (
             <a href=" " onClick={idleAction}>
               произвольное действие
@@ -50,8 +50,8 @@ export default function App() {
       <h3>custom action (#2) as function returns multiple</h3>
       <ReactDadataBox
         token={testToken}
-        onChange={(suggestion) => setSample2(suggestion)}
-        customActions={() => ['действие1', 'действие1'].map((action) => <div key={action}>{action}</div>)}
+        onChange={suggestion => setSample2(suggestion)}
+        customActions={() => ['действие1', 'действие1'].map(action => <div key={action}>{action}</div>)}
       />
       <br />
       <ReactJsonView src={sample2} />
@@ -61,7 +61,7 @@ export default function App() {
       <h3>custom action (#3) as node</h3>
       <ReactDadataBox
         token={testToken}
-        onChange={(suggestion) => setSample3(suggestion)}
+        onChange={suggestion => setSample3(suggestion)}
         forceOpenList={true}
         customActions={() => <div>произвольное действие</div>}
       />
@@ -73,14 +73,14 @@ export default function App() {
       <h3>custom styling (dark theme)</h3>
       <ReactDadataBox
         token={testToken}
-        onChange={(suggestion) => setSample4(suggestion)}
+        onChange={suggestion => setSample4(suggestion)}
         className="dark-input"
         customStyles={{
           'react-dadata__suggestions': 'dark-theme',
           'react-dadata__suggestion': {
             border: '1px solid blue',
-            borderBottom: 'none',
-          },
+            borderBottom: 'none'
+          }
         }}
       />
       <br />

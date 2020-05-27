@@ -1,6 +1,6 @@
 // tslint:disable:max-line-length
 import * as React from 'react';
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement } from 'react';
 
 // types formed by description's from:
 // - https://dadata.ru/api/find-address/#response
@@ -9,6 +9,7 @@ export interface AddressMetroBlock {
   line: string | null;
   distance: number | null;
 }
+
 export interface AddressResponseType {
   value: string;
   unrestricted_value: string;
@@ -70,7 +71,7 @@ export interface AddressResponseType {
     postal_box?: string | null;
     fias_id?: 'HOUSE.HOUSEGUID' | 'ADDROBJ.AOGUID' | null;
     fias_code?: string | null;
-    fias_level?:  '0' | '1' | '3' | '4' | '5' | '6' | '7' | '8' | '65' | '-1' | null;
+    fias_level?: '0' | '1' | '3' | '4' | '5' | '6' | '7' | '8' | '65' | '-1' | null;
     fias_actuality_state?: number | null;
     kladr_id?: string | null;
     geoname_id?: string | null;
@@ -97,32 +98,34 @@ export interface AddressResponseType {
 
 // types formed by description's from:
 // - https://dadata.ru/api/find-party/
-export type FinanceTaxSystem = 'ENVD' | 'ESHN' | 'SRP' | 'USN' | 'ENVD_ESHN' | 'USN_ENVD'
+export type FinanceTaxSystem = 'ENVD' | 'ESHN' | 'SRP' | 'USN' | 'ENVD_ESHN' | 'USN_ENVD';
 export type FinanceBlock = {
   tax_system: FinanceTaxSystem | null;
   income: string | null;
   expense: string | null;
   debt: string | null;
-  penalty: string | null
-}
+  penalty: string | null;
+};
 export type OKVED = {
   main: string | null;
   type: string | null;
   code: string | number | null;
   name: string | null;
-}
+};
 
 // types formed by description's from:
 // - https://dadata.ru/api/suggest/party/
-export type PartyStatus = 'ACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'REORGANIZING'
-export type PartyType = 'LEGAL' | 'INDIVIDUAL'
-export type BranchType = 'MAIN' | 'BRANCH'
+export type PartyStatus = 'ACTIVE' | 'LIQUIDATING' | 'LIQUIDATED' | 'REORGANIZING';
+export type PartyType = 'LEGAL' | 'INDIVIDUAL';
+export type BranchType = 'MAIN' | 'BRANCH';
+
 export interface PartySateBlock {
   status: PartyStatus | null;
   actuality_date: number | null;
   registration_date: number | null;
-  liquidation_date: null
+  liquidation_date: null;
 }
+
 export interface PartyPerson {
   ogrn: string | number | null;
   inn: string | number | null;
@@ -130,41 +133,49 @@ export interface PartyPerson {
   fio: string | null;
   hid: string | null;
 }
+
 export interface PartyFounder extends PartyPerson {
-  type: 'LEGAL' | 'PHYSICAL' | null
+  type: 'LEGAL' | 'PHYSICAL' | null;
 }
+
 export interface PartyManager extends PartyPerson {
   post: string | number | null;
-  type: 'EMPLOYEE' | 'FOREIGNER' | 'LEGAL' | null
+  type: 'EMPLOYEE' | 'FOREIGNER' | 'LEGAL' | null;
 }
-export type PartyOpfType = 'BANK' | 'BANK_BRANCH' | 'NKO' | 'NKO_BRANCH' | 'RKC' | 'OTHER'
+
+export type PartyOpfType = 'BANK' | 'BANK_BRANCH' | 'NKO' | 'NKO_BRANCH' | 'RKC' | 'OTHER';
+
 export interface PartyOpf {
-  type: PartyOpfType | null,
+  type: PartyOpfType | null;
   code: string | null;
   full: string | null;
-  short: string | null
+  short: string | null;
 }
+
 export interface PartyName {
   full_with_opf: string | null;
   short_with_opf: string | null;
   latin: null;
   full: string | null;
-  short: string | null
+  short: string | null;
 }
+
 export interface PartyFtsRegistration {
   type: string | null;
   code: string | number | null;
   name: string | null;
   address: string | null;
 }
+
 export interface PartyCapital {
   type: string | null;
   value: string | null;
 }
+
 export interface PartyManagement {
   name: string | null;
   post: string | null;
-  disqualified: string | null
+  disqualified: string | null;
 }
 
 // types formed by description's from:
@@ -203,67 +214,70 @@ export interface PartyResponseType {
     ogrn_date: number | null;
     okved_type: string | null;
     employee_count: string | null;
-  }
+  };
 }
 
 // types formed by description's from:
 // - https://dadata.ru/suggestions/usage/bank/
 export interface BankName {
-  "payment": string | null;
-  "full": string | null;
-  "short": string | null;
+  payment: string | null;
+  full: string | null;
+  short: string | null;
 }
+
 export interface BankResponseType {
-  "value": "АО «Тинькофф Банк»";
-  "unrestricted_value": "АО «Тинькофф Банк»";
-  "data": {
-    "opf": PartyOpf | null;
-    "name": BankName | null;
-    "bic": string | null;
-    "swift": string | null;
-    "inn": string | null;
-    "kpp": string | null;
-    "okpo": string | null;
-    "correspondent_account": string | null;
-    "registration_number": string | null;
-    "payment_city": string | null;
-    "state": PartySateBlock | null;
-    "rkc": string | null;
-    "address": AddressResponseType;
-    "phones": any[] | null;
-  }
+  value: 'АО «Тинькофф Банк»';
+  unrestricted_value: 'АО «Тинькофф Банк»';
+  data: {
+    opf: PartyOpf | null;
+    name: BankName | null;
+    bic: string | null;
+    swift: string | null;
+    inn: string | null;
+    kpp: string | null;
+    okpo: string | null;
+    correspondent_account: string | null;
+    registration_number: string | null;
+    payment_city: string | null;
+    state: PartySateBlock | null;
+    rkc: string | null;
+    address: AddressResponseType;
+    phones: any[] | null;
+  };
 }
 
 // types formed by description's from:
 // https://dadata.ru/api/clean/email/
 // https://dadata.ru/api/clean/email/#qc
 export type EmailType = 'PERSONAL' | 'CORPORATE' | 'ROLE' | 'DISPOSABLE';
+
 export interface EmailResponseType {
-  "value": string;
-  "unrestricted_value": string | null;
-  "data": {
-    "local": string | null;
-    "domain": string | null;
-    "type": EmailType | null;
-    "source": string | null;
-    "qc": '0' | '1' | '2' | '3' | '4' | null;
-  }
+  value: string;
+  unrestricted_value: string | null;
+  data: {
+    local: string | null;
+    domain: string | null;
+    type: EmailType | null;
+    source: string | null;
+    qc: '0' | '1' | '2' | '3' | '4' | null;
+  };
 }
 
 // types formed by description's from:
 // https://dadata.ru/suggestions/usage/name/
-export type FioGender = 'MALE' | 'FEMALE' | 'UNKNOWN'
+export type FioGender = 'MALE' | 'FEMALE' | 'UNKNOWN';
+
 export interface FioResponseType {
-  "value": string,
-  "unrestricted_value": string | null;
-  "data": {
-    "surname": string | null;
-    "name": string | null;
-    "patronymic": string | null;
-    "gender": FioGender | null;
-    "source": string | null;
-    "qc": '0' | '1';
-  }
+  value: string;
+  unrestricted_value: string | null;
+  data: {
+    surname: string | null;
+    name: string | null;
+    patronymic: string | null;
+    gender: FioGender | null;
+    source: string | null;
+    qc: '0' | '1';
+  };
 }
 
 // types formed by description's from:
@@ -291,44 +305,44 @@ type FetchType = AddressQueryMode | PartyQueryMode | BankQueryMode | EmailQueryM
 /**
  * @typedef { AddressQueryMode } - address's by abstract text query (as text address representation)
  */
-type AddressQueryMode = 'address'
+type AddressQueryMode = 'address';
 /**
  * @typedef { PartyQueryMode } - organization's info by abstract text query (as organization name) or as numbers sequence (as INN code)
  */
-type PartyQueryMode = 'party'
+type PartyQueryMode = 'party';
 /**
  * @typedef { BankQueryMode } - bank's info by abstract text query (as bank name) or number or as numbers sequence (as bank BIC code)
  */
-type BankQueryMode = 'bank'
+type BankQueryMode = 'bank';
 /**
  * @typedef { EmailQueryMode } - search emails
  */
-type EmailQueryMode = 'email'
+type EmailQueryMode = 'email';
 /**
  * @typedef { FioQueryMode } - gender targeting by abstract text as first-name + last-name(?) + patronymic(?) [order is not important]
  */
-type FioQueryMode = 'fio'
+type FioQueryMode = 'fio';
 /**
  * @typedef { FmsUnitQueryMode } - fms_unit by abstract text query (as fms_unit name) or numbers sequence (as fms_unit_code)
  */
-type FmsUnitQueryMode = 'fms_unit'
+type FmsUnitQueryMode = 'fms_unit';
 
 /**
  * @typedef { SpecificQueryModeResponse } - generic for detection response payload type by FetchType
  */
 type SpecificQueryModeResponse<T> = T extends AddressQueryMode
-    ? AddressResponseType
-    : T extends PartyQueryMode
-        ? PartyResponseType
-        : T extends BankQueryMode
-            ? BankResponseType
-            : T extends EmailQueryMode
-                ? EmailResponseType
-                : T extends FioQueryMode
-                    ? FioResponseType
-                    : T extends FmsUnitQueryMode
-                        ? FmsUnitResponseType
-                        : AddressQueryMode
+  ? AddressResponseType
+  : T extends PartyQueryMode
+  ? PartyResponseType
+  : T extends BankQueryMode
+  ? BankResponseType
+  : T extends EmailQueryMode
+  ? EmailResponseType
+  : T extends FioQueryMode
+  ? FioResponseType
+  : T extends FmsUnitQueryMode
+  ? FmsUnitResponseType
+  : AddressQueryMode;
 
 /**
  * @typedef { BasePayload } BasePayload
@@ -415,7 +429,7 @@ type BaseProps = {
   silentQuery?: string;
   style?: React.CSSProperties;
   token: string;
-}
+};
 
 /**
  * @template T
@@ -425,27 +439,30 @@ type SpecificModeProps<T extends FetchType> = {
   customActions?: (suggestions: SpecificQueryModeResponse<T>[]) => React.ReactNode;
   onChange?: (suggestion: SpecificQueryModeResponse<T>) => void;
   silentInit?: (suggestions: SpecificQueryModeResponse<T>[]) => number;
-}
+};
 
 /**
  * @typedef { SpecificModeByTypeProps } discriminated union that provide correct suggestions typing based on placed value of 'type' property (default: {AddressQueryMode})
  */
 type SpecificModePropsTaggedUnion =
-    (
-        {
-          type?: 'address',
-        } & SpecificModeProps<AddressQueryMode> | {
-          type: 'party',
-        } & SpecificModeProps<PartyQueryMode> | {
-          type: 'bank',
-        } & SpecificModeProps<BankQueryMode> | {
-          type: 'email',
-        } & SpecificModeProps<EmailQueryMode> | {
-          type: 'fio',
-        } & SpecificModeProps<FioQueryMode> | {
-          type: 'fms_unit',
-        } & SpecificModeProps<FmsUnitQueryMode>
-    )
+  | ({
+      type?: 'address';
+    } & SpecificModeProps<AddressQueryMode>)
+  | ({
+      type: 'party';
+    } & SpecificModeProps<PartyQueryMode>)
+  | ({
+      type: 'bank';
+    } & SpecificModeProps<BankQueryMode>)
+  | ({
+      type: 'email';
+    } & SpecificModeProps<EmailQueryMode>)
+  | ({
+      type: 'fio';
+    } & SpecificModeProps<FioQueryMode>)
+  | ({
+      type: 'fms_unit';
+    } & SpecificModeProps<FmsUnitQueryMode>);
 
 /**
  * Ready for use implementation of dropdown input that fetch resolve-object from DaData.ru service by query printed in input field
@@ -453,8 +470,8 @@ type SpecificModePropsTaggedUnion =
  * @see Documentation {@link https://github.com/orbita-center/react-dadata-box/blob/master/README.md on GitHub}
  */
 export const ReactDaDataBox: {
-  (props: BaseProps & SpecificModeProps<AddressQueryMode>): ReactElement<BaseProps & SpecificModeProps<AddressQueryMode>>
-  (props: BaseProps & SpecificModePropsTaggedUnion): ReactElement<BaseProps & SpecificModePropsTaggedUnion>
+  (props: BaseProps & SpecificModeProps<AddressQueryMode>): ReactElement<BaseProps & SpecificModeProps<AddressQueryMode>>;
+  (props: BaseProps & SpecificModePropsTaggedUnion): ReactElement<BaseProps & SpecificModePropsTaggedUnion>;
 };
 
 export default ReactDaDataBox;

@@ -12,11 +12,11 @@ module.exports = {
     cacheWithContext: false,
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
-      'react-dadata-box': path.resolve(__dirname, './src/index.js'),
-    },
+      'react-dadata-box': path.resolve(__dirname, './src/index.js')
+    }
   },
   output: {
-    filename: './examples/dist/index.js',
+    filename: './examples/dist/index.js'
   },
   devtool: 'inline-source-map',
   module: {
@@ -26,31 +26,31 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'ts-loader',
-          },
-        ],
+            loader: 'ts-loader'
+          }
+        ]
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
+        use: ['style-loader', 'css-loader']
+      }
+    ]
   },
 
   plugins: [
     new HtmlWebpackPlugin({
       template: 'examples/public/index.html',
       filename: 'index.html',
-      inject: true,
+      inject: true
     }),
     new ProvidePlugin({
       React: 'react',
-      ReactDOM: 'react-dom',
-    }),
+      ReactDOM: 'react-dom'
+    })
   ],
   devServer: {
     compress: true,
     port: 9000,
-    open: true,
-  },
+    open: true
+  }
 };
