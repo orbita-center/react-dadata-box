@@ -1,3 +1,7 @@
+![](https://img.shields.io/badge/ATTENTION-red)
+
+**ДЛЯ ПОЛЬЗОВАТЕЛЕЙ TYPESCRIPT!!!** в версии **1.3.4** был произведен некорректный рефакторинг типов, в связи с чем типизация библиотеки затруднена, запланировано исправление в версии **1.3.5**, пока что, просьба использовать версию **1.3.3** обеспечивающей корректную типизацию
+
 # react-dadata-box
 [![GitHub](https://img.shields.io/github/license/orbita-center/react-dadata-box)](https://github.com/orbita-center/react-dadata-box/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
