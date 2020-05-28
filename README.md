@@ -1,3 +1,7 @@
+![](https://img.shields.io/badge/ATTENTION-red)
+
+**FOR TYPESCRIPT USERS!!!** in **1.3.4** release failed refactoring of types, it will be fixed in **1.3.5** version, at now please use previous version **1.3.3** for correct typings
+
 # react-dadata-box
 [![GitHub](https://img.shields.io/github/license/orbita-center/react-dadata-box)](https://github.com/orbita-center/react-dadata-box/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
