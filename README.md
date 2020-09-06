@@ -1,7 +1,3 @@
-![](https://img.shields.io/badge/ATTENTION-red)
-
-**FOR TYPESCRIPT USERS!!!** in **1.3.4** release failed refactoring of types, it will be fixed in **1.3.5** version, at now please use previous version **1.3.3** for correct typings
-
 # react-dadata-box
 [![GitHub](https://img.shields.io/github/license/orbita-center/react-dadata-box)](https://github.com/orbita-center/react-dadata-box/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
@@ -189,13 +185,47 @@ token: string;
 ```
 ___
 #### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
-fetched suggestions type (declarative in DaData service terms). It may be 'address', 'bank', 'email', 'fio' (last/first/middle names + gender detection), 'fms_unit' (branch/unit that issued Russian pasport)
+fetched suggestions type (declarative in DaData service terms). 
+
+It may be 'address', 'bank', 'email', 'fio' (last/first/middle names + gender detection), 'fms_unit' (branch/unit that issued Russian pasport)
+
 ```typescript
-// {FetchType}:   
-// {AddressQueryMode} 'address' | {PartyQueryMode} 'party' | {BankQueryMode} |
-// {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
 type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
 ```
+![](https://img.shields.io/badge/ATTENTION-red) [![](https://img.shields.io/badge/TypeScript-types-blue?logo=typescript)](https://www.typescriptlang.org/)
+For correct infer types results of fetching, you need to manually setup type string to component generic parameter:
+*'address'* is default typing it not need to be placed patently
+```typescript
+// for example if we need to fetch 'party'
+import { PartyResponseType } from 'react-dadata-box';
+...
+// if you setup 'party' as generic param - handlers as 'onChange' will be typed accordingly
+// (suggestion: PartyResponseType) => void  in this sample
+<ReactDadataBox<'party'>
+    token={testToken}
+    type='party'
+    onChange={(suggestion: PartyResponseType) => setSample2(suggestion)}
+    customActions={(suggestions) =>
+        !suggestions.length && (
+            <a href=" " onClick={idleAction}>
+              произвольное действие
+            </a>
+        )
+    }
+/>
+``` 
+exported bulit-in types accordingly to type parameter
+
+ | **type param**  | **built-in type** |
+ | ------------- | ------------- |
+ | 'address'  | AddressResponseType (default) |
+ | 'party'  | PartyResponseType |
+ | 'bank'  | BankResponseType |
+ | 'email'  | EmailResponseType |
+ | 'fio'  | FioResponseType |
+ | 'fms_unit'  | FmsUnitResponseType |
+
+
 ___
 #### forceOpenList ![](https://img.shields.io/badge/optional-green)
 this property force the suggestions list will be permanently open (usually needed for debug)
