@@ -476,7 +476,7 @@ var _initialiseProps = function _initialiseProps() {
         var _JSON$parse = JSON.parse(_this2.xhr.response),
             suggestions = _JSON$parse.suggestions;
 
-        if (suggestions && suggestions.length) {
+        if (suggestions && suggestions.length && _this2.state.inputFocused) {
           _this2.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}), callback);
         } else if (_this2.props.onIdleOut) {
           _this2.props.onIdleOut(_this2.state.query);

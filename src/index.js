@@ -317,7 +317,7 @@ class ReactDaDataBox extends React.PureComponent {
       if (this.xhr.status === 200) {
         const { suggestions } = JSON.parse(this.xhr.response);
 
-        if (suggestions && suggestions.length) {
+        if (suggestions && suggestions.length && this.state.inputFocused) {
           this.setState(Object.assign({ suggestions, suggestionIndex: 0 }, setStateAdditional || {}), callback);
         } else if (this.props.onIdleOut) {
           this.props.onIdleOut(this.state.query);
