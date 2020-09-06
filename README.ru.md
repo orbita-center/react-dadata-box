@@ -1,7 +1,3 @@
-![](https://img.shields.io/badge/ATTENTION-red)
-
-**ДЛЯ ПОЛЬЗОВАТЕЛЕЙ TYPESCRIPT!!!** в версии **1.3.4** был произведен некорректный рефакторинг типов, в связи с чем типизация библиотеки затруднена, запланировано исправление в версии **1.3.5**, пока что, просьба использовать версию **1.3.3** обеспечивающей корректную типизацию
-
 # react-dadata-box
 [![GitHub](https://img.shields.io/github/license/orbita-center/react-dadata-box)](https://github.com/orbita-center/react-dadata-box/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
@@ -194,12 +190,44 @@ token: string;
 ___
 #### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
 тип запрашиваемых "подсказок" (в терминологии сервиса DaData): 'address' (адреса), 'bank' (банки), 'email' (электронная почта), 'fio' (ФИО + определение пола), 'fms_unit' (отделение выдавшее паспорт РФ) 
+
 ```typescript
-// {FetchType}:   
-// {AddressQueryMode} 'address' | {PartyQueryMode} 'party' | {BankQueryMode} |
-// {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
 type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
 ```
+![](https://img.shields.io/badge/ATTENTION-red) [![](https://img.shields.io/badge/TypeScript-types-blue?logo=typescript)](https://www.typescriptlang.org/)
+Для корректного вывода типов описывающих структуры которыми отвечает сервер DaData в соответствии с указанным типом сервиса (параметр **type**) -
+необходимо передать этот тип (соотв. строку) как параметр дженерика.
+
+*'address'* является значение по умолчанию - и не требует явной установки
+```typescript
+// н/п если мы используем сервис 'party'
+import { PartyResponseType } from 'react-dadata-box';
+...
+// после установки 'party' как дженерик параметра компонента - обработчики такие как 'onChange' начинают типизироваться соотв.
+// выводится тип (suggestion: PartyResponseType) => void в данном примере
+<ReactDadataBox<'party'>
+    token={testToken}
+    type='party'
+    onChange={(suggestion: PartyResponseType) => setSample2(suggestion)}
+    customActions={(suggestions) =>
+        !suggestions.length && (
+            <a href=" " onClick={idleAction}>
+              произвольное действие
+            </a>
+        )
+    }
+/>
+``` 
+экспортируемые встроенные типы описывающие структуры ответа соответственно строке типа:
+
+ | **type param**  | **built-in type** |
+ | ------------- | ------------- |
+ | 'address'  | AddressResponseType (default) |
+ | 'party'  | PartyResponseType |
+ | 'bank'  | BankResponseType |
+ | 'email'  | EmailResponseType |
+ | 'fio'  | FioResponseType |
+ | 'fms_unit'  | FmsUnitResponseType |
 ___
 #### forceOpenList ![](https://img.shields.io/badge/optional-green)
 свойство определяющее принудительное раскрытие списка подсказок (преимущественно необходимо для удобства отладки/разработки н/п customActions)

@@ -1,5 +1,13 @@
 {
-  "presets": [["env", { "modules": "commonjs" }], "react"],
+  "presets": [
+    [
+      "env",
+      {
+        "modules": "commonjs"
+      }
+    ],
+    "react"
+  ],
   "plugins": [
     "transform-class-properties",
     "transform-es2015-destructuring",

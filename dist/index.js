@@ -205,11 +205,7 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
   return actions && actions.length ? [React.createElement('hr', { key: 'custom-actions-line', className: 'actions-delimiter' })].concat(actions.map(function (node) {
     return React.createElement(
       'div',
-      _extends({
-        key: fakeRandomKey(),
-        onMouseDown: muteEventHandler,
-        onClick: onBlur
-      }, getStylingProps('react-dadata__custom-action', customStyles)),
+      _extends({ key: fakeRandomKey(), onMouseDown: muteEventHandler, onClick: onBlur }, getStylingProps('react-dadata__custom-action', customStyles)),
       node
     );
   })) : false;
@@ -242,12 +238,7 @@ var SuggestionsList = function SuggestionsList(_ref3) {
             onSuggestionClick(index);
           }
         }, getStylingProps('react-dadata__suggestion', customStyles, index === suggestionIndex && 'react-dadata__suggestion--current')),
-        React.createElement(_reactHighlightWords2.default, {
-          highlightClassName: 'react-dadata--highlighted',
-          searchWords: getHighlightWords(query),
-          textToHighlight: value,
-          autoEscape: true
-        }),
+        React.createElement(_reactHighlightWords2.default, { highlightClassName: 'react-dadata--highlighted', searchWords: getHighlightWords(query), textToHighlight: value, autoEscape: true }),
         (type === 'party' || type === 'bank') && React.createElement(SuggestionInfo, { data: data, type: type })
       );
     }),
@@ -324,7 +315,11 @@ var ReactDaDataBox = function (_React$PureComponent) {
           React.createElement('i', { className: 'react-dadata__icon react-dadata__icon-clear' })
         ),
         (showSuggestionsList || forceOpenList) && React.createElement(SuggestionsList, {
-          actions: customActions && renderCustomActions({ customActions: customActions, customStyles: customStyles, suggestions: suggestions }, this.muteEventHandler, this.onInputBlur),
+          actions: customActions && renderCustomActions({
+            customActions: customActions,
+            customStyles: customStyles,
+            suggestions: suggestions
+          }, this.muteEventHandler, this.onInputBlur),
           customStyles: customStyles,
           suggestions: suggestions,
           suggestionIndex: suggestionIndex,
@@ -481,7 +476,7 @@ var _initialiseProps = function _initialiseProps() {
         var _JSON$parse = JSON.parse(_this2.xhr.response),
             suggestions = _JSON$parse.suggestions;
 
-        if (suggestions && suggestions.length) {
+        if (suggestions && suggestions.length && _this2.state.inputFocused) {
           _this2.setState(Object.assign({ suggestions: suggestions, suggestionIndex: 0 }, setStateAdditional || {}), callback);
         } else if (_this2.props.onIdleOut) {
           _this2.props.onIdleOut(_this2.state.query);

@@ -1,15 +1,15 @@
 const colors = {
-    Reset: "\x1b[0m",
-    Red: "\x1b[31m",
-    Green: "\x1b[32m",
-    Yellow: "\x1b[33m"
+  Reset: '\x1b[0m',
+  Red: '\x1b[31m',
+  Green: '\x1b[32m',
+  Yellow: '\x1b[33m'
 };
 
-const red = (s) => colors.Red + s + colors.Reset;
-const green = (s) => colors.Green + s + colors.Reset;
+const red = s => colors.Red + s + colors.Reset;
+const green = s => colors.Green + s + colors.Reset;
 
 console.warn(
-(`
+  `
    ╭────────────────────────────────────────────────────────────────╮
    │                  react-dadata-box@1.3.4                        │
    │                *** DEPRECATION WARNING ****                    │
@@ -19,12 +19,13 @@ console.warn(
    │               see more in project README.md                    │
    │      https://github.com/orbita-center/react-dadata-box         │
    ╰────────────────────────────────────────────────────────────────╯
-`).replace(/─/g, red('─'))
- .replace(/╭/g, red('╭'))
- .replace(/╰/g, red('╰'))
- .replace(/╮/g, red('╮'))
- .replace(/╯/g, red('╯'))
- .replace(/react-dadata-box\@1\.3\.4/g, green('react-dadata-box@1.3.4'))
- .replace(/v1\.3\.5/g, green('v1.3.5'))
- .replace(/deprecated/g, green('deprecated'))
+`
+    .replace(/─/g, red('─'))
+    .replace(/╭/g, red('╭'))
+    .replace(/╰/g, red('╰'))
+    .replace(/╮/g, red('╮'))
+    .replace(/╯/g, red('╯'))
+    .replace(/react-dadata-box\@1\.3\.4/g, green('react-dadata-box@1.3.4'))
+    .replace(/v1\.3\.5/g, green('v1.3.5'))
+    .replace(/deprecated/g, green('deprecated'))
 );
