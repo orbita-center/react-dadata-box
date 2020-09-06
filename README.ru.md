@@ -1,8 +1,9 @@
 # react-dadata-box
 [![GitHub](https://img.shields.io/github/license/orbita-center/react-dadata-box)](https://github.com/orbita-center/react-dadata-box/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
+![react-dadata-box](https://badgen.net/bundlephobia/minzip/react-dadata-box)
+![react-dadata-box](https://badgen.net/bundlephobia/min/react-dadata-box)
 [![npm](https://img.shields.io/npm/dm/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-dadata-box)](https://bundlephobia.com/result?p=react-dadata-box)
 [![npm peer dependency version](https://img.shields.io/npm/dependency-version/react-dadata-box/peer/react?logo=react)](https://www.npmjs.com/package/react)
 [![npm peer dependency version](https://img.shields.io/npm/dependency-version/react-dadata-box/peer/react-dom?logo=react)](https://www.npmjs.com/package/react-dom)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
