@@ -8,35 +8,37 @@ const wordsToPass = ['г', 'респ', 'ул', 'р-н', 'село', 'дерев�
 const defaultSuggestion = {
   data: {},
   unrestricted_value: '',
-  value: ''
+  value: '',
 };
 
 const defaultEndpoint = {
   api: 'suggestions/api/4_1/rs/suggest',
-  host: 'https://suggestions.dadata.ru'
+  host: 'https://suggestions.dadata.ru',
 };
 
 const defaultClasses = {
   'react-dadata__custom-action': 'react-dadata__suggestion react-dadata__custom-action',
   'react-dadata__suggestion': 'react-dadata__suggestion',
   'react-dadata__suggestion-note': 'react-dadata__suggestion-note',
-  'react-dadata__suggestions': 'react-dadata__suggestions'
+  'react-dadata__suggestions': 'react-dadata__suggestions',
 };
 
 const getStylingProps = (baseClass, customStyles = {}, additionalClass) => {
   return customStyles[baseClass] && typeof customStyles[baseClass] === 'object'
     ? {
         className: `${defaultClasses[baseClass] || baseClass} ${additionalClass || ''}`.trim(),
-        style: customStyles[baseClass]
+        style: customStyles[baseClass],
       }
     : {
-        className: `${defaultClasses[baseClass] || baseClass} ${additionalClass || ''} ${customStyles[baseClass] || ''}`.trim()
+        className: `${defaultClasses[baseClass] || baseClass} ${additionalClass || ''} ${
+          customStyles[baseClass] || ''
+        }`.trim(),
       };
 };
 
-const backslashTailFix = uriPart => (uriPart.endsWith('/') ? uriPart.slice(0, -1) : uriPart);
+const backslashTailFix = (uriPart) => (uriPart.endsWith('/') ? uriPart.slice(0, -1) : uriPart);
 
-const buildTargetURI = customEndpoint => {
+const buildTargetURI = (customEndpoint) => {
   if (typeof customEndpoint === 'string') {
     if (/^http[s]?:/g.test(customEndpoint) || customEndpoint.startsWith('/')) {
       // Full path of host (API placed automatically - back compatibility to v1.2.8 and later)
@@ -52,24 +54,23 @@ const buildTargetURI = customEndpoint => {
   return backslashTailFix(`${defaultEndpoint.host}/${defaultEndpoint.api}`);
 };
 
-const getHighlightWords = query => {
+const getHighlightWords = (query) => {
   const words = query.replace(',', '').split(' ');
-  const filteredWords = words.filter(word => wordsToPass.indexOf(word) < 0);
+  const filteredWords = words.filter((word) => wordsToPass.indexOf(word) < 0);
   return filteredWords;
 };
 
-const fakeRandomKey = () =>
-  Math.random()
-    .toString(16)
-    .slice(2);
+const fakeRandomKey = () => Math.random().toString(16).slice(2);
 
 const SuggestionInfo = ({ data = {}, type }) => (
   <div className="react-dadata__suggestion-info">
-    <span>{[type === 'party' ? data.inn || null : data.bic || null, (data.address && data.address.value) || null].join(' ')}</span>
+    <span>
+      {[type === 'party' ? data.inn || null : data.bic || null, (data.address && data.address.value) || null].join(' ')}
+    </span>
   </div>
 );
 
-const Note = customStyles => (
+const Note = (customStyles) => (
   <div {...getStylingProps('react-dadata__suggestion-note', customStyles)}>
     <span className="suggestion-note_arrow">
       <svg width="34" height="16" viewBox="0 0 44 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,8 +152,13 @@ const renderCustomActions = ({ customActions, customStyles, suggestions }, muteE
 
   return actions && actions.length
     ? [<hr key={'custom-actions-line'} className="actions-delimiter" />].concat(
-        actions.map(node => (
-          <div key={fakeRandomKey()} onMouseDown={muteEventHandler} onClick={onBlur} {...getStylingProps('react-dadata__custom-action', customStyles)}>
+        actions.map((node) => (
+          <div
+            key={fakeRandomKey()}
+            onMouseDown={muteEventHandler}
+            onClick={onBlur}
+            {...getStylingProps('react-dadata__custom-action', customStyles)}
+          >
             {node}
           </div>
         ))
@@ -160,7 +166,16 @@ const renderCustomActions = ({ customActions, customStyles, suggestions }, muteE
     : false;
 };
 
-const SuggestionsList = ({ actions = [], customStyles, onSuggestionClick, query, showNote = true, suggestionIndex, suggestions, type }) => {
+const SuggestionsList = ({
+  actions = [],
+  customStyles,
+  onSuggestionClick,
+  query,
+  showNote = true,
+  suggestionIndex,
+  suggestions,
+  type,
+}) => {
   return (
     !!(suggestions.length || actions.length) && (
       <div {...getStylingProps('react-dadata__suggestions', customStyles)}>
@@ -171,9 +186,18 @@ const SuggestionsList = ({ actions = [], customStyles, onSuggestionClick, query,
             onMouseDown={() => {
               onSuggestionClick(index);
             }}
-            {...getStylingProps('react-dadata__suggestion', customStyles, index === suggestionIndex && 'react-dadata__suggestion--current')}
+            {...getStylingProps(
+              'react-dadata__suggestion',
+              customStyles,
+              index === suggestionIndex && 'react-dadata__suggestion--current'
+            )}
           >
-            <Highlighter highlightClassName="react-dadata--highlighted" searchWords={getHighlightWords(query)} textToHighlight={value} autoEscape />
+            <Highlighter
+              highlightClassName="react-dadata--highlighted"
+              searchWords={getHighlightWords(query)}
+              textToHighlight={value}
+              autoEscape
+            />
             {(type === 'party' || type === 'bank') && <SuggestionInfo data={data} type={type} />}
           </div>
         ))}
@@ -191,7 +215,7 @@ class ReactDaDataBox extends React.PureComponent {
     showSuggestions: true,
     suggestionIndex: 0,
     suggestions: [],
-    type: this.props.type || 'address'
+    type: this.props.type || 'address',
   };
 
   static displayName = 'ReactDaDataBox';
@@ -204,7 +228,11 @@ class ReactDaDataBox extends React.PureComponent {
       this.fetchSuggestions(null, () => {
         if (this.props.silentInit) {
           const forceSelect = this.props.silentInit(this.state.suggestions);
-          if (forceSelect !== undefined && typeof forceSelect === 'number' && forceSelect < this.state.suggestions.length) {
+          if (
+            forceSelect !== undefined &&
+            typeof forceSelect === 'number' &&
+            forceSelect < this.state.suggestions.length
+          ) {
             this.selectSuggestion(forceSelect);
           }
         }
@@ -212,7 +240,7 @@ class ReactDaDataBox extends React.PureComponent {
     }
   };
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     if (this.props.query !== prevProps.query) {
       this.setState({ query: this.props.query }, this.fetchSuggestions);
     }
@@ -247,7 +275,7 @@ class ReactDaDataBox extends React.PureComponent {
     };
   };
 
-  onInputChange = event => {
+  onInputChange = (event) => {
     const { value } = event.target;
 
     this.setState({ query: value, showSuggestions: true }, () => {
@@ -257,15 +285,15 @@ class ReactDaDataBox extends React.PureComponent {
     !value && this.clear();
   };
 
-  onKeyPress = event => {
+  onKeyPress = (event) => {
     const { suggestionIndex, suggestions } = this.state;
 
     if (event.which === 40 && suggestionIndex < suggestions.length - 1) {
       // Arrow down
-      this.setState(prevState => ({ suggestionIndex: prevState.suggestionIndex + 1 }));
+      this.setState((prevState) => ({ suggestionIndex: prevState.suggestionIndex + 1 }));
     } else if (event.which === 38 && suggestionIndex > 0) {
       // Arrow up
-      this.setState(prevState => ({ suggestionIndex: prevState.suggestionIndex - 1 }));
+      this.setState((prevState) => ({ suggestionIndex: prevState.suggestionIndex - 1 }));
     } else if (event.which === 39 && suggestionIndex >= 0) {
       // Arrow right
       this.selectSuggestion(this.state.suggestionIndex, true);
@@ -277,7 +305,7 @@ class ReactDaDataBox extends React.PureComponent {
     }
   };
 
-  fetchSuggestions = (setStateAdditional, callback) => {
+  fetchSuggestions = (setStateAdditional = {}, callback) => {
     this.xhr.abort();
 
     const { type } = this.state;
@@ -285,7 +313,7 @@ class ReactDaDataBox extends React.PureComponent {
 
     let payload = {
       query: this.state.query || this.props.silentQuery,
-      count: this.props.count || 10
+      count: this.props.count || 10,
     };
 
     if (city && type === 'address') {
@@ -316,9 +344,23 @@ class ReactDaDataBox extends React.PureComponent {
 
       if (this.xhr.status === 200) {
         const { suggestions } = JSON.parse(this.xhr.response);
+        const stateAdditions = setStateAdditional || {};
 
-        if (suggestions && suggestions.length && this.state.inputFocused) {
-          this.setState(Object.assign({ suggestions, suggestionIndex: 0 }, setStateAdditional || {}), callback);
+        if (suggestions && suggestions.length) {
+          this.setState(
+            {
+              ...stateAdditions,
+              ...{
+                suggestions,
+                suggestionIndex: 0,
+                showSuggestions:
+                  this.state.inputFocused || stateAdditions.inputFocused
+                    ? Boolean(stateAdditions.showSuggestions)
+                    : false,
+              },
+            },
+            callback
+          );
         } else if (this.props.onIdleOut) {
           this.props.onIdleOut(this.state.query);
         }
@@ -326,7 +368,7 @@ class ReactDaDataBox extends React.PureComponent {
     };
   };
 
-  onSuggestionClick = index => {
+  onSuggestionClick = (index) => {
     if (this.state.suggestions[index]) {
       this.selectSuggestion(index);
     }
@@ -335,7 +377,7 @@ class ReactDaDataBox extends React.PureComponent {
   clear = () => {
     this.setState({
       query: '',
-      showSuggestions: false
+      showSuggestions: false,
     });
     this.props.onChange && this.props.onChange(defaultSuggestion);
   };
@@ -346,7 +388,7 @@ class ReactDaDataBox extends React.PureComponent {
 
     this.setState({
       query: value,
-      showSuggestions: showSuggestions
+      showSuggestions: showSuggestions,
     });
 
     if (this.props.onChange) {
@@ -354,14 +396,25 @@ class ReactDaDataBox extends React.PureComponent {
     }
   };
 
-  muteEventHandler = e => {
+  muteEventHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
   };
 
   render() {
     const { inputFocused, query, showSuggestions, suggestionIndex, suggestions, type } = this.state;
-    const { allowClear, autocomplete, className, customActions, customInput, customStyles, forceOpenList, placeholder, showNote, style } = this.props;
+    const {
+      allowClear,
+      autocomplete,
+      className,
+      customActions,
+      customInput,
+      customStyles,
+      forceOpenList,
+      placeholder,
+      showNote,
+      style,
+    } = this.props;
 
     const showSuggestionsList = inputFocused && showSuggestions;
 
@@ -373,7 +426,7 @@ class ReactDaDataBox extends React.PureComponent {
       onFocus: this.onInputFocus,
       onKeyDown: this.onKeyPress,
       placeholder: placeholder,
-      value: query
+      value: query,
     };
     return (
       <div className={`react-dadata react-dadata__container ${className}`} style={style}>
@@ -391,7 +444,7 @@ class ReactDaDataBox extends React.PureComponent {
                 {
                   customActions,
                   customStyles,
-                  suggestions
+                  suggestions,
                 },
                 this.muteEventHandler,
                 this.onInputBlur
@@ -433,12 +486,12 @@ ReactDaDataBox.propTypes = {
   silentQuery: PropTypes.string,
   style: PropTypes.objectOf(PropTypes.string),
   token: PropTypes.string.isRequired,
-  type: PropTypes.string
+  type: PropTypes.string,
 };
 
 ReactDaDataBox.defaultProps = {
   type: 'address',
-  customInput: params => <input {...params} />
+  customInput: (params) => <input {...params} />,
 };
 
 export { ReactDaDataBox };
