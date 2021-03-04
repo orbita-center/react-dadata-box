@@ -66,11 +66,21 @@ ___
 в версии v1.3.4 вариант определения как 'React.ReactNode' упразднен в определении типов  
 насиная с версии v1.3.5 вариант определения как 'React.ReactNode' будет упразднен технически
 ```typescript
-// {ResponseType<T>} где 'T' это один из FetchType (значение передаваемое в пропс 'type'):
-// {AddressQueryMode} 'address' | {PartyQueryMode} 'party' | {BankQueryMode} |
-// {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
+import { SpecificQueryModeResponse, FetchType } from 'react-dadata-box';
+
+// {SpecificQueryModeResponse<T>} где 'T' это один из FetchType (значение передаваемое в пропс 'type'):
+// {AddressQueryMode} 'address' | {CountryQueryMode} 'country' | {PartyQueryMode} 'party' | 
+// {BankQueryMode} | {EmailQueryMode} 'email' | {FioQueryMode} 'fio' |
+// {FmsUnitQueryMode} 'fms_unit';
 // это определяет типизацию структуры соотв. ответа от DaData по специфическому type
-customActions?: ((suggestions: SpecificQueryModeResponse<T>[]) => React.ReactNode);
+
+// SpecificQueryModeResponse<FetchType> дженерик который выводит один из AbstractResponseType
+// AbstractResponseType и любой их отдельных типов этого Union являются встроенными типами и могут быть импортированы под нужды описания типов из библиотеки
+type AbstractResponseType = CountryResponseType | PartyResponseType | BankResponseType | EmailResponseType | FioResponseType | FmsUnitResponseType
+
+// тип 'suggestions' будет выведен автоматически на основе установленного типа запроса (type property)
+// и он будет являться SpecificQueryModeResponse<T>[] где 'T' соотв. (type property: FetchType)
+customActions?: ((suggestions: SpecificQueryModeResponse<FetchType>[]) => React.ReactNode);
 ```
 at versions < v1.3.4
 ```typescript 
@@ -131,7 +141,21 @@ ___
 #### onChange ![](https://img.shields.io/badge/optional-green)
 обработчик события выбора подсказки пользователем (клик по элементу в списке или Enter для элемента который в данный момент выделен), принимает объект отражающий выбранную 'подсказку' в качестве аргумента 
 ```typescript
-onChange?: (suggestion: DadataSuggestion) => void;
+import { SpecificQueryModeResponse, FetchType } from 'react-dadata-box';
+
+// {SpecificQueryModeResponse<T>} где 'T' это один из FetchType (значение передаваемое в пропс 'type'):
+// {AddressQueryMode} 'address' | {CountryQueryMode} 'country' | {PartyQueryMode} 'party' | 
+// {BankQueryMode} | {EmailQueryMode} 'email' | {FioQueryMode} 'fio' |
+// {FmsUnitQueryMode} 'fms_unit';
+// это определяет типизацию структуры соотв. ответа от DaData по специфическому type
+
+// SpecificQueryModeResponse<FetchType> дженерик который выводит один из AbstractResponseType
+// AbstractResponseType и любой их отдельных типов этого Union являются встроенными типами и могут быть импортированы под нужды описания типов из библиотеки
+type AbstractResponseType = CountryResponseType | PartyResponseType | BankResponseType | EmailResponseType | FioResponseType | FmsUnitResponseType
+
+// тип 'suggestion' будет выведен автоматически на основе установленного типа запроса (type property)
+// и он будет являться SpecificQueryModeResponse<T>[] где 'T' соотв. (type property: FetchType)
+onChange?: (suggestion: SpecificQueryModeResponse<FetchType>) => void;
 ```
 ___
 #### onIdleOut ![](https://img.shields.io/badge/optional-green)
@@ -190,32 +214,38 @@ token: string;
 ```
 ___
 #### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
-тип запрашиваемых "подсказок" (в терминологии сервиса DaData): 'address' (адреса), 'bank' (банки), 'email' (электронная почта), 'fio' (ФИО + определение пола), 'fms_unit' (отделение выдавшее паспорт РФ) 
+тип запрашиваемых "подсказок" (в терминологии сервиса DaData): 'address' (адреса), 'country' (страны), 'bank' (банки), 'email' (электронная почта), 'fio' (ФИО + определение пола), 'fms_unit' (отделение выдавшее паспорт РФ) 
 
 ```typescript
-type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
+type FetchType = AddressQueryMode | CountryQueryMode | PartyQueryMode | BankQueryMode | EmailQueryMode | FioQueryMode | FmsUnitQueryMode;
+// => 'address' (default) | 'country' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit'
+type?: FetchType;
 ```
 ![](https://img.shields.io/badge/ATTENTION-red) [![](https://img.shields.io/badge/TypeScript-types-blue?logo=typescript)](https://www.typescriptlang.org/)
 Для корректного вывода типов описывающих структуры которыми отвечает сервер DaData в соответствии с указанным типом сервиса (параметр **type**) -
 необходимо передать этот тип (соотв. строку) как параметр дженерика.
 
 *'address'* является значение по умолчанию - и не требует явной установки
+
+[![](https://img.shields.io/badge/CodeSandbox-playground-black?logo=codesandbox)](https://codesandbox.io/s/react-dadata-box-example-customactions-ox2li)
 ```typescript
 // н/п если мы используем сервис 'party'
-import { PartyResponseType } from 'react-dadata-box';
+import { SpecificQueryModeResponse } from 'react-dadata-box';
 ...
 // после установки 'party' как дженерик параметра компонента - обработчики такие как 'onChange' начинают типизироваться соотв.
 // выводится тип (suggestion: PartyResponseType) => void в данном примере
 <ReactDadataBox<'party'>
     token={testToken}
     type='party'
-    onChange={(suggestion: PartyResponseType) => setSample2(suggestion)}
+    // тип 'suggestion' будет выведен автоматически как SpecificQueryModeResponse<'party'>
+    onChange={(suggestion) => setSample2(suggestion)}
+    // тип 'suggestion' будет выведен автоматически как SpecificQueryModeResponse<'party'>
     customActions={(suggestions) =>
-        !suggestions.length && (
-            <a href=" " onClick={idleAction}>
-              произвольное действие
-            </a>
-        )
+      !suggestions.length && (
+        <a href=" " onClick={idleAction}>
+          произвольное действие
+        </a>
+      )
     }
 />
 ``` 
@@ -224,6 +254,7 @@ import { PartyResponseType } from 'react-dadata-box';
  | **type param**  | **built-in type** |
  | ------------- | ------------- |
  | 'address'  | AddressResponseType (default) |
+ | 'country'  | CountryResponseType | 
  | 'party'  | PartyResponseType |
  | 'bank'  | BankResponseType |
  | 'email'  | EmailResponseType |

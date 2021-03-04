@@ -247,6 +247,20 @@ export interface BankResponseType {
 }
 
 // types formed by description's from:
+// https://dadata.ru/api/suggest/country/
+export interface CountryResponseType {
+  data: {
+    alfa2: string | null;
+    alfa3: string | null;
+    code: string | null;
+    name: string | null;
+    name_short: string | null;
+  };
+  unrestricted_value: string | null;
+  value: string | null;
+}
+
+// types formed by description's from:
 // https://dadata.ru/api/clean/email/
 // https://dadata.ru/api/clean/email/#qc
 export type EmailType = 'PERSONAL' | 'CORPORATE' | 'ROLE' | 'DISPOSABLE';
@@ -298,14 +312,18 @@ export interface FmsUnitResponseType {
 }
 
 /**
- * @typedef { FetchType } FetchType
+ * @typedef { FetchType } FetchType - available query modes (service endpoint modes)
  */
-export type FetchType = AddressQueryMode | PartyQueryMode | BankQueryMode | EmailQueryMode | FioQueryMode | FmsUnitQueryMode;
+export type FetchType = AddressQueryMode | CountryQueryMode | PartyQueryMode | BankQueryMode | EmailQueryMode | FioQueryMode | FmsUnitQueryMode;
 
 /**
  * @typedef { AddressQueryMode } - address's by abstract text query (as text address representation)
  */
 export type AddressQueryMode = 'address';
+/**
+ * @typedef { CountryQueryMode } - country's by abstract text query (as country name)
+ */
+export type CountryQueryMode = 'country';
 /**
  * @typedef { PartyQueryMode } - organization's info by abstract text query (as organization name) or as numbers sequence (as INN code)
  */
@@ -327,13 +345,18 @@ export type FioQueryMode = 'fio';
  */
 export type FmsUnitQueryMode = 'fms_unit';
 
-export type AbstractResponseType = PartyQueryMode | PartyResponseType | BankResponseType | EmailResponseType | FioResponseType | FmsUnitResponseType
+/**
+ * @typedef { AbstractResponseType } - union of all available query modes
+ */
+export type AbstractResponseType = CountryResponseType | PartyResponseType | BankResponseType | EmailResponseType | FioResponseType | FmsUnitResponseType
 
 /**
  * @typedef { SpecificQueryModeResponse } - generic for detection response payload type by FetchType
  */
-type SpecificQueryModeResponse<T> = T extends AddressQueryMode
+export type SpecificQueryModeResponse<T extends FetchType> = T extends AddressQueryMode
   ? AddressResponseType
+  : T extends CountryQueryMode
+  ? CountryResponseType
   : T extends PartyQueryMode
   ? PartyResponseType
   : T extends BankQueryMode
