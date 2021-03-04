@@ -7,6 +7,7 @@
   "types": "index.d.ts",
   "scripts": {
     "start": "webpack-dev-server --hot --inline --mode development --open",
+    "postpublish": "node postpublish.js",
     "transpile": "NODE_ENV=production babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile"
   },
