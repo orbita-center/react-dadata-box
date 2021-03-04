@@ -66,11 +66,19 @@ function that returns node (or nodes array) to place that as 'custom action'
 at v1.3.4 variant 'React.ReactNode' deprecated at types definition  
 since v1.3.5 variant 'React.ReactNode' will be deprecated from functionality
 ```typescript
-// {ResponseType<T>} where 'T' is one of FetchType (value placed at 'type' prop):
-// {AddressQueryMode} 'address' | {PartyQueryMode} 'party' | {BankQueryMode} |
-// {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | {FmsUnitQueryMode} 'fms_unit';
-// it determines DaData response object type
-customActions?: ((suggestions: SpecificQueryModeResponse<T>[]) => React.ReactNode);
+import { SpecificQueryModeResponse, FetchType } from 'react-dadata-box';
+
+// {SpecificQueryModeResponse<T>} where 'T' is one of FetchType (value placed at 'type' prop):
+// {AddressQueryMode} 'address' | {CountryQueryMode} 'country' | {PartyQueryMode} 'party' | 
+// {BankQueryMode} 'bank' | {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | 
+// {FmsUnitQueryMode} 'fms_unit';
+ 
+// SpecificQueryModeResponse<FetchType> is generic that returned one of corresponding AbstractResponseType
+// AbstractResponseType and any of response types is built-in and may be impoted from library
+type AbstractResponseType = CountryResponseType | PartyResponseType | BankResponseType | EmailResponseType | FioResponseType | FmsUnitResponseType
+
+// type of 'suggestions' wiil be infered automaticaliy from fetch type and it will be SpecificQueryModeResponse<T>[]
+customActions?: ((suggestions: SpecificQueryModeResponse<FetchType>[]) => React.ReactNode);
 ```
 at versions < v1.3.4
 ```typescript 
@@ -129,8 +137,22 @@ debounce?: number;
 ___
 #### onChange ![](https://img.shields.io/badge/optional-green)
 change/select event handler, called when user select suggestion by mouse click or Enter key from keyboard. Handler gets suggestion object as argument
+
 ```typescript
-onChange?: (suggestion: DadataSuggestion) => void;
+import { SpecificQueryModeResponse, FetchType } from 'react-dadata-box';
+
+// {SpecificQueryModeResponse<T>} where 'T' is one of FetchType (value placed at 'type' prop):
+// {AddressQueryMode} 'address' | {CountryQueryMode} 'country' | {PartyQueryMode} 'party' | 
+// {BankQueryMode} 'bank' | {EmailQueryMode} 'email' | {FioQueryMode} 'fio' | 
+// {FmsUnitQueryMode} 'fms_unit';
+
+// SpecificQueryModeResponse<FetchType> is generic that returned one of corresponding AbstractResponseType
+// AbstractResponseType and any of response types is built-in and may be impoted from library
+
+type AbstractResponseType = CountryResponseType | PartyResponseType | BankResponseType | EmailResponseType | FioResponseType | FmsUnitResponseType
+
+// type of 'suggestion' wiil be infered automaticaliy from fetch type and it will be SpecificQueryModeResponse<T>[]
+onChange ? : (suggestion: SpecificQueryModeResponse<FetchType>) => void;
 ```
 ___
 #### onIdleOut ![](https://img.shields.io/badge/optional-green)
@@ -199,16 +221,20 @@ type?: FetchType;
 ![](https://img.shields.io/badge/ATTENTION-red) [![](https://img.shields.io/badge/TypeScript-types-blue?logo=typescript)](https://www.typescriptlang.org/)
 For correct infer types results of fetching, you need to manually setup type string to component generic parameter:
 *'address'* is default typing it not need to be placed patently
+
+[![](https://img.shields.io/badge/CodeSandbox-playground-black?logo=codesandbox)](https://codesandbox.io/s/react-dadata-box-example-customactions-ox2li)
 ```typescript
 // for example if we need to fetch 'party'
-import { PartyResponseType } from 'react-dadata-box';
+import { SpecificQueryModeResponse } from 'react-dadata-box';
 ...
 // if you setup 'party' as generic param - handlers as 'onChange' will be typed accordingly
 // (suggestion: PartyResponseType) => void  in this sample
 <ReactDadataBox<'party'>
     token={testToken}
     type='party'
-    onChange={(suggestion: PartyResponseType) => setSample2(suggestion)}
+    // 'suggestion' type will be automatically infered as : SpecificQueryModeResponse<'party'>
+    onChange={(suggestion) => setSample2(suggestion)}
+    // 'suggestion' type will be automatically infered as : SpecificQueryModeResponse<'party'>
     customActions={(suggestions) =>
         !suggestions.length && (
             <a href=" " onClick={idleAction}>
