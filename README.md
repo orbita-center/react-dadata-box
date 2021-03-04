@@ -189,10 +189,12 @@ ___
 #### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
 fetched suggestions type (declarative in DaData service terms). 
 
-It may be 'address', 'bank', 'email', 'fio' (last/first/middle names + gender detection), 'fms_unit' (branch/unit that issued Russian pasport)
+It may be 'address', 'country', 'bank', 'email', 'fio' (last/first/middle names + gender detection), 'fms_unit' (branch/unit that issued Russian pasport)
 
 ```typescript
-type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
+type FetchType = AddressQueryMode | CountryQueryMode | PartyQueryMode | BankQueryMode | EmailQueryMode | FioQueryMode | FmsUnitQueryMode;
+// => 'address' (default) | 'country' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit'
+type?: FetchType;
 ```
 ![](https://img.shields.io/badge/ATTENTION-red) [![](https://img.shields.io/badge/TypeScript-types-blue?logo=typescript)](https://www.typescriptlang.org/)
 For correct infer types results of fetching, you need to manually setup type string to component generic parameter:
@@ -221,6 +223,7 @@ exported bulit-in types accordingly to type parameter
  | **type param**  | **built-in type** |
  | ------------- | ------------- |
  | 'address'  | AddressResponseType (default) |
+ | 'country'  | CountryResponseType |
  | 'party'  | PartyResponseType |
  | 'bank'  | BankResponseType |
  | 'email'  | EmailResponseType |

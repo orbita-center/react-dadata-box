@@ -190,10 +190,12 @@ token: string;
 ```
 ___
 #### type ![](https://img.shields.io/badge/optional-green) ![](https://img.shields.io/badge/default-"address"-lightgrey)
-тип запрашиваемых "подсказок" (в терминологии сервиса DaData): 'address' (адреса), 'bank' (банки), 'email' (электронная почта), 'fio' (ФИО + определение пола), 'fms_unit' (отделение выдавшее паспорт РФ) 
+тип запрашиваемых "подсказок" (в терминологии сервиса DaData): 'address' (адреса), 'country' (страны), 'bank' (банки), 'email' (электронная почта), 'fio' (ФИО + определение пола), 'fms_unit' (отделение выдавшее паспорт РФ) 
 
 ```typescript
-type?: 'address' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit';
+type FetchType = AddressQueryMode | CountryQueryMode | PartyQueryMode | BankQueryMode | EmailQueryMode | FioQueryMode | FmsUnitQueryMode;
+// => 'address' (default) | 'country' | 'party' | 'bank' | 'email' | 'fio' | 'fms_unit'
+type?: FetchType;
 ```
 ![](https://img.shields.io/badge/ATTENTION-red) [![](https://img.shields.io/badge/TypeScript-types-blue?logo=typescript)](https://www.typescriptlang.org/)
 Для корректного вывода типов описывающих структуры которыми отвечает сервер DaData в соответствии с указанным типом сервиса (параметр **type**) -
@@ -224,6 +226,7 @@ import { PartyResponseType } from 'react-dadata-box';
  | **type param**  | **built-in type** |
  | ------------- | ------------- |
  | 'address'  | AddressResponseType (default) |
+ | 'country'  | CountryResponseType | 
  | 'party'  | PartyResponseType |
  | 'bank'  | BankResponseType |
  | 'email'  | EmailResponseType |
