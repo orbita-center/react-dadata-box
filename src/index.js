@@ -220,10 +220,11 @@ class ReactDaDataBox extends React.PureComponent {
 
   static displayName = 'ReactDaDataBox';
 
-  xhr = new XMLHttpRequest();
+  xhr;
   debounceTimer;
 
   componentDidMount = () => {
+    this.xhr = new XMLHttpRequest();
     if (this.props.query || this.props.silentQuery) {
       this.fetchSuggestions(null, () => {
         if (this.props.silentInit) {
