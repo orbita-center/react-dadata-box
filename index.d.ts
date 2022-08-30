@@ -1,6 +1,6 @@
 // tslint:disable:max-line-length
 import * as React from 'react';
-import { ReactElement } from 'react';
+import {ReactElement, SyntheticEvent} from 'react';
 
 // types formed by description's from:
 // - https://dadata.ru/api/find-address/#response
@@ -456,6 +456,7 @@ type BaseProps = {
   customInput?: (props: BaseInputProps) => React.ReactNode;
   debounce?: number;
   forceOpenList?: boolean;
+  onBlur?: (event: SyntheticEvent<HTMLInputElement, FocusEvent>, query: string) => void;
   onIdleOut?: (query: string) => void;
   payloadModifier?: object | ((payload: BasePayload) => BasePayload & object);
   placeholder?: string;

@@ -158,6 +158,14 @@ type AbstractResponseType = CountryResponseType | PartyResponseType | BankRespon
 onChange?: (suggestion: SpecificQueryModeResponse<FetchType>) => void;
 ```
 ___
+#### onBlur ![](https://img.shields.io/badge/optional-green)
+обработчик события вызываемого при потере фокуса уомпонентом react-dadata-box (в т.ч. скрытие списка после пользовательского выбора и/или клика за пределы раскрытого списка)
+стандартный обработчик расширен вторым аргументом в который передается текущее занчение query (строки поиска, занчения в поле ввода)
+
+```typescript
+onBlur?: (event: SyntheticEvent<HTMLInputElement, FocusEvent>, query: string) => void;
+```
+___
 #### onIdleOut ![](https://img.shields.io/badge/optional-green)
 обработчик события вызываемого в случаях когда по текущему запросу пользователя сервис не возвращает подсказок, принимает в качестве аргумента текущую строку запроса.
 ```typescript

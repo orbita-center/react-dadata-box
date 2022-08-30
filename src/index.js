@@ -242,8 +242,13 @@ class ReactDaDataBox extends React.PureComponent {
     }
   };
 
-  onInputBlur = () => {
+  onInputBlur = (e) => {
     this.setState({ inputFocused: false });
+    if (e && this.props.onBlur) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.props.onBlur(e, this.state.query);
+    }
   };
 
   debounce = (func, cooldown = 350) => {
@@ -459,6 +464,7 @@ ReactDaDataBox.propTypes = {
   debounce: PropTypes.number,
   forceOpenList: PropTypes.bool,
   onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   onIdleOut: PropTypes.func,
   payloadModifier: PropTypes.oneOfType([PropTypes.object, PropTypes.shape, PropTypes.func]),
   placeholder: PropTypes.string,

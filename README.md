@@ -152,7 +152,15 @@ import { SpecificQueryModeResponse, FetchType } from 'react-dadata-box';
 type AbstractResponseType = CountryResponseType | PartyResponseType | BankResponseType | EmailResponseType | FioResponseType | FmsUnitResponseType
 
 // type of 'suggestion' wiil be infered automaticaliy from fetch type and it will be SpecificQueryModeResponse<T>[]
-onChange ? : (suggestion: SpecificQueryModeResponse<FetchType>) => void;
+onChange?: (suggestion: SpecificQueryModeResponse<FetchType>) => void;
+```
+___
+#### onBlur ![](https://img.shields.io/badge/optional-green)
+handler called on blur event of react-dadata-box input (also at closing list after user selection or outside click)
+this handler extended by second argument that contains current query text
+
+```typescript
+onBlur?: (event: SyntheticEvent<HTMLInputElement, FocusEvent>, query: string) => void;
 ```
 ___
 #### onIdleOut ![](https://img.shields.io/badge/optional-green)
