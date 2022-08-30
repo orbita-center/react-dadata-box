@@ -129,25 +129,6 @@ const renderCustomActions = ({ customActions, customStyles, suggestions }, muteE
 
   let actions = customActions instanceof Function ? customActions(suggestions) : customActions;
 
-  // ToDo: @remove in >= 1.3.5
-  if (!(customActions instanceof Function)) {
-    console.warn(
-      '\x1b[31m' +
-        `
-   ╭────────────────────────────────────────────────────────────────╮
-   │                  react-dadata-box@1.3.4                        │
-   │                *** DEPRECATION WARNING ****                    │
-   │  at v1.3.5 will be deprecated variant to place customActions   │
-   │   as React.Element it must be placed only as function that     │
-   │    returns React.Element and take suggestions as argument      │
-   │               see more in project README.md                    │
-   │      https://github.com/orbita-center/react-dadata-box         │
-   ╰────────────────────────────────────────────────────────────────╯
-    ` +
-        '\x1b[0m'
-    );
-  }
-
   actions = actions instanceof Array ? actions : actions ? [actions] : false;
 
   return actions && actions.length
@@ -261,8 +242,13 @@ class ReactDaDataBox extends React.PureComponent {
     }
   };
 
-  onInputBlur = () => {
+  onInputBlur = (e) => {
     this.setState({ inputFocused: false });
+    if (e && this.props.onBlur) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.props.onBlur(e, this.state.query);
+    }
   };
 
   debounce = (func, cooldown = 350) => {
@@ -478,6 +464,7 @@ ReactDaDataBox.propTypes = {
   debounce: PropTypes.number,
   forceOpenList: PropTypes.bool,
   onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   onIdleOut: PropTypes.func,
   payloadModifier: PropTypes.oneOfType([PropTypes.object, PropTypes.shape, PropTypes.func]),
   placeholder: PropTypes.string,

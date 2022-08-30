@@ -1,6 +1,6 @@
 // tslint:disable:max-line-length
 import * as React from 'react';
-import { ReactElement } from 'react';
+import {ReactElement, SyntheticEvent} from 'react';
 
 // types formed by description's from:
 // - https://dadata.ru/api/find-address/#response
@@ -380,6 +380,8 @@ interface BasePayload {
   count?: number;
 }
 
+
+
 /**
  * @typedef { BasePayload } BasePayload
  * @property  { string } className - [required] component CSS class name (default: native generated style with 'react-dadata__' prefix)
@@ -404,32 +406,40 @@ interface BaseInputProps<T = HTMLInputElement> {
 }
 
 /**
- * @typedef { SpecificModeByTypeProps } SpecificModeByTypeProps
- * @property  { boolean } autocomplete - [optional] property translated to native input tag;
- * @property  { customInput } customInput - [optional] function that fires with one argument { BaseInputProps }
- * @property  { customActions } customActions - [optional] adding custom action to base suggestions dropdown list
- * @property  { boolean | object } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service), may be string: full or relative uri or object with 'host' and/or 'api' property
- * @property  { boolean } city - [optional] optional to city-mode
- * @property  { string } className - [optional] additional classname
- * @property  { number } count - [optional] single query limit (default: 10)
- * @property  { onChange } onChange - [optional] - onChange handler
- * @property  { onIdleOut } onIdleOut - [optional] - onIdleOut handler, fires with one argument - current query, when by this query has not returned suggestions
- * @property  { object | function } payloadModifier - [optional] - object to patch payload or function returned payload object to send, that has auto generated payload object as argument
- * @property  { debounce } onChange - [optional] - debounce to onChange handler (default: 350 ms).
- * @property  { string } placeholder - [optional] - placeholder
- * @property  { string } query - [optional] - query for search
- * @property  { React.CSSProperties } style - [optional] - custom styling
- * @property  { string } token - [required] - API authorization token
- * @property  { FetchType } type - [optional] specifics fetching by data type groups
- * @property  { boolean } allowClear - [optional] show/hide clear fieldd control
- * @property  { boolean } showNote - [optional] show/hide note at suggestions list
- * @property  { boolean } silentQuery - [optional] initial query that not showed on input but determine  suggestion list that showed at first
- * @property  { function } silentInit - [optional] function that may be used to autoselect from preventive fetched (by placed query or silentQuery), it called with list of fetched suggestions, and if it will return index, appropriate suggestion will be selected (all handlers fire as at user select)
- */
+* @typedef { CustomStylesObject } CustomStylesObject
+ * @property {React.CSSProperties | string} react-dadata__custom-action - [optional] classname or CSSProperties for Custom Action component (in Suggestions List)
+ * @property {React.CSSProperties | string} react-dadata__suggestion - [optional] CSS classname or CSSProperties for Suggestion Item component (in Suggestions List)
+ * @property {React.CSSProperties | string} react-dadata__suggestion-note - [optional] CSS classname or CSSProperties for Note component (of Suggestion Item)
+ * @property {React.CSSProperties | string} react-dadata__suggestions - [optional] CSS classname or CSSProperties for Suggestions List component
+**/
 
 /**
  * @typedef { BaseProps } basic collect of props with predefined types independent of query mode type
+ * @property  { boolean } allowClear - [optional] show/hide clear fieldd control
+ * @property  { boolean } autocomplete - [optional] property translated to native input tag;
+ * @property  { boolean } city - [optional] optional to city-mode
+ * @property  { string } className - [optional] additional classname
+ * @property  { CustomStylesObject } customStyles - [optional] customize styling of individual specific components (parts)
+ * @property  { number } count - [optional] single query limit (default: 10)
+ * @property  { boolean | object } customEndpoint - [optional] optional uri to fetch suggestion's (to proxy scenario or local hosted DaData service), may be string: full or relative uri or object with 'host' and/or 'api' property
+ * @property  { customInput } customInput - [optional] function that fires with one argument { BaseInputProps }
+ * @property  { debounce } debounce - [optional] debounce to onChange handler (default: 350 ms).
+ * @property  { boolean } forceOpenList - [optional] prevent to close opened suggestions list (by Blur event or user select value Action); it also is way may to debug suggestions
+ * @property  { onIdleOut } onIdleOut - [optional] onIdleOut handler, fires with one argument - current query, when by this query has not returned suggestions
+ * @property  { object | function } payloadModifier - [optional] object to patch payload or function returned payload object to send, that has auto generated payload object as argument
+ * @property  { string } placeholder - [optional] placeholder
+ * @property  { string } query - [optional] query for search
+ * @property  { boolean } showNote - [optional] show/hide note at suggestions list
+ * @property  { boolean } silentQuery - [optional] initial query that not showed on input but determine  suggestion list that showed at first
+ * @property  { React.CSSProperties } style - [optional] custom styling
+ * @property  { string } token - [required] API authorization token
+ * @property  { FetchType } type - [optional] specifics fetching by data type groups
+ *
+ * @property  { customActions } customActions - [optional] adding custom action to base suggestions dropdown list
+ * @property  { onChange } onChange - [optional] onChange handler
+ * @property  { function } silentInit - [optional] function that may be used to autoselect from preventive fetched (by placed query or silentQuery), it called with list of fetched suggestions, and if it will return index, appropriate suggestion will be selected (all handlers fire as at user select)
  */
+
 type BaseProps = {
   allowClear?: boolean;
   autocomplete?: 'on' | 'off';
@@ -446,6 +456,7 @@ type BaseProps = {
   customInput?: (props: BaseInputProps) => React.ReactNode;
   debounce?: number;
   forceOpenList?: boolean;
+  onBlur?: (event: SyntheticEvent<HTMLInputElement, FocusEvent>, query: string) => void;
   onIdleOut?: (query: string) => void;
   payloadModifier?: object | ((payload: BasePayload) => BasePayload & object);
   placeholder?: string;

@@ -195,11 +195,6 @@ var renderCustomActions = function renderCustomActions(_ref2, muteEventHandler, 
 
   var actions = customActions instanceof Function ? customActions(suggestions) : customActions;
 
-  // ToDo: @remove in >= 1.3.5
-  if (!(customActions instanceof Function)) {
-    console.warn('\x1b[31m' + '\n   \u256D\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E\n   \u2502                  react-dadata-box@1.3.4                        \u2502\n   \u2502                *** DEPRECATION WARNING ****                    \u2502\n   \u2502  at v1.3.5 will be deprecated variant to place customActions   \u2502\n   \u2502   as React.Element it must be placed only as function that     \u2502\n   \u2502    returns React.Element and take suggestions as argument      \u2502\n   \u2502               see more in project README.md                    \u2502\n   \u2502      https://github.com/orbita-center/react-dadata-box         \u2502\n   \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F\n    ' + '\x1b[0m');
-  }
-
   actions = actions instanceof Array ? actions : actions ? [actions] : false;
 
   return actions && actions.length ? [React.createElement('hr', { key: 'custom-actions-line', className: 'actions-delimiter' })].concat(actions.map(function (node) {
@@ -387,8 +382,13 @@ var _initialiseProps = function _initialiseProps() {
     }
   };
 
-  this.onInputBlur = function () {
+  this.onInputBlur = function (e) {
     _this2.setState({ inputFocused: false });
+    if (e && _this2.props.onBlur) {
+      e.preventDefault();
+      e.stopPropagation();
+      _this2.props.onBlur(e, _this2.state.query);
+    }
   };
 
   this.debounce = function (func) {
@@ -552,6 +552,7 @@ ReactDaDataBox.propTypes = {
   debounce: _propTypes2.default.number,
   forceOpenList: _propTypes2.default.bool,
   onChange: _propTypes2.default.func,
+  onBlur: _propTypes2.default.func,
   onIdleOut: _propTypes2.default.func,
   payloadModifier: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.shape, _propTypes2.default.func]),
   placeholder: _propTypes2.default.string,

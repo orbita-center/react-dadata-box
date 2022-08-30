@@ -152,7 +152,15 @@ import { SpecificQueryModeResponse, FetchType } from 'react-dadata-box';
 type AbstractResponseType = CountryResponseType | PartyResponseType | BankResponseType | EmailResponseType | FioResponseType | FmsUnitResponseType
 
 // type of 'suggestion' wiil be infered automaticaliy from fetch type and it will be SpecificQueryModeResponse<T>[]
-onChange ? : (suggestion: SpecificQueryModeResponse<FetchType>) => void;
+onChange?: (suggestion: SpecificQueryModeResponse<FetchType>) => void;
+```
+___
+#### onBlur ![](https://img.shields.io/badge/optional-green)
+handler called on blur event of react-dadata-box input (also at closing list after user selection or outside click)
+this handler extended by second argument that contains current query text
+
+```typescript
+onBlur?: (event: SyntheticEvent<HTMLInputElement, FocusEvent>, query: string) => void;
 ```
 ___
 #### onIdleOut ![](https://img.shields.io/badge/optional-green)
@@ -259,7 +267,8 @@ exported bulit-in types accordingly to type parameter
 
 ___
 #### forceOpenList ![](https://img.shields.io/badge/optional-green)
-this property force the suggestions list will be permanently open (usually needed for debug)
+this property force the already opened suggestions list will be permanently open, prevents close list by Blur event or user select value Action (it also is way may to debug suggestions)
+Attention! if query is empty and not declared any customActions - list is truthy empty of elements (empty list couldn't be open even if forceOpenList === true)
 ```typescript
 forceOpenList?: boolean;
 ```

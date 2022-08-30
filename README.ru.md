@@ -158,6 +158,14 @@ type AbstractResponseType = CountryResponseType | PartyResponseType | BankRespon
 onChange?: (suggestion: SpecificQueryModeResponse<FetchType>) => void;
 ```
 ___
+#### onBlur ![](https://img.shields.io/badge/optional-green)
+обработчик события вызываемого при потере фокуса уомпонентом react-dadata-box (в т.ч. скрытие списка после пользовательского выбора и/или клика за пределы раскрытого списка)
+стандартный обработчик расширен вторым аргументом в который передается текущее занчение query (строки поиска, занчения в поле ввода)
+
+```typescript
+onBlur?: (event: SyntheticEvent<HTMLInputElement, FocusEvent>, query: string) => void;
+```
+___
 #### onIdleOut ![](https://img.shields.io/badge/optional-green)
 обработчик события вызываемого в случаях когда по текущему запросу пользователя сервис не возвращает подсказок, принимает в качестве аргумента текущую строку запроса.
 ```typescript
@@ -262,7 +270,8 @@ import { SpecificQueryModeResponse } from 'react-dadata-box';
  | 'fms_unit'  | FmsUnitResponseType |
 ___
 #### forceOpenList ![](https://img.shields.io/badge/optional-green)
-свойство определяющее принудительное раскрытие списка подсказок (преимущественно необходимо для удобства отладки/разработки н/п customActions)
+свойство определяющее поведение при котором раскрытый список саджестов не закрывается по событиям Blur и по действию выбора значения из списка (может использоваться для удобства отладки/разработки н/п customActions)
+Внимание! если query пустое и не определено ни одного customActions - список истино пуст (истино пустой список не раскрывается даже при forceOpenList === true)
 ```typescript
 forceOpenList?: boolean;
 ```
