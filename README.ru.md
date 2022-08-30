@@ -262,7 +262,8 @@ import { SpecificQueryModeResponse } from 'react-dadata-box';
  | 'fms_unit'  | FmsUnitResponseType |
 ___
 #### forceOpenList ![](https://img.shields.io/badge/optional-green)
-свойство определяющее принудительное раскрытие списка подсказок (преимущественно необходимо для удобства отладки/разработки н/п customActions)
+свойство определяющее поведение при котором раскрытый список саджестов не закрывается по событиям Blur и по действию выбора значения из списка (может использоваться для удобства отладки/разработки н/п customActions)
+Внимание! если query пустое и не определено ни одного customActions - список истино пуст (истино пустой список не раскрывается даже при forceOpenList === true)
 ```typescript
 forceOpenList?: boolean;
 ```

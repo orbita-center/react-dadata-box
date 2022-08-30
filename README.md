@@ -259,7 +259,8 @@ exported bulit-in types accordingly to type parameter
 
 ___
 #### forceOpenList ![](https://img.shields.io/badge/optional-green)
-this property force the suggestions list will be permanently open (usually needed for debug)
+this property force the already opened suggestions list will be permanently open, prevents close list by Blur event or user select value Action (it also is way may to debug suggestions)
+Attention! if query is empty and not declared any customActions - list is truthy empty of elements (empty list couldn't be open even if forceOpenList === true)
 ```typescript
 forceOpenList?: boolean;
 ```
