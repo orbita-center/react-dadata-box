@@ -26,7 +26,7 @@
     "react-dom": "^17.0.2"
   },
   "dependencies": {
-    "react-highlight-words": "^0.12.0"
+    "react-highlight-words": "^0.18.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
