@@ -3,6 +3,7 @@
 [![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
 ![react-dadata-box](https://img.shields.io/bundlephobia/min/react-dadata-box)
 ![react-dadata-box](https://img.shields.io/bundlephobia/minzip/react-dadata-box)
+![react-dadata-box](https://deno.bundlejs.com/badge?q=react-dadata-box)
 [![npm](https://img.shields.io/npm/dm/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
 [![npm peer dependency version](https://img.shields.io/npm/dependency-version/react-dadata-box/peer/react?logo=react)](https://www.npmjs.com/package/react)
 [![npm peer dependency version](https://img.shields.io/npm/dependency-version/react-dadata-box/peer/react-dom?logo=react)](https://www.npmjs.com/package/react-dom)
