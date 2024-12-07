@@ -3,7 +3,7 @@ This project is **freezed on current version**, and **no more maintained**
 if you have any problems or lack the functionality provided
 we advise you to consider the possibility of replacing / switching / migrate to using
 ### 👍 https://github.com/vitalybaev/react-dadata
-component which have a a very similar API and UI
+component which have a a very similar **API** and **UI**/**UX**
 and actively supported by the developer and his community
 
 ----
