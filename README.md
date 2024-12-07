@@ -1,3 +1,13 @@
+# ⚠️ DEPRECATION WARNING
+This project is **freezed on current version**, and **no more maintained**
+if you have any problems or lack the functionality provided
+we advise you to consider the possibility of replacing / switching / migrate to using
+### 👍 https://github.com/vitalybaev/react-dadata
+component which have a a very similar API and UI
+and actively supported by the developer and his community
+
+----
+
 # react-dadata-box
 [![GitHub](https://img.shields.io/github/license/orbita-center/react-dadata-box)](https://github.com/orbita-center/react-dadata-box/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
