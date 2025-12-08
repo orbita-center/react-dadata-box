@@ -8,6 +8,32 @@ and actively supported by the developer and his community
 
 ----
 
+> [!IMPORTANT]
+> 
+> <details>
+>
+> <summary>👉 for use latest version with <b>NextJS</b>, <b>React 18</b>, <b>React 19</b></summary>
+> use special build's:
+>
+> > version with React 19 in dev & peerDependencies
+> > ```
+> > npm install react-dadata-box@react-19
+> > ```
+>
+> > version with React 18 in dev & peerDependencies
+> > ```
+> > npm install react-dadata-box@react-18
+> > ```
+> 
+> > version with fix for use it with NextJS
+> > ```
+> > npm install react-dadata-box@next-js
+> > ```
+>
+> </details>
+
+----
+
 # react-dadata-box
 [![GitHub](https://img.shields.io/github/license/orbita-center/react-dadata-box)](https://github.com/orbita-center/react-dadata-box/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/react-dadata-box)](https://www.npmjs.com/package/react-dadata-box)
