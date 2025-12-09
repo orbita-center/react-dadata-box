@@ -10,27 +10,10 @@
 
 > [!IMPORTANT]
 > 
-> <details>
->
-> <summary>👉 для использования последней версии библиотеки с <b>NextJS</b>, <b>React 18</b>, <b>React 19</b></summary>
-> используйте специальные сборки:
->
-> > версия с React 19 в dev & peerDependencies
-> > ```
-> > npm install react-dadata-box@react-19
-> > ```
->
-> > версия с React 18 в dev & peerDependencies
-> > ```
-> > npm install react-dadata-box@react-18
-> > ```
-> 
-> > версия со специальными исправлениями для использования с NextJS
-> > ```
-> > npm install react-dadata-box@next-js
-> > ```
->
-> </details>
+> версия со специальными исправлениями для использования с NextJS
+> ```shell
+> npm install react-dadata-box@next-js
+> ```
 
 ----
 
@@ -55,7 +38,9 @@ React компонент для использования API сервиса [D
 запрашиваемых и уточняющихся по мере пользовательского ввода. Компонент предоставлет удобные средства навигации и управления с клавиатуры в дополнение к возможности выбора мышью.
 
 #### Демонстрация 
-[![](https://img.shields.io/badge/CodeSandbox-playground-black?logo=codesandbox)](https://codesandbox.io/s/react-dadata-box-example-g9xb0)
+[![](https://img.shields.io/badge/CodeSandbox-playground-black?logo=codesandbox)](https://codesandbox.io/p/sandbox/react-dadata-box-example-forked-pkml5g)
+
+> 👆 this example has been updated to use with React 19 to demonstrate compatibility.
 
 в верхней части скринкаста отображаются клавиатурные нажатия выведенные при помощи [keycastr](https://github.com/keycastr/keycastr) приложения для MacOS
 
