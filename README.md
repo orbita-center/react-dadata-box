@@ -10,27 +10,10 @@ and actively supported by the developer and his community
 
 > [!IMPORTANT]
 > 
-> <details>
->
-> <summary>👉 for use latest version with <b>NextJS</b>, <b>React 18</b>, <b>React 19</b></summary>
-> use special build's:
->
-> > version with React 19 in dev & peerDependencies
-> > ```
-> > npm install react-dadata-box@react-19
-> > ```
->
-> > version with React 18 in dev & peerDependencies
-> > ```
-> > npm install react-dadata-box@react-18
-> > ```
-> 
-> > version with fix for use it with NextJS
-> > ```
-> > npm install react-dadata-box@next-js
-> > ```
->
-> </details>
+> latest version with special fix for use it with NextJS
+> ```shell
+> npm install react-dadata-box@next-js
+> ```
 
 ----
 
@@ -57,7 +40,9 @@ It provides user-friendly navigation from keyboard in addition to mouse click.
 ![](https://img.shields.io/badge/ATTENTION-blueviolet) DaData service oriented to Russian Federation and russian-speaking users with russian queries. It use FIAS and KLADR and other national registry's and datasets, it provides suggestions only on russian language.
 
 #### Demo 
-[![](https://img.shields.io/badge/CodeSandbox-playground-black?logo=codesandbox)](https://codesandbox.io/s/react-dadata-box-example-g9xb0)
+[![](https://img.shields.io/badge/CodeSandbox-playground-black?logo=codesandbox)](https://codesandbox.io/p/sandbox/react-dadata-box-example-forked-pkml5g)
+
+> 👆 this example has been updated to use with React 19 to demonstrate compatibility.
 
 (at top of demo showed keystrokes captured by [keycastr](https://github.com/keycastr/keycastr) MacOS application)
 ![](proof_of_cocept.gif)
